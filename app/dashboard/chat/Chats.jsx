@@ -2,7 +2,9 @@ import { getAllChats } from "../../../lib/db";
 import Chat from "./Chat";
 
 export const getCurrentUser = async () => {
-  const data = await fetch("https://be-better.netlify.app/api/getCurrentUser");
+  const data = await fetch("https://be-better.netlify.app/api/getCurrentUser", {
+    cache: "no-store",
+  });
   const currentUser = await data.json();
   return currentUser;
 };
