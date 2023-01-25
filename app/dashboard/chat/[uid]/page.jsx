@@ -1,9 +1,12 @@
 import dynamic from "next/dynamic";
-import { getChatDb, getMessages, getSpecificUser } from "../../../../lib/db";
-import { useStore } from "../../../../utils/store";
+import { getChatDb, getMessages } from "../../../../lib/db";
 
-const Message = dynamic(() => import("./components/Board/Message"));
-const Header = dynamic(() => import("./components/Header"));
+const Message = dynamic(() =>
+  import("../../../../app/dashboard/chat/[uid]/components/board/Message")
+);
+const Header = dynamic(() =>
+  import("../../../../app/dashboard/chat/[uid]/components/Header")
+);
 
 const getCurrentUser = async () => {
   const data = await fetch("http://localhost:3000/api/getCurrentUser", {
