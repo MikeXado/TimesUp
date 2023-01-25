@@ -7,9 +7,9 @@ export default async function handler(req, res) {
 
   const messages = {
     message: message,
-    displayName: auth?.currentUser?.displayName,
-    email: auth?.currentUser?.email,
-    uid: auth?.currentUser?.uid,
+    displayName: auth.currentUser.displayName,
+    email: auth.currentUser.email,
+    uid: auth.currentUser.uid,
     id: uuidv4(),
   };
 
