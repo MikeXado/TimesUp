@@ -1,6 +1,5 @@
 import dynamic from "next/dynamic";
 import { getUsersDb } from "../../../lib/db";
-import { useStore } from "../../../utils/store";
 
 const AddNewChat = dynamic(() => import("./AddNewChat"));
 export const getCurrentUser = async () => {

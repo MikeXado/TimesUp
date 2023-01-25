@@ -1,4 +1,4 @@
-import { getAllChats, getSpecificUser } from "../../../lib/db";
+import { getAllChats } from "../../../lib/db";
 import Chat from "./Chat";
 
 export const getCurrentUser = async () => {
