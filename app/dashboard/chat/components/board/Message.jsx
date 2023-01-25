@@ -2,8 +2,7 @@
 
 import MessagesFrom from "./MessagesForm";
 import { useState, useRef, useEffect } from "react";
-import { clientPusher } from "../../../../../../pusher";
-import { useRouter } from "next/navigation";
+import { clientPusher } from "../../../../../pusher";
 
 export default function Message({ id, uid, chatMembers, chatData }) {
   const [height, setHeight] = useState(50);
