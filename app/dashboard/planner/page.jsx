@@ -4,7 +4,7 @@ import Calendar from "./components/Calendar";
 
 export const getCurrentUser = async () => {
   const data = await fetch(
-    "https://productivity-dashboard-mikexado.vercel.app/api/getCurrentUser",
+    "http://productivity-dashboard-mikexado.vercel.app/api/getCurrentUser",
     {
       cache: "no-store",
     }
