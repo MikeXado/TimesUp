@@ -13,13 +13,12 @@ export const getCurrentUser = async () => {
 
 export default async function Dashboard() {
   const currentUser = await getCurrentUser();
-  if (currentUser) {
-    useStore.setState({
-      displayName: currentUser.displayName,
-      email: currentUser.email,
-      uid: currentUser.uid,
-    });
-  }
+
+  useStore.setState({
+    displayName: currentUser.displayName,
+    email: currentUser.email,
+    uid: currentUser.uid,
+  });
 
   console.log(currentUser);
 
