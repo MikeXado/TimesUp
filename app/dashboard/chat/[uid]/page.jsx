@@ -5,12 +5,9 @@ const Message = dynamic(() => import("../components/board/Message"));
 const Header = dynamic(() => import("../components/Header"));
 
 const getCurrentUser = async () => {
-  const data = await fetch(
-    "http://productivity-dashboard-mikexado.vercel.app/api/getCurrentUser",
-    {
-      cache: "no-store",
-    }
-  );
+  const data = await fetch("http://be-better.netlify.app/api/getCurrentUser", {
+    cache: "no-store",
+  });
   let user = await data.json();
   return user;
 };
