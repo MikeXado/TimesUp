@@ -1,15 +1,6 @@
-import {
-  Modal,
-  Button,
-  TextInput,
-  Label,
-  Checkbox,
-  Textarea,
-  Timeline,
-} from "flowbite-react";
-import React, { useRef, useState } from "react";
+import { Modal, Button, TextInput, Label, Textarea } from "flowbite-react";
+import React, { useState } from "react";
 
-import { startOfToday } from "date-fns";
 import { useRouter } from "next/navigation";
 export default function PopUp({ setIsFetching, startTransition }) {
   const router = useRouter();
