@@ -3,7 +3,7 @@ import { getUsersDb } from "../../../lib/db";
 
 const AddNewChat = dynamic(() => import("./AddNewChat"));
 export const getCurrentUser = async () => {
-  const data = await fetch("https://be-better.netlify.app/api/getCurrentUser", {
+  const data = await fetch("http://be-better.netlify.app/api/getCurrentUser", {
     cache: "no-store",
   });
   const currentUser = await data.json();
