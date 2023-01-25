@@ -3,7 +3,7 @@ import TableSessions from "./Table";
 import { useStore } from "../../../utils/store";
 export const getCurrentUser = async () => {
   const data = await fetch(
-    "https://productivity-dashboard-myeffnzrq-mikexado.vercel.app/api/getCurrentUser",
+    "https://productivity-dashboard-numx1qmtj-mikexado.vercel.app/api/getCurrentUser",
     {
       cache: "no-store",
     }

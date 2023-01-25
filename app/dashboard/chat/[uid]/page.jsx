@@ -6,7 +6,7 @@ const Header = dynamic(() => import("../components/Header"));
 
 const getCurrentUser = async () => {
   const data = await fetch(
-    "https://productivity-dashboard-myeffnzrq-mikexado.vercel.app/api/getCurrentUser",
+    "https://productivity-dashboard-numx1qmtj-mikexado.vercel.app/api/getCurrentUser",
     {
       cache: "no-store",
     }
