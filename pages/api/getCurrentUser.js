@@ -7,5 +7,6 @@ export default function handler(req, res) {
     displayName: currentUser?.displayName,
     email: currentUser?.email,
   };
+
   res.status(200).json(user);
 }
