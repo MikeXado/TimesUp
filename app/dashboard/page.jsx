@@ -4,7 +4,7 @@ import Chat from "./components/dashboard/chat/Chat";
 import Upcomming from "./components/dashboard/upcomming/Upcomming";
 
 export const getCurrentUser = async () => {
-  const data = await fetch("http://be-better.netlify.app/api/getCurrentUser", {
+  const data = await fetch("http://localhost:3000/api/getCurrentUser", {
     cache: "no-store",
   });
   const currentUser = await data.json();
@@ -13,11 +13,13 @@ export const getCurrentUser = async () => {
 
 export default async function Dashboard() {
   const currentUser = await getCurrentUser();
-  useStore.setState({
-    displayName: currentUser.displayName,
-    email: currentUser.email,
-    uid: currentUser.uid,
-  });
+  if (currentUser) {
+    useStore.setState({
+      displayName: currentUser.displayName,
+      email: currentUser.email,
+      uid: currentUser.uid,
+    });
+  }
 
   console.log(currentUser);
 
