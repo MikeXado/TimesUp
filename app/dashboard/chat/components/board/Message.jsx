@@ -1,14 +1,11 @@
 "use client";
 
-import { Spinner } from "flowbite-react";
-
 import MessagesFrom from "./MessagesForm";
 import { useState, useRef, useEffect } from "react";
 import { clientPusher } from "../../../../../../pusher";
 import { useRouter } from "next/navigation";
 
 export default function Message({ id, uid, chatMembers, chatData }) {
-  const router = useRouter();
   const [height, setHeight] = useState(50);
 
   const [messages, setMessages] = useState(chatData);
