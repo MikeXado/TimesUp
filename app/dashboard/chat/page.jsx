@@ -3,12 +3,9 @@ import { getUsersDb } from "../../../lib/db";
 
 const AddNewChat = dynamic(() => import("./AddNewChat"));
 export const getCurrentUser = async () => {
-  const data = await fetch(
-    "https://productivity-dashboard-numx1qmtj-mikexado.vercel.app/api/getCurrentUser",
-    {
-      cache: "no-store",
-    }
-  );
+  const data = await fetch("http://localhost:3000/api/getCurrentUser", {
+    cache: "no-store",
+  });
   const currentUser = await data.json();
   return currentUser;
 };

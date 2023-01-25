@@ -2,12 +2,9 @@ import { getSessions } from "../../../lib/db";
 import TableSessions from "./Table";
 import { useStore } from "../../../utils/store";
 export const getCurrentUser = async () => {
-  const data = await fetch(
-    "https://productivity-dashboard-numx1qmtj-mikexado.vercel.app/api/getCurrentUser",
-    {
-      cache: "no-store",
-    }
-  );
+  const data = await fetch("http://localhost:3000/api/getCurrentUser", {
+    cache: "no-store",
+  });
   const currentUser = await data.json();
   return currentUser;
 };

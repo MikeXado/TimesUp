@@ -2,12 +2,9 @@ import { getAllChats } from "../../../lib/db";
 import Chat from "./Chat";
 
 export const getCurrentUser = async () => {
-  const data = await fetch(
-    "https://productivity-dashboard-myeffnzrq-mikexado.vercel.app/api/getCurrentUser",
-    {
-      cache: "no-store",
-    }
-  );
+  const data = await fetch("http://localhost:3000/api/getCurrentUser", {
+    cache: "no-store",
+  });
   const currentUser = await data.json();
   return currentUser;
 };
