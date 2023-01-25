@@ -1,11 +1,8 @@
 import { getEvents } from "../../../lib/db";
-import { useStore } from "../../../utils/store";
 import Calendar from "./components/Calendar";
 
 export const getCurrentUser = async () => {
-  const data = await fetch("https://be-better.netlify.app/api/getCurrentUser", {
-    cache: "no-store",
-  });
+  const data = await fetch("https://be-better.netlify.app/api/getCurrentUser");
   const currentUser = await data.json();
   return currentUser;
 };

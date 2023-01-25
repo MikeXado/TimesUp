@@ -5,9 +5,7 @@ const Message = dynamic(() => import("../components/board/Message"));
 const Header = dynamic(() => import("../components/Header"));
 
 const getCurrentUser = async () => {
-  const data = await fetch("https://be-better.netlify.app/api/getCurrentUser", {
-    cache: "no-store",
-  });
+  const data = await fetch("https://be-better.netlify.app/api/getCurrentUser");
   let user = await data.json();
   return user;
 };
