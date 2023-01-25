@@ -4,7 +4,7 @@ import Chat from "./components/dashboard/chat/Chat";
 import Upcomming from "./components/dashboard/upcomming/Upcomming";
 
 export const getCurrentUser = async () => {
-  const data = await fetch("https://be-better.netlify.app/api/getCurrentUser");
+  const data = await fetch("http://be-better.netlify.app/api/getCurrentUser");
   const currentUser = await data.json();
   return currentUser;
 };
