@@ -13,7 +13,7 @@ export default function MessagesFrom({ id, setHeight, chat }) {
       message: message,
       members: chat,
     };
-
+    if (!message) return;
     const addMessageToFirebaseDb = async () => {
       await fetch("/api/addMessage", {
         method: "POST",
