@@ -1,12 +1,12 @@
-import { getSessions } from "../../../lib/db";
+import { getCurrentUser, getSessions } from "../../../lib/db";
 import TableSessions from "./Table";
-export const getCurrentUser = async () => {
-  const data = await fetch("https://be-better.netlify.app/api/getCurrentUser", {
-    cache: "no-store",
-  });
-  const currentUser = await data.json();
-  return currentUser;
-};
+// export const getCurrentUser = async () => {
+//   const data = await fetch("https://be-better.netlify.app/api/getCurrentUser", {
+//     cache: "no-store",
+//   });
+//   const currentUser = await data.json();
+//   return currentUser;
+// };
 
 export default async function Sessions() {
   const currentUser = await getCurrentUser();

@@ -1,13 +1,13 @@
-import { getAllChats } from "../../../lib/db";
+import { getAllChats, getCurrentUser } from "../../../lib/db";
 import Chat from "./Chat";
 
-export const getCurrentUser = async () => {
-  const data = await fetch("https://be-better.netlify.app/api/getCurrentUser", {
-    cache: "no-store",
-  });
-  const currentUser = await data.json();
-  return currentUser;
-};
+// export const getCurrentUser = async () => {
+//   const data = await fetch("https://be-better.netlify.app/api/getCurrentUser", {
+//     cache: "no-store",
+//   });
+//   const currentUser = await data.json();
+//   return currentUser;
+// };
 
 export default async function Chats() {
   const currentUser = await getCurrentUser();

@@ -4,11 +4,12 @@ import Link from "next/link";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
+import { useStore } from "../../utils/store";
 export default function SignInComponents() {
   const [authError, setAuthError] = useState();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const addCurrentUser = useStore((state) => state.addCurrentUser);
   const onSubmit = async (values) => {
     setIsLoading(true);
 
@@ -19,12 +20,13 @@ export default function SignInComponents() {
       },
       body: JSON.stringify(values),
     });
-
+    const user = await res.json();
     if (res.ok) {
+      localStorage.setItem("currentUser", JSON.stringify(user));
       router.push("/dashboard");
     }
     setIsLoading(false);
-    const { message } = await res.json();
+    const { message } = user;
     setAuthError(message);
   };
 

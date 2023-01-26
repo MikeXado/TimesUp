@@ -1,9 +1,8 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { useStore } from "../../../../../utils/store";
-export default function PreferUser({ chat }) {
+export default function PreferUser({ chat, currentUser }) {
   const router = useRouter();
-  const currentUser = useStore.getState();
   const handleCreateChatDb = () => {
     router.push(`/dashboard/chat/${chat.id}`);
   };

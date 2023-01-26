@@ -1,7 +1,10 @@
 import { create } from "zustand";
 
 export const useStore = create((set) => ({
-  displayName: "",
-  email: "",
-  uid: "",
+  currentUser: {},
+
+  addCurrentUser: (payload) =>
+    set((state) => ({
+      currentUser: payload,
+    })),
 }));

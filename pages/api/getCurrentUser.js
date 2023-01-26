@@ -1,6 +1,6 @@
 import { auth } from "../../lib/firebase";
 
-export default async function handler(req, res) {
+export default function handler(req, res) {
   const currentUser = auth.currentUser;
 
   const user = {

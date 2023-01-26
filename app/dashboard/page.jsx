@@ -1,21 +1,31 @@
-import { getSessions } from "../../lib/db";
+import { onAuthStateChanged } from "firebase/auth";
+import { getCurrentUser, getSessions } from "../../lib/db";
+import { auth } from "../../lib/firebase";
 import { useStore } from "../../utils/store";
 import Chat from "./components/dashboard/chat/Chat";
 import Upcomming from "./components/dashboard/upcomming/Upcomming";
 
-export const getCurrentUser = async () => {
-  const data = await fetch("https://be-better.netlify.app/api/getCurrentUser");
-  const currentUser = await data.json();
-  return currentUser;
-};
+// export const getCurrentUser = async () => {
+//   const data = await fetch("http://localhost:3000/api/getCurrentUser");
+//   const currentUser = await data.json();
+//   return currentUser;
+// };
 
 export default async function Dashboard() {
   const currentUser = await getCurrentUser();
 
-  useStore.setState({
+  const currUser = {
     displayName: currentUser.displayName,
     email: currentUser.email,
     uid: currentUser.uid,
+  };
+
+  // const currentUser2 = await
+
+  console.log(currentUser);
+
+  useStore.setState({
+    currentUser: { ...currUser },
   });
 
   const sessions = await getSessions(currentUser.uid);
