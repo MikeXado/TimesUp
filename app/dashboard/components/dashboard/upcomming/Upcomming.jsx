@@ -40,7 +40,7 @@ export default function Upcomming({ sessions }) {
             </tr>
           </thead>
           <tbody>
-            {sessions?.map((session) => {
+            {sessions?.slice(-5).map((session) => {
               return (
                 <tr key={session.id}>
                   <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4 text-left">

@@ -1,14 +1,22 @@
+import { cookies } from "next/headers";
+import { getSpecificUser } from "../../lib/db";
 import Navbar from "./components/dashboard/navbar/Navbar";
 import Sidebar from "./components/dashboard/sidebar/Sidebar";
-export default function layout({ children }) {
+export default async function layout({ children }) {
+  const nextCookies = cookies();
+
+  const currentUserUid = nextCookies.get("u_i").value;
+
+  const currentUser = await getSpecificUser(currentUserUid);
+
   return (
     <>
       <Sidebar />
-      <div className="relative md:ml-64 h-screen overflow-hidden">
-        <Navbar />
+      <div className="relative lg:ml-28 lg:h-screen overflow-hidden">
+        <Navbar currentUser={currentUser} />
         {/* Header */}
         {/* <HeaderStats /> */}
-        <div className="px-2 md:px-2 mx-auto w-full md:pt-24">
+        <div className="mx-auto w-full lg:pt-0">
           {children}
           {/* <FooterAdmin /> */}
         </div>

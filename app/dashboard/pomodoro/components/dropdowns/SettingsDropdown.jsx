@@ -1,0 +1,103 @@
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import PreferencesModal from "../modal/PreferencesModal";
+import { useSearchParams } from "next/navigation";
+export default function SettingsDropdown() {
+  const searchParams = useSearchParams();
+  const [isOpen, setIsOpen] = useState(false);
+  const wrapperRef = useRef(null);
+
+  const status = searchParams.get("status");
+
+  const openDropdownPopover = () => {
+    setIsOpen((prev) => !prev);
+  };
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [wrapperRef]);
+
+  return (
+    <div className="relative">
+      <button
+        className={
+          "rounded-[24px] py-[24px] px-[24px]" +
+          (status === "short"
+            ? " bg-green-300"
+            : status === "long"
+            ? " bg-blue-300"
+            : " bg-red-300")
+        }
+        type="button"
+        onClick={openDropdownPopover}
+      >
+        <svg
+          width="28"
+          height="8"
+          viewBox="0 0 28 8"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M17.5 4C17.5 4.69223 17.2947 5.36892 16.9101 5.94449C16.5256 6.52007 15.9789 6.96867 15.3394 7.23357C14.6999 7.49848 13.9961 7.56779 13.3172 7.43275C12.6383 7.2977 12.0146 6.96435 11.5251 6.47487C11.0356 5.98539 10.7023 5.36175 10.5673 4.68281C10.4322 4.00388 10.5015 3.30015 10.7664 2.66061C11.0313 2.02107 11.4799 1.47444 12.0555 1.08986C12.6311 0.705271 13.3078 0.5 14 0.5C14.9272 0.503294 15.8156 0.873101 16.4712 1.52877C17.1269 2.18443 17.4967 3.07275 17.5 4ZM4 0.5C3.30777 0.5 2.63108 0.705271 2.05551 1.08986C1.47993 1.47444 1.03133 2.02107 0.766423 2.66061C0.501516 3.30015 0.432205 4.00388 0.567253 4.68281C0.702301 5.36175 1.03564 5.98539 1.52513 6.47487C2.01461 6.96435 2.63825 7.2977 3.31719 7.43275C3.99612 7.56779 4.69985 7.49848 5.33939 7.23357C5.97894 6.96867 6.52556 6.52007 6.91015 5.94449C7.29473 5.36892 7.5 4.69223 7.5 4C7.49671 3.07275 7.1269 2.18443 6.47124 1.52877C5.81557 0.873101 4.92725 0.503294 4 0.5ZM24 0.5C23.3078 0.5 22.6311 0.705271 22.0555 1.08986C21.4799 1.47444 21.0313 2.02107 20.7664 2.66061C20.5015 3.30015 20.4322 4.00388 20.5673 4.68281C20.7023 5.36175 21.0356 5.98539 21.5251 6.47487C22.0146 6.96435 22.6383 7.2977 23.3172 7.43275C23.9961 7.56779 24.6999 7.49848 25.3394 7.23357C25.9789 6.96867 26.5256 6.52007 26.9101 5.94449C27.2947 5.36892 27.5 4.69223 27.5 4C27.4967 3.07275 27.1269 2.18443 26.4712 1.52877C25.8156 0.873101 24.9272 0.503294 24 0.5Z"
+            fill={
+              status === "short"
+                ? "#14401D"
+                : status === "long"
+                ? "#153047"
+                : "#471515"
+            }
+          />
+        </svg>
+      </button>
+
+      <div
+        ref={wrapperRef}
+        className={
+          "z-10 absolute top-[-170px] md:left-0 shadow-lg border bg-white divide-y divide-gray-100 rounded-lg  w-44 dark:bg-gray-700 dark:divide-gray-600" +
+          (isOpen ? " " : " hidden")
+        }
+      >
+        <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
+          <div>Choose an option</div>
+        </div>
+        <ul
+          className="py-2 text-sm text-gray-700 dark:text-gray-200"
+          aria-labelledby="dropdownUserAvatarButton"
+        >
+          <li className="flex w-full justify-center items-center">
+            <Link
+              href="/dashboard/pomodoro/statistics"
+              className="text-gray-900 bg-white w-full mx-1 hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700"
+            >
+              <svg
+                width="25px"
+                height="25px"
+                className="mr-3"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <line x1="2" x2="22" y1="20" y2="20" />
+                <path d="M5,20V8.2A.2.2,0,0,1,5.2,8H7.8a.2.2,0,0,1,.2.2V20" />
+                <path d="M11,20V4.26667C11,4.11939,11.08954,4,11.2,4h2.6c.11046,0,.2.11939.2.26667V20" />
+                <path d="M17,20V11.15c0-.08284.08954-.15.2-.15h2.6c.11046,0,.2.06716.2.15V20" />
+              </svg>
+              Statistics
+            </Link>
+          </li>
+          <li className="flex w-full justify-center items-center mt-2">
+            <PreferencesModal />
+          </li>
+        </ul>
+      </div>
+    </div>
+  );
+}

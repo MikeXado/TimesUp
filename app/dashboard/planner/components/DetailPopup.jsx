@@ -20,7 +20,12 @@ export default function DetailPopup({
     <React.Fragment>
       <Modal show={isOpen} size="lg" popup={true} onClose={onOpen}>
         <Modal.Header>
-          <Button onClick={handleChangeOpen}>Change</Button>
+          <Button
+            className="bg-indigo-600 hover:bg-indigo-700"
+            onClick={handleChangeOpen}
+          >
+            Change
+          </Button>
         </Modal.Header>
         <Modal.Body>
           <div className="space-y-6 px-6 pb-4 sm:pb-6 lg:px-8 xl:pb-8">

@@ -1,30 +1,25 @@
 import dynamic from "next/dynamic";
-import { getCurrentUser, getUsersDb } from "../../../lib/db";
-
+import { getUsersDb } from "../../../lib/db";
+import { cookies } from "next/headers";
 const AddNewChat = dynamic(() => import("./AddNewChat"));
-// export const getCurrentUser = async () => {
-//   const data = await fetch("https://be-better.netlify.app/api/getCurrentUser", {
-//     cache: "no-store",
-//   });
-//   const currentUser = await data.json();
-//   return currentUser;
-// };
 
 export default async function Messanger() {
-  const currentUser = await getCurrentUser();
+  const nextCookies = cookies();
+
+  const currentUserUid = nextCookies.get("u_i").value;
 
   const users = await getUsersDb();
 
   const filteredUsers = users.filter((user) => {
-    return user.uid !== currentUser.uid;
+    return user.uid !== currentUserUid;
   });
 
   return (
-    <div className="relative h-[calc(100vh-50px)] flex flex-col w-full justify-center  items-center">
+    <div className="h-[calc(100vh-50px)] flex flex-col  max-w-full justify-center  items-center">
       <h1 className="mb-4 text-3xl font-extrabold leading-none tracking-tight text-gray-900 dark:text-white">
         Your messages
       </h1>
-      <AddNewChat users={filteredUsers} />
+      <AddNewChat users={filteredUsers} currentUserUid={currentUserUid} />
     </div>
   );
 }

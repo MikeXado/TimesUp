@@ -4,7 +4,7 @@ import { Spinner, Table } from "flowbite-react";
 import ChangeModal from "./ChangeModal";
 import PopUp from "./Modal";
 import { format, parseISO } from "date-fns";
-export default function TableSessions({ sessions }) {
+export default function TableSessions({ sessions, uid }) {
   const [isPending, startTransition] = useTransition();
   const [isFetching, setIsFetching] = useState(false);
 
@@ -72,6 +72,7 @@ export default function TableSessions({ sessions }) {
                         <ChangeModal
                           setIsFetching={setIsFetching}
                           startTransition={startTransition}
+                          uid={uid}
                         />
                       </td>
                     </tr>
@@ -82,7 +83,11 @@ export default function TableSessions({ sessions }) {
           </div>
         </div>
       )}
-      <PopUp setIsFetching={setIsFetching} startTransition={startTransition} />
+      <PopUp
+        setIsFetching={setIsFetching}
+        startTransition={startTransition}
+        uid={uid}
+      />
     </>
   );
 }

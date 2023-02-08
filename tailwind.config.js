@@ -111,7 +111,7 @@ module.exports = {
         {
           [`@media (min-width: ${screens.md})`]: {
             ".container": {
-              "max-width": "768px",
+              "max-width": "878px",
             },
           },
         },

@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-export default function User({ user }) {
+export default function User({ user, currentUser }) {
   const router = useRouter();
   const handleCreateChatDb = async () => {
     const combinedUid = await fetch("/api/createChatDb", {
@@ -9,7 +9,7 @@ export default function User({ user }) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(user),
+      body: JSON.stringify({ ...user, currentUser: currentUser }),
     }).then((res) => {
       if (res.ok) {
         return res.json();
@@ -22,7 +22,7 @@ export default function User({ user }) {
     <li className="pb-2">
       <button
         onClick={handleCreateChatDb}
-        className="flex items-center text-base sm:items-center py-1 font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+        className="flex items-center text-base sm:items-center py-1 font-normal text-gray-900 rounded-lg"
       >
         <div className="relative flex items-center space-x-2">
           <div className="relative">

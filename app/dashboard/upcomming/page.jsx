@@ -1,21 +1,17 @@
-import { getCurrentUser, getSessions } from "../../../lib/db";
+import { getSessions } from "../../../lib/db";
 import TableSessions from "./Table";
-// export const getCurrentUser = async () => {
-//   const data = await fetch("https://be-better.netlify.app/api/getCurrentUser", {
-//     cache: "no-store",
-//   });
-//   const currentUser = await data.json();
-//   return currentUser;
-// };
+import { cookies } from "next/headers";
 
 export default async function Sessions() {
-  const currentUser = await getCurrentUser();
+  const nextCookies = cookies();
 
-  const sessions = await getSessions(currentUser.uid);
+  const currentUserUid = nextCookies.get("u_i").value;
+
+  const sessions = await getSessions(currentUserUid);
 
   return (
-    <>
-      <TableSessions sessions={sessions} />
-    </>
+    <div className="mt-24 px-5">
+      <TableSessions sessions={sessions} uid={currentUserUid} />
+    </div>
   );
 }

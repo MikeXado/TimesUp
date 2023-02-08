@@ -1,10 +1,6 @@
-import { create } from "zustand";
+import { createStore } from "@reduxjs/toolkit";
+import appSlices from "./store/appSlices";
 
-export const useStore = create((set) => ({
-  currentUser: {},
+const makeStore = createStore(appSlices);
 
-  addCurrentUser: (payload) =>
-    set((state) => ({
-      currentUser: payload,
-    })),
-}));
+export default makeStore;

@@ -1,14 +1,15 @@
 "use client";
 
-import { useFormik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 export default function ProvideName() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const onSubmit = async (values) => {
+  const { register, handleSubmit } = useForm();
+  const provideName = async (values) => {
     try {
       setIsLoading(true);
       const result = await fetch("/api/provideName", {
@@ -28,15 +29,9 @@ export default function ProvideName() {
     }
   };
 
-  const formik = useFormik({
-    initialValues: {
-      firstName: "",
-      lastName: "",
-    },
-    onSubmit: (values) => {
-      onSubmit(values);
-    },
-  });
+  const onSubmit = (data) => {
+    provideName(data);
+  };
 
   return (
     <div className="flex justify-center flex-col items-center w-full h-[100vh]">
@@ -45,7 +40,7 @@ export default function ProvideName() {
       </h1>
 
       <div className="w-[500px] bg-white p-20 rounded-lg mt-10">
-        <form onSubmit={formik.handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div>
             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
               First Name
@@ -55,7 +50,7 @@ export default function ProvideName() {
                 type="text"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Gurin"
-                {...formik.getFieldProps("firstName")}
+                {...register("firstName", { required: true })}
               />
             </div>
           </div>
@@ -67,7 +62,7 @@ export default function ProvideName() {
               <input
                 type="text"
                 className="rounded-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                {...formik.getFieldProps("lastName")}
+                {...register("lastName", { required: true })}
                 placeholder="Mihail"
               />
             </div>

@@ -1,15 +1,16 @@
-import { addMessage } from "../../lib/db";
-import { auth } from "../../lib/firebase";
+import { addMessage, getSpecificUser } from "../../lib/db";
+
 import { serverPusher } from "../../pusher";
 import { uuidv4 } from "@firebase/util";
 export default async function handler(req, res) {
-  const { id, message, members } = req.body;
+  const { id, message, members, currentUser } = req.body;
 
+  const regU = await getSpecificUser(currentUser);
   const messages = {
     message: message,
-    displayName: auth.currentUser.displayName,
-    email: auth.currentUser.email,
-    uid: auth.currentUser.uid,
+    displayName: regU.displayName,
+    email: regU.email,
+    uid: regU.uid,
     id: uuidv4(),
   };
 

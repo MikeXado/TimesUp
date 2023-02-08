@@ -1,10 +1,7 @@
-import { onAuthStateChanged } from "firebase/auth";
 import { getCurrentUser, getSessions } from "../../lib/db";
-import { auth } from "../../lib/firebase";
-import { useStore } from "../../utils/store";
 import Chat from "./components/dashboard/chat/Chat";
 import Upcomming from "./components/dashboard/upcomming/Upcomming";
-
+import { cookies } from "next/headers";
 // export const getCurrentUser = async () => {
 //   const data = await fetch("http://localhost:3000/api/getCurrentUser");
 //   const currentUser = await data.json();
@@ -12,26 +9,14 @@ import Upcomming from "./components/dashboard/upcomming/Upcomming";
 // };
 
 export default async function Dashboard() {
-  const currentUser = await getCurrentUser();
+  const nextCookies = cookies();
 
-  const currUser = {
-    displayName: currentUser.displayName,
-    email: currentUser.email,
-    uid: currentUser.uid,
-  };
+  const currentUser = nextCookies.get("u_i").value;
 
-  // const currentUser2 = await
-
-  console.log(currentUser);
-
-  useStore.setState({
-    currentUser: { ...currUser },
-  });
-
-  const sessions = await getSessions(currentUser.uid);
+  const sessions = await getSessions(currentUser);
 
   return (
-    <div className="flex flex-wrap mt-4">
+    <div className="flex flex-wrap lg:mt-25 mt-24">
       <div className="w-full xl:w-[60%] mb-12 xl:mb-0 px-4">
         <Upcomming sessions={sessions} />
       </div>
