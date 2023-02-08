@@ -1,13 +1,14 @@
 "use client";
+import { useForm } from "react-hook-form";
 
-import { useFormik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { use, useState } from "react";
+import { useState } from "react";
 export default function SignUpComponent() {
   const [authError, setAuthError] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [fieldValid, setFieldValid] = useState("");
+  const { register, handleSubmit, reset } = useForm();
   const router = useRouter();
   const handleSignButton = async (credential) => {
     setIsLoading(true);
@@ -26,20 +27,12 @@ export default function SignUpComponent() {
     setAuthError(message);
   };
 
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    onSubmit: (values) => {
-      if (values.password.length < 6) {
-        setFieldValid("Password should be at least 6 characters");
-      }
-      handleSignButton(values);
-    },
-  });
-
-  console.log(authError);
+  const onSubmit = (data) => {
+    if (data.password.length < 6) {
+      setFieldValid("Password should be at least 6 characters");
+    }
+    handleSignButton(data);
+  };
 
   return (
     <>
@@ -49,7 +42,7 @@ export default function SignUpComponent() {
         </h1>
 
         <div className="w-[500px] bg-white p-20 rounded-lg mt-10">
-          <form onSubmit={formik.handleSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div>
               <label
                 htmlFor="input-group-1"
@@ -80,7 +73,7 @@ export default function SignUpComponent() {
                   id="input-group-1"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="name@gmail.com"
-                  {...formik.getFieldProps("email")}
+                  {...register("email", { required: true })}
                 />
               </div>
             </div>
@@ -100,7 +93,7 @@ export default function SignUpComponent() {
                   id="website-admin"
                   required
                   className="rounded-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  {...formik.getFieldProps("password")}
+                  {...register("password", { required: true })}
                 />
               </div>
             </div>

@@ -1,22 +1,26 @@
 import Search from "./Search";
-import { getAllChats, getCurrentUser, getUsersDb } from "../../../../../lib/db";
-import { useStore } from "../../../../../utils/store";
+import PreferUser from "./PreferUser";
+import { getAllChats, getUsersDb } from "../../../../../lib/db";
+import { cookies } from "next/headers";
 export default async function Chat() {
-  const currentUser = await getCurrentUser();
+  const nextCookies = cookies();
+
+  const currentUserUid = nextCookies.get("u_i").value;
+
   const users = await getUsersDb();
 
   const filteredUsers = users.filter((user) => {
-    return user.uid !== currentUser.uid;
+    return user.uid !== currentUserUid;
   });
-  const chats = await getAllChats(currentUser.uid);
+  const chats = await getAllChats(currentUserUid);
 
   return (
-    <div className="relative flex flex-col min-w-0 w-full break-words bg-white  mb-6 shadow-lg rounded">
+    <div className="relative flex flex-col min-w-0 w-full break-words bg-white pb-6  mb-6 shadow-lg rounded">
       <h1 className="text-2xl font-bold pl-5 pt-5">Chat</h1>
       <Search
         filteredUsers={filteredUsers}
         chats={chats}
-        currentUser={currentUser}
+        currentUser={currentUserUid}
       />
     </div>
   );

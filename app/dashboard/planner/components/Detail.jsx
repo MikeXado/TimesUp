@@ -1,8 +1,6 @@
-import dynamic from "next/dynamic";
 import { useState } from "react";
-
-const ChangeEvent = dynamic(() => import("./ChangeEvent"));
-const DetailPopup = dynamic(() => import("./DetailPopup"));
+import ChangeEvent from "./ChangeEvent";
+import DetailPopup from "./DetailPopup";
 export default function Detail({
   isOpen,
   setIsFetching,
@@ -11,6 +9,7 @@ export default function Detail({
   setIsOpen,
   day,
   event,
+  uid,
 }) {
   const [isChangeOpen, setIsChangeOpen] = useState(false);
 
@@ -24,6 +23,7 @@ export default function Detail({
           startTransition={startTransition}
           setIsOpen={setIsChangeOpen}
           day={day}
+          uid={uid}
         />
       ) : (
         <DetailPopup

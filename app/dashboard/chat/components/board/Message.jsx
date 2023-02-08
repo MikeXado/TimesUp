@@ -24,7 +24,7 @@ export default function Message({ id, uid, chatMembers, chatData }) {
   }, []);
 
   useEffect(() => {
-    messagesBoardRef.current.scrollIntoView({
+    messagesBoardRef?.current?.scrollIntoView({
       block: "nearest",
     });
   }, [messages]);
@@ -58,7 +58,7 @@ export default function Message({ id, uid, chatMembers, chatData }) {
                   <div
                     className={
                       "flex items-end" +
-                      (uid === message.uid ? " justify-end" : " ")
+                      (uid === message.uid ? " justify-end" : " justify-start")
                     }
                   >
                     <div
@@ -70,7 +70,7 @@ export default function Message({ id, uid, chatMembers, chatData }) {
                       <div>
                         <span
                           className={
-                            "px-4 py-2 inline-block bg-blue-400 break-all text-white" +
+                            "px-4 py-2 inline-block bg-indigo-500 break-all text-white" +
                             (uid === message.uid
                               ? " rounded-l-lg rounded-tr-lg"
                               : " rounded-r-lg rounded-tl-lg")
@@ -99,7 +99,12 @@ export default function Message({ id, uid, chatMembers, chatData }) {
           </div>
         </>
       )}
-      <MessagesFrom id={id} setHeight={setHeight} chat={chatMembers} />
+      <MessagesFrom
+        id={id}
+        currentUser={uid}
+        setHeight={setHeight}
+        chat={chatMembers}
+      />
     </div>
   );
 }

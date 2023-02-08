@@ -1,32 +1,28 @@
 import dynamic from "next/dynamic";
-import { getChatDb, getCurrentUser, getMessages } from "../../../../lib/db";
-
+import { getChatDb, getMessages } from "../../../../lib/db";
+import { cookies } from "next/headers";
 const Message = dynamic(() => import("../components/board/Message"));
 const Header = dynamic(() => import("../components/Header"));
 
-// const getCurrentUser = async () => {
-//   const data = await fetch("https://be-better.netlify.app/api/getCurrentUser", {
-//     cache: "no-store",
-//   });
-//   let user = await data.json();
-//   return user;
-// };
-
 export default async function PrivateChat({ params: { uid } }) {
-  const currentUser = await getCurrentUser();
+  const nextCookies = cookies();
 
-  const chat = await getChatDb(uid, currentUser.uid);
-  const data = await getMessages(uid, currentUser.uid);
+  const currentUserUid = nextCookies.get("u_i").value;
+
+  const chat = await getChatDb(uid, currentUserUid);
+  const data = await getMessages(uid, currentUserUid);
 
   return (
-    <div className="md:ml-56 relative overflow-hidden">
+    <div className="lg:ml-56 overflow-hidden">
       <Header
-        chat={chat.user1.uid !== currentUser.uid ? chat.user1 : chat.user2}
+        chat={
+          chat.members[0] !== currentUserUid ? chat.members[0] : chat.members[1]
+        }
       />
       <div className="">
         <Message
           id={uid}
-          uid={currentUser.uid}
+          uid={currentUserUid}
           chatMembers={chat.members}
           chatData={data}
         />

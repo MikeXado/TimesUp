@@ -5,6 +5,7 @@ export default function User({
   setIsTyping,
   setIsFetching,
   startTransition,
+  currentUser,
 }) {
   const router = useRouter();
   const handleAddPreferUser = async () => {
@@ -14,7 +15,7 @@ export default function User({
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(user),
+      body: JSON.stringify({ ...user, currentUser: currentUser }),
     }).then((res) => res.json());
 
     setIsTyping(false);

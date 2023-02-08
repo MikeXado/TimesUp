@@ -1,18 +1,15 @@
-import { getCurrentUser, getEvents } from "../../../lib/db";
+import { getEvents } from "../../../lib/db";
 import Calendar from "./components/Calendar";
-
-// export const getCurrentUser = async () => {
-//   const data = await fetch("https://be-better.netlify.app/api/getCurrentUser", {
-//     cache: "no-store",
-//   });
-//   const currentUser = await data.json();
-//   return currentUser;
-// };
+import { cookies } from "next/headers";
 
 export default async function Planner() {
-  const currentUser = await getCurrentUser();
+  const nextCookies = cookies();
 
-  const events = await getEvents(currentUser.uid);
+  const currentUserUid = nextCookies.get("u_i").value;
 
-  return <Calendar events={events} />;
+  const events = await getEvents(currentUserUid);
+
+  console.log(events);
+
+  return <Calendar events={events} uid={currentUserUid} />;
 }

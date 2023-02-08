@@ -1,16 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useStore } from "../../utils/store";
+import { useForm } from "react-hook-form";
 export default function SignInComponents() {
   const [authError, setAuthError] = useState();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const addCurrentUser = useStore((state) => state.addCurrentUser);
-  const onSubmit = async (values) => {
+  const { register, handleSubmit } = useForm();
+  const signIn = async (values) => {
     setIsLoading(true);
 
     const res = await fetch("/api/signIn", {
@@ -30,16 +29,9 @@ export default function SignInComponents() {
     setAuthError(message);
   };
 
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-
-    onSubmit: (values) => {
-      onSubmit(values);
-    },
-  });
+  const onSubmit = (data) => {
+    signIn(data);
+  };
 
   return (
     <div className="flex justify-center flex-col items-center w-full h-[100vh]">
@@ -67,7 +59,7 @@ export default function SignInComponents() {
           <></>
         )}
 
-        <form onSubmit={formik.handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div>
             <label
               htmlFor="input-group-1"
@@ -94,7 +86,7 @@ export default function SignInComponents() {
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="name@gmail.com"
                 required
-                {...formik.getFieldProps("email")}
+                {...register("email", { required: true })}
               />
             </div>
           </div>
@@ -111,7 +103,7 @@ export default function SignInComponents() {
                 id="website-admin"
                 required
                 className="rounded-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                {...formik.getFieldProps("password")}
+                {...register("password", { required: true })}
               />
             </div>
             <Link href="/forgotPassword" className="underline text-[13px]">
