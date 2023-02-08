@@ -1,14 +1,12 @@
 "use client";
-
-import { useFormik } from "formik";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 export default function SignUp() {
   const [authError, setAuthError] = useState();
   const [isEmailSend, setIsEmailSend] = useState(false);
+  const { register, handleSubmit } = useForm();
 
-  const router = useRouter();
   const handleSignButton = async (credential) => {
     await fetch("/api/forgotPassword", {
       method: "POST",
@@ -24,15 +22,9 @@ export default function SignUp() {
       setAuthError(res.statusText);
     });
   };
-
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-    },
-    onSubmit: (values) => {
-      handleSignButton(values);
-    },
-  });
+  const onSubmit = (data) => {
+    handleSignButton(data);
+  };
 
   return (
     <>
@@ -55,7 +47,7 @@ export default function SignUp() {
               </Link>
             </>
           ) : (
-            <form onSubmit={formik.handleSubmit}>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <div>
                 <label
                   htmlFor="input-group-1"
@@ -85,7 +77,7 @@ export default function SignUp() {
                     id="input-group-1"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="name@gmail.com"
-                    {...formik.getFieldProps("email")}
+                    {...register("email", { required: true })}
                   />
                 </div>
               </div>

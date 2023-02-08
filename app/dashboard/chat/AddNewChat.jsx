@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Button, Modal } from "flowbite-react";
 import User from "./User";
 import { debounce } from "lodash";
-export default function AddNewChat({ users }) {
+export default function AddNewChat({ users, currentUserUid }) {
   const [search, setSearch] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const onOpen = () => {
@@ -36,7 +36,7 @@ export default function AddNewChat({ users }) {
     <React.Fragment>
       <button
         onClick={onOpen}
-        className="bg-blue-500 text-white py-3 px-10 rounded-lg"
+        className="bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-10 rounded-lg"
       >
         Send Message
       </button>
@@ -84,7 +84,13 @@ export default function AddNewChat({ users }) {
             </div>
             <ul className="mt-5">
               {filteredUsers.map((user) => {
-                return <User key={user.id} user={user} />;
+                return (
+                  <User
+                    key={user.id}
+                    user={user}
+                    currentUser={currentUserUid}
+                  />
+                );
               })}
             </ul>
           </div>

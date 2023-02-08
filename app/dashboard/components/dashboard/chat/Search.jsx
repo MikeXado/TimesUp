@@ -7,11 +7,10 @@ import { debounce } from "lodash";
 const User = dynamic(() => import("./User"));
 const PreferUser = dynamic(() => import("./PreferUser"));
 export default function Search({ filteredUsers, chats, currentUser }) {
-  const [query, setQuery] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [isFetching, setIsFetching] = useState(false);
-
+  const [query, setQuery] = useState("");
   const isLoading = isFetching || isPending;
 
   let debouncedUsers = filteredUsers;
@@ -92,6 +91,7 @@ export default function Search({ filteredUsers, chats, currentUser }) {
               setIsTyping={setIsTyping}
               setIsFetching={setIsFetching}
               startTransition={startTransition}
+              currentUser={currentUser}
             />
           );
         })}

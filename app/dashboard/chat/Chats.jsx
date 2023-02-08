@@ -1,26 +1,32 @@
-import { getAllChats, getCurrentUser } from "../../../lib/db";
+// import { getAllChats } from "../../../lib/db";
 import Chat from "./Chat";
+// import { cookies } from "next/headers";
+import useSWR from "swr";
+export default function Chats() {
+  // const nextCookies = cookies();
 
-// export const getCurrentUser = async () => {
-//   const data = await fetch("https://be-better.netlify.app/api/getCurrentUser", {
-//     cache: "no-store",
-//   });
-//   const currentUser = await data.json();
-//   return currentUser;
-// };
+  // const currentUserUid = nextCookies.get("u_i").value;
+  // const chats = await getAllChats(currentUserUid);
 
-export default async function Chats() {
-  const currentUser = await getCurrentUser();
-  const chats = await getAllChats(currentUser.uid);
+  const chatFetcher = async () => {
+    const res = await fetch("/api/getChats");
+    const chats = await res.json();
+    return chats;
+  };
+  const { data, isLoading } = useSWR("/api/getChats", chatFetcher);
 
   return (
     <ul className="md:flex-col md:min-w-full flex flex-col list-none">
-      {chats.map((chat) => {
+      {data?.chats?.map((chat) => {
         return (
           <Chat
             key={chat.id}
             chat={chat}
-            user={chat.user1.uid !== currentUser.uid ? chat.user1 : chat.user2}
+            user={
+              chat.members[0] !== data.currentUser
+                ? chat.members[0]
+                : chat.members[1]
+            }
           />
         );
       })}

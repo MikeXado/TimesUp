@@ -1,7 +1,6 @@
 import "../styles/globals.css";
 import Providers from "./Providers";
-
-export default function RootLayout({ children }) {
+function RootLayout({ children }) {
   return (
     <html>
       <head>
@@ -10,7 +9,11 @@ export default function RootLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </head>
-      <body className="bg-slate-300">{children}</body>
+      <body className="bg-[#F2F6FE]">
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
+
+export default RootLayout;

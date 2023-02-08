@@ -1,48 +1,24 @@
 import { useState } from "react";
 
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
 
-export default function AddEvent({ day, setIsFetching, startTransition }) {
+export default function AddEvent({ day, setIsFetching, startTransition, uid }) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
+  const { register, handleSubmit } = useForm();
   const onOpen = () => {
     setIsOpen((prev) => !prev);
   };
 
-  const handleTitleChange = (e) => {
-    setTitle(e.target.value);
-  };
-
-  const handleDescriptionChange = (e) => {
-    setDescription(e.target.value);
-  };
-
-  const handleStartTime = (e) => {
-    setStartTime(e.target.value);
-  };
-  const handleEndTime = (e) => {
-    setEndTime(e.target.value);
-  };
-
-  const handleSendEventToDb = async () => {
-    const event = {
-      title: title,
-      description: description,
-      date: day,
-      startTime: startTime,
-      endTime: endTime,
-    };
+  const handleSendEventToDb = async (data) => {
     setIsFetching(true);
     await fetch("/api/addEvent", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(event),
+      body: JSON.stringify({ ...data, date: day, uid: uid }),
     });
 
     setIsFetching(false);
@@ -54,11 +30,15 @@ export default function AddEvent({ day, setIsFetching, startTransition }) {
     });
   };
 
+  const onSubmit = (data) => {
+    handleSendEventToDb(data);
+  };
+
   return (
     <>
       <button
         onClick={onOpen}
-        className="absolute bottom-0 right-0 flex items-center justify-center  w-6 h-6 mb-2 mr-2 text-white bg-blue-500 rounded group-hover:flex hover:bg-blue-700"
+        className="absolute bottom-0 right-0 flex items-center justify-center  w-6 h-6 mb-2 mr-2 text-white bg-indigo-600 rounded group-hover:flex hover:bg-indigo-700"
       >
         <svg className="w-5 h-5 plus" viewBox="0 0 20 20" fill="currentColor">
           <path
@@ -117,21 +97,20 @@ export default function AddEvent({ day, setIsFetching, startTransition }) {
           </svg>
           <span className="sr-only">Close menu</span>
         </button>
-        <form className="mb-6">
+        <form className="mb-6" onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-6">
             <label
               htmlFor="title"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-medium text-gray-900"
             >
               Title
             </label>
             <input
               type="text"
               id="title"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full p-2.5"
               placeholder="SCRUM Meeting"
-              value={title}
-              onChange={handleTitleChange}
+              {...register("title", { required: true })}
               required
             />
           </div>
@@ -139,15 +118,14 @@ export default function AddEvent({ day, setIsFetching, startTransition }) {
             <div>
               <label
                 htmlFor="startTime"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block mb-2 text-sm font-medium text-gray-900"
               >
                 Start time
               </label>
               <input
                 id="startTime"
                 type="time"
-                onChange={handleStartTime}
-                value={startTime}
+                {...register("startTime", { required: true })}
               />
               <span className="font-bold text-lg ml-2 mr-2">-</span>
             </div>
@@ -155,39 +133,36 @@ export default function AddEvent({ day, setIsFetching, startTransition }) {
             <div>
               <label
                 htmlFor="endTime"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block mb-2 text-sm font-medium text-gray-900 "
               >
                 Start time
               </label>
               <input
                 id="endTime"
                 type="time"
-                onChange={handleEndTime}
-                value={endTime}
+                {...register("endTime", { required: true })}
               />
             </div>
           </div>
           <div className="mb-6">
             <label
               htmlFor="description"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-medium text-gray-900 "
             >
               Description
             </label>
             <textarea
               id="description"
               rows="8"
-              className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-indigo-600 focus:border-indigo-600 "
               placeholder="Write event description..."
-              value={description}
-              onChange={handleDescriptionChange}
+              {...register("description")}
             ></textarea>
           </div>
 
           <button
-            type="button"
-            onClick={handleSendEventToDb}
-            className="text-white justify-center flex items-center bg-blue-700 hover:bg-blue-800 w-full focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            type="submit"
+            className="text-white justify-center flex items-center bg-indigo-600 hover:bg-indigo-700 w-full focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-3"
           >
             <svg
               className="w-5 h-5 mr-2"

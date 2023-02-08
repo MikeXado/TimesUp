@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import autosize from "autosize";
-export default function MessagesFrom({ id, setHeight, chat }) {
+export default function MessagesFrom({ id, setHeight, chat, currentUser }) {
   const [message, setMessage] = useState("");
   const textareaRef = useRef();
   autosize(textareaRef.current);
@@ -12,6 +12,7 @@ export default function MessagesFrom({ id, setHeight, chat }) {
       id: id,
       message: message,
       members: chat,
+      currentUser: currentUser,
     };
     if (!message) return;
     const addMessageToFirebaseDb = async () => {
@@ -33,7 +34,7 @@ export default function MessagesFrom({ id, setHeight, chat }) {
   };
 
   return (
-    <div className="border-t-2 border-gray-200 px-4 pt-4 flex items-center w-full  sm:mb-0">
+    <div className="border-t-2 border-gray-200 px-4 pt-4 flex items-center justify-center w-full  sm:mb-0">
       <div className="relative flex w-full">
         <span className="absolute items-center inset-y-0 flex ">
           <button
@@ -62,7 +63,7 @@ export default function MessagesFrom({ id, setHeight, chat }) {
           ref={textareaRef}
           type="text"
           placeholder="Write your message!"
-          className="w-full resize-none pr-32 h-12 max-h-[200px] focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-l-md"
+          className="w-full resize-none pr-32 h-12 max-h-[200px] focus:outline-none focus:placeholder-gray-400 focus:border-indigo-600 text-gray-600 placeholder-gray-600 pl-12 bg-white rounded-l-md"
         />
         <div className="absolute right-0 items-center inset-y-0 hidden sm:flex">
           <button
@@ -133,7 +134,7 @@ export default function MessagesFrom({ id, setHeight, chat }) {
       <button
         onClick={addMessage}
         type="button"
-        className="inline-flex items-center  justify-center rounded-r-lg px-4 mr-4 py-3 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none"
+        className="inline-flex items-center  justify-center rounded-r-lg px-4 mr-4 py-3 transition duration-500 ease-in-out text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none"
       >
         <span className="font-bold">Send</span>
         <svg

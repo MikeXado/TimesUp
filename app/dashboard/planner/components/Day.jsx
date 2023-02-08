@@ -2,11 +2,15 @@ import { getDay, format, isSameDay, parseISO } from "date-fns";
 
 import { Spinner } from "flowbite-react";
 import { useTransition, useState } from "react";
-import dynamic from "next/dynamic";
 
-const AddEvent = dynamic(() => import("./AddEvent"));
-const Event = dynamic(() => import("./Event"));
-export default function Day({ day, dayIdx, events }) {
+import Droppable from "./dnd/Droppable";
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import Event from "./Event";
+import AddEvent from "./AddEvent";
+export default function Day({ day, dayIdx, events, uid }) {
   const [isPending, startTransition] = useTransition();
   const [isFetching, setIsFetching] = useState(false);
 
@@ -21,15 +25,19 @@ export default function Day({ day, dayIdx, events }) {
       <span className="mx-2 my-1 text-xs font-bold">
         {format(day, "d MMM")}
       </span>
-      <div className="flex flex-col px-1 py-1 overflow-auto max-h-28 ">
-        {isLoading ? (
-          <div className="flex items-center justify-center w-full h-full">
-            <Spinner />
-          </div>
-        ) : (
-          events
-            .filter((event) => isSameDay(parseISO(event.date), day))
-            .map((event) => {
+
+      {isLoading ? (
+        <div className="flex items-center justify-center w-full h-full">
+          <Spinner />
+        </div>
+      ) : (
+        <SortableContext
+          items={events}
+          id={dayIdx}
+          strategy={verticalListSortingStrategy}
+        >
+          <Droppable dropableName={day}>
+            {events.map((event) => {
               return (
                 <Event
                   key={event.id}
@@ -37,15 +45,19 @@ export default function Day({ day, dayIdx, events }) {
                   startTransition={startTransition}
                   setIsFetching={setIsFetching}
                   day={day}
+                  uid={uid}
                 />
               );
-            })
-        )}
-      </div>
+            })}
+          </Droppable>
+        </SortableContext>
+      )}
+
       <AddEvent
         day={day}
         startTransition={startTransition}
         setIsFetching={setIsFetching}
+        uid={uid}
       />
     </div>
   );
