@@ -8,6 +8,8 @@ import {
   PointerSensor,
   KeyboardSensor,
   defaultDropAnimation,
+  MouseSensor,
+  TouchSensor,
 } from "@dnd-kit/core";
 import { sortableKeyboardCoordinates, arrayMove } from "@dnd-kit/sortable";
 import { useState } from "react";
@@ -49,9 +51,18 @@ export default function Board({ uid, tasks, boardId, initColumns }) {
   const [activeId, setActiveId] = useState(null);
 
   const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
+    useSensor(MouseSensor, {
+      activationConstraint: {
+        delay: 300,
+        tolerance: 5,
+      },
+    }),
+
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 300,
+        tolerance: 5,
+      },
     })
   );
   const handleDragStart = ({ active }) => {

@@ -1,9 +1,9 @@
 "use client";
-
+import useSWR from "swr";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSWRConfig } from "swr";
-export default function AddNewTask({ boardId, id, status, mutate }) {
+export default function AddNewTask({ boardId, id, status }) {
   const [isOpen, setIsOpen] = useState(false);
   const { register, handleSubmit, reset } = useForm();
   const [subtask, setSubtask] = useState("");
@@ -47,13 +47,14 @@ export default function AddNewTask({ boardId, id, status, mutate }) {
           boardId: boardId,
           id: id,
           status: status,
+          subtasks: subtasks,
         }),
       });
     };
 
     reset();
     setIsOpen(false);
-    mutate(addNewTask);
+    addNewTask();
   };
   return (
     <>
