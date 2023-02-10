@@ -50,6 +50,9 @@ export default function Task({ task, boardId, uid, taskId, status }) {
           <li
             className="py-3 sm:py-4 mb-5 list-none w-full bg-white shadow-xl rounded-lg px-3"
             style={style}
+            ref={setNodeRef}
+            {...listeners}
+            {...attributes}
           >
             <div className="relative">
               <button
@@ -80,13 +83,12 @@ export default function Task({ task, boardId, uid, taskId, status }) {
                 task={task}
               />
             </div>
-            <div ref={setNodeRef} {...listeners} {...attributes}>
+            <div onClick={handleOpenModal}>
               <div
                 className={
                   "font-semibold mb-2 text-[#0D062D] cursor-pointer text-lg " +
                   inter.className
                 }
-                onClick={handleOpenModal}
               >
                 {" "}
                 {task.title}

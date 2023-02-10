@@ -1,10 +1,55 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 export default function EditTask({ task, uid }) {
   const [isOpen, setIsOpen] = useState(false);
   const { register, handleSubmit, reset } = useForm();
+
+  const [subtask, setSubtask] = useState("");
+  const [subtasks, setSubtasks] = useState([]);
+  const [newSubtasks, setNewSubtasks] = useState([]);
+  const [showSubtaskInput, setShowSubtaskInput] = useState(false);
+
+  useEffect(() => {
+    setSubtasks(task.subtasks);
+  }, [task.subtasks]);
+
+  const handleShowSubtaskInput = () => {
+    setShowSubtaskInput((prev) => !prev);
+  };
+
+  const handleSubtaskInputChange = (e) => {
+    setSubtask(e.target.value);
+  };
+  const handleAddSubtask = () => {
+    setSubtasks((prev) => [...prev, { title: subtask, done: false }]);
+    setNewSubtasks((prev) => [...prev, { title: subtask, done: false }]);
+    setSubtask("");
+    setShowSubtaskInput(false);
+  };
+
+  const deleteSubtask = async (subtask) => {
+    if (subtask.id) {
+      await fetch("/api/deleteSubtask", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: subtask.id,
+          uid: uid,
+          boardId: task.boardId,
+          taskId: task.id,
+        }),
+      });
+    }
+    const newSubtasks = subtasks.filter((el) => {
+      return el.title !== subtask.title;
+    });
+
+    setSubtasks(newSubtasks);
+  };
 
   const handleOpenModal = () => {
     setIsOpen((prev) => !prev);
@@ -23,13 +68,14 @@ export default function EditTask({ task, uid }) {
           uid: uid,
           id: task.id,
           status: task.status,
+          subtasks: newSubtasks,
         }),
       });
     };
 
-    editTask();
     reset();
     setIsOpen(false);
+    editTask();
   };
   return (
     <>
@@ -111,6 +157,81 @@ export default function EditTask({ task, uid }) {
                     placeholder="A small tasks during dashboard developing"
                     {...register("description")}
                   />
+                </div>
+                <div className="mb-6">
+                  <label
+                    htmlFor="subtasks"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Add subtasks
+                  </label>
+                  <ul className="max-h-[300px] overflow-y-auto">
+                    {(subtasks || task.subtasks).map((subtask, index) => {
+                      return (
+                        <div key={index} className="relative px-5">
+                          <li className="list-none border w-full border-gray-200 rounded-md py-3 pl-3 mb-3">
+                            {subtask.title}
+                          </li>
+
+                          <button
+                            type="button"
+                            className="bg-gray-200 p-2 rounded-lg absolute right-[26px] top-[7px]"
+                            onClick={() => {
+                              deleteSubtask(subtask);
+                            }}
+                          >
+                            {" "}
+                            <svg
+                              aria-hidden="true"
+                              className="w-5 h-5"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                clipRule="evenodd"
+                              ></path>
+                            </svg>
+                            <span className="sr-only">delete task</span>{" "}
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </ul>
+
+                  <div
+                    className={"relative" + (showSubtaskInput ? "" : " hidden")}
+                  >
+                    <input
+                      id="subtasks"
+                      onChange={handleSubtaskInputChange}
+                      className={
+                        "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      }
+                      value={subtask}
+                    />
+                    <div className="absolute right-2 top-[6px] z-10">
+                      <button
+                        type="button"
+                        className="bg-gray-200 py-1 px-3  rounded-lg"
+                        onClick={handleAddSubtask}
+                      >
+                        Add
+                      </button>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    className={
+                      "w-full bg-gray-200 py-2 mt-3 px-10 rounded-lg" +
+                      (showSubtaskInput ? " hidden" : " ")
+                    }
+                    onClick={handleShowSubtaskInput}
+                  >
+                    Add new Subtask
+                  </button>
                 </div>
                 <div className="w-full flex justify-end items-center mt-5">
                   <button

@@ -1,4 +1,6 @@
-export default function PreviewTask({ isOpen, setIsOpen, task }) {
+import Subtasks from "./subtasks/Subtasks";
+
+export default function PreviewTask({ isOpen, setIsOpen, task, uid }) {
   const handleOpenModal = () => {
     setIsOpen((prev) => !prev);
   };
@@ -42,6 +44,14 @@ export default function PreviewTask({ isOpen, setIsOpen, task }) {
               Description
             </div>
             {task.description}
+          </div>
+          <div className="p-6 pt-1">
+            <Subtasks
+              taskId={task.id}
+              uid={uid}
+              boardId={task.boardId}
+              subtasks={task.subtasks}
+            />
           </div>
         </div>
       </div>
