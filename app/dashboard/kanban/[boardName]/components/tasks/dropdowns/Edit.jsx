@@ -1,8 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useMutation } from "../../../../../../../utils/fetcher";
 export default function EditTask({ task, uid }) {
+  const editTask = useMutation("/api/editTask");
+  const editSubtask = useMutation("/api/deleteSubtask");
   const [isOpen, setIsOpen] = useState(false);
   const { register, handleSubmit, reset } = useForm();
 
@@ -11,9 +14,9 @@ export default function EditTask({ task, uid }) {
   const [newSubtasks, setNewSubtasks] = useState([]);
   const [showSubtaskInput, setShowSubtaskInput] = useState(false);
 
-  useEffect(() => {
-    setSubtasks(task.subtasks);
-  }, [task.subtasks]);
+  // useEffect(() => {
+  //   setSubtasks(task.subtasks);
+  // }, [task.subtasks]);
 
   const handleShowSubtaskInput = () => {
     setShowSubtaskInput((prev) => !prev);
@@ -31,17 +34,11 @@ export default function EditTask({ task, uid }) {
 
   const deleteSubtask = async (subtask) => {
     if (subtask.id) {
-      await fetch("/api/deleteSubtask", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: subtask.id,
-          uid: uid,
-          boardId: task.boardId,
-          taskId: task.id,
-        }),
+      await editSubtask({
+        id: subtask.id,
+        uid: uid,
+        boardId: task.boardId,
+        taskId: task.id,
       });
     }
     const newSubtasks = subtasks.filter((el) => {
@@ -56,26 +53,16 @@ export default function EditTask({ task, uid }) {
   };
 
   const onSubmit = async (data) => {
-    const editTask = async () => {
-      await fetch("/api/editTask", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...data,
-          boardId: task.boardId,
-          uid: uid,
-          id: task.id,
-          status: task.status,
-          subtasks: newSubtasks,
-        }),
-      });
-    };
-
     reset();
     setIsOpen(false);
-    editTask();
+    await editTask({
+      ...data,
+      boardId: task.boardId,
+      uid: uid,
+      id: task.id,
+      status: task.status,
+      subtasks: newSubtasks,
+    });
   };
   return (
     <>

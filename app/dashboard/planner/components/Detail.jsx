@@ -3,8 +3,6 @@ import ChangeEvent from "./ChangeEvent";
 import DetailPopup from "./DetailPopup";
 export default function Detail({
   isOpen,
-  setIsFetching,
-  startTransition,
   eventId,
   setIsOpen,
   day,
@@ -19,8 +17,6 @@ export default function Detail({
         <ChangeEvent
           isOpen={isChangeOpen}
           eventId={eventId}
-          setIsFetching={setIsFetching}
-          startTransition={startTransition}
           setIsOpen={setIsChangeOpen}
           day={day}
           uid={uid}

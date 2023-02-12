@@ -38,27 +38,13 @@ export default function Day({ day, dayIdx, events, uid }) {
         >
           <Droppable dropableName={day}>
             {events.map((event) => {
-              return (
-                <Event
-                  key={event.id}
-                  event={event}
-                  startTransition={startTransition}
-                  setIsFetching={setIsFetching}
-                  day={day}
-                  uid={uid}
-                />
-              );
+              return <Event key={event.id} event={event} day={day} uid={uid} />;
             })}
           </Droppable>
         </SortableContext>
       )}
 
-      <AddEvent
-        day={day}
-        startTransition={startTransition}
-        setIsFetching={setIsFetching}
-        uid={uid}
-      />
+      <AddEvent day={day} uid={uid} />
     </div>
   );
 }

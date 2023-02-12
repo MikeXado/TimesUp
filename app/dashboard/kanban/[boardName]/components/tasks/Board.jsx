@@ -12,7 +12,7 @@ import {
   TouchSensor,
 } from "@dnd-kit/core";
 import { sortableKeyboardCoordinates, arrayMove } from "@dnd-kit/sortable";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Column from "./Columns";
 import Task from "./Task";
 import useSWR from "swr";
@@ -21,16 +21,13 @@ import {
   initializeBoard,
 } from "../../../../../../utils/board";
 import AddNewColumn from "./columns/AddNewColumn";
+import { Spinner } from "flowbite-react";
+import { revalidate } from "../../../../../Providers";
+import { useMutation } from "../../../../../../utils/fetcher";
+// import { tasksFetcher } from "../../../../../../utils/swr/kanbanTasks";
 
 export default function Board({ uid, tasks, boardId, initColumns }) {
-  const [columns, setColumns] = useState(() => {
-    let newColumns = {};
-    initColumns.forEach((el) => {
-      newColumns[el.column] = el.column;
-    });
-    return newColumns;
-  });
-
+  const editTask = useMutation("/api/editTask");
   const tasksFetcher = async () => {
     const res = await fetch("/api/getTasks", {
       method: "POST",
@@ -43,10 +40,54 @@ export default function Board({ uid, tasks, boardId, initColumns }) {
     return tasks;
   };
 
-  const { data, isLoading, mutate } = useSWR("/api/getTasks", tasksFetcher);
+  const columnsFetcher = async () => {
+    const res = await fetch("/api/getColumns", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ uid, boardId }),
+    });
 
-  const initialBoardSections = initializeBoard(data || tasks, columns);
-  const [boardSections, setBoardSections] = useState(initialBoardSections);
+    const columns = await res.json();
+    return columns;
+  };
+
+  const { data, isLoading, mutate } = useSWR("/api/getTasks", tasksFetcher);
+  const { data: columnsData } = useSWR("/api/getColumns", columnsFetcher);
+  console.log(columnsData);
+
+  // const [columns, setColumns] = useState(() => {
+  //   let newColumns = {};
+  //   if (!columnsData) {
+  //     revalidate();
+  //   } else {
+  //     columnsData?.forEach((el) => {
+  //       newColumns[el.column] = el.column;
+  //     });
+  //     return newColumns;
+  //   }
+  // });
+
+  // const initialBoardSections = initializeBoard( columns);
+  const [boardSections, setBoardSections] = useState({});
+
+  useEffect(() => {
+    if (!data) {
+      revalidate();
+    } else if (!columnsData) {
+      revalidate();
+    } else {
+      let newColumns = {};
+      columnsData?.forEach((el) => {
+        newColumns[el.column] = el.column;
+      });
+      const initialBoardSections = initializeBoard(data, newColumns);
+      setBoardSections(initialBoardSections);
+    }
+  }, [data, columnsData]);
+
+  console.log(boardSections);
 
   const [activeId, setActiveId] = useState(null);
 
@@ -108,19 +149,27 @@ export default function Board({ uid, tasks, boardId, initColumns }) {
       };
     });
 
-    return await fetch("/api/editTask", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        boardId: task.boardId,
-        description: task.description,
-        id: task.id,
-        status: overId,
-        title: task.title,
-        uid: uid,
-      }),
+    // return await fetch("/api/editTask", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     boardId: task.boardId,
+    //     description: task.description,
+    //     id: task.id,
+    //     status: overId,
+    //     title: task.title,
+    //     uid: uid,
+    //   }),
+    // });
+    await editTask({
+      boardId: task.boardId,
+      description: task.description,
+      id: task.id,
+      status: overId,
+      title: task.title,
+      uid: uid,
     });
   };
 
@@ -173,25 +222,29 @@ export default function Board({ uid, tasks, boardId, initColumns }) {
       onDragEnd={handleDragEnd}
       onDragOver={handleDragOver}
     >
-      <div className="overflow-y-hidden  overflow-x-scroll">
-        <div className="h-screen pl-2 flex-1 flex flex-nowrap lg:w-[2500px] w-[1920px]">
-          {Object.keys(boardSections).map((column) => {
-            return (
-              <Column
-                key={column}
-                id={uid}
-                tasks={boardSections[column]}
-                status={column}
-                isLoading={isLoading}
-                boardId={boardId}
-                mutate={mutate}
-              />
-            );
-          })}
-          <AddNewColumn uid={uid} boardId={boardId} />
+      {isLoading ? (
+        <div className="flex justify-center w-full h-screen items-center">
+          <Spinner />
         </div>
-      </div>
-
+      ) : (
+        <div className="overflow-y-hidden  overflow-x-scroll">
+          <div className="h-screen pl-2 flex-1 flex flex-nowrap lg:w-[2500px] w-[1920px]">
+            {Object.keys(boardSections).map((column) => {
+              return (
+                <Column
+                  key={column}
+                  id={uid}
+                  tasks={boardSections[column]}
+                  status={column}
+                  isLoading={isLoading}
+                  boardId={boardId}
+                />
+              );
+            })}
+            <AddNewColumn uid={uid} boardId={boardId} />
+          </div>
+        </div>
+      )}
       {/*  */}
       <DragOverlay dropAnimation={dropAnimation}>
         {activeId ? (

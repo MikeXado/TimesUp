@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useMutation } from "../../../../../../../utils/fetcher";
 
 export default function AddNewColumn({ uid, boardId }) {
+  const createColumn = useMutation("/api/addColumn");
   const [isOpenInput, setIsOpenInput] = useState(false);
 
   const { register, handleSubmit, reset } = useForm();
@@ -11,16 +13,10 @@ export default function AddNewColumn({ uid, boardId }) {
   };
 
   const sendData = async (data) => {
-    await fetch("/api/addColumn", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        column: data.column,
-        uid: uid,
-        boardId: boardId,
-      }),
+    await createColumn({
+      column: data.column,
+      uid: uid,
+      boardId: boardId,
     });
     reset();
   };
