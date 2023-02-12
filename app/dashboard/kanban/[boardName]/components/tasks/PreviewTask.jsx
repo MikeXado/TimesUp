@@ -46,12 +46,7 @@ export default function PreviewTask({ isOpen, setIsOpen, task, uid }) {
             {task.description}
           </div>
           <div className="p-6 pt-1">
-            <Subtasks
-              taskId={task.id}
-              uid={uid}
-              boardId={task.boardId}
-              subtasks={task.subtasks}
-            />
+            <Subtasks taskId={task.id} uid={uid} boardId={task.boardId} />
           </div>
         </div>
       </div>

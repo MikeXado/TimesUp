@@ -1,5 +1,6 @@
 import { useRouter } from "next/navigation";
 import { useRef, useEffect } from "react";
+import { useMutation } from "../../../../../../../utils/fetcher";
 import EditTask from "./Edit";
 
 export default function More({
@@ -12,6 +13,7 @@ export default function More({
   startTransition,
   task,
 }) {
+  const removeTask = useMutation("/api/deleteTask");
   const router = useRouter();
   const wrapperRef = useRef(null);
   useEffect(() => {
@@ -29,13 +31,7 @@ export default function More({
 
   const deleteTask = async () => {
     setIsDeleting(true);
-    await fetch("/api/deleteTask", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ taskId, boardId, uid }),
-    });
+    removeTask({ taskId, boardId, uid });
     setIsDeleting(false);
     startTransition(() => {
       router.refresh();
