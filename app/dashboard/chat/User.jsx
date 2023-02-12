@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { revalidate } from "../../Providers";
 export default function User({ user, currentUser }) {
   const router = useRouter();
   const handleCreateChatDb = async () => {
@@ -15,6 +16,9 @@ export default function User({ user, currentUser }) {
         return res.json();
       }
     });
+
+    await revalidate();
+
     return router.push(`/dashboard/chat/${combinedUid}`);
   };
 

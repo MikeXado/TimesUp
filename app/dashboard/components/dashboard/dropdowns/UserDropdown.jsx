@@ -31,8 +31,6 @@ export default function UserDropdown({ currentUser }) {
     };
   }, [wrapperRef]);
 
-  console.log(currentUser);
-
   return (
     <div className="relative">
       <button
