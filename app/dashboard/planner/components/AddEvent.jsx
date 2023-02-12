@@ -1,10 +1,10 @@
 import { useState } from "react";
-
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { useMutation } from "../../../../utils/fetcher";
 
-export default function AddEvent({ day, setIsFetching, startTransition, uid }) {
-  const router = useRouter();
+export default function AddEvent({ day, uid }) {
+  const createEvent = useMutation("/api/addEvent");
+
   const [isOpen, setIsOpen] = useState(false);
   const { register, handleSubmit } = useForm();
   const onOpen = () => {
@@ -12,22 +12,8 @@ export default function AddEvent({ day, setIsFetching, startTransition, uid }) {
   };
 
   const handleSendEventToDb = async (data) => {
-    setIsFetching(true);
-    await fetch("/api/addEvent", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ ...data, date: day, uid: uid }),
-    });
-
-    setIsFetching(false);
-
     setIsOpen(false);
-
-    startTransition(() => {
-      router.refresh();
-    });
+    await createEvent({ ...data, date: day, uid: uid });
   };
 
   const onSubmit = (data) => {

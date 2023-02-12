@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+
 import { getColumns, getTasks } from "../../../../lib/db";
 import Board from "./components/tasks/Board";
 export default async function Page({ params: { boardName } }) {

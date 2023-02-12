@@ -30,7 +30,25 @@ import {
   initializeEventsSections,
 } from "../../../../utils/board";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
+import useSWR, { mutate } from "swr";
+import { useMutation } from "../../../../utils/fetcher";
 export default function Calendar({ events, uid }) {
+  const changeEvent = useMutation("/api/changeEvent");
+  const eventsFetcher = async () => {
+    const res = await fetch("/api/getEvents", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(uid),
+    });
+
+    const events = await res.json();
+    return events;
+  };
+
+  const { data, isLoading } = useSWR("/api/getEvents", eventsFetcher);
+
   let today = startOfToday();
   const [currentMonth, setCurrentMonth] = useState(format(today, "MMM-yyyy"));
   const [activeId, setActiveId] = useState(null);
@@ -40,6 +58,15 @@ export default function Calendar({ events, uid }) {
     start: startOfMonth(firstDayCurrentMonth),
     end: endOfMonth(firstDayCurrentMonth),
   });
+
+  useEffect(() => {
+    if (!data) {
+      mutate();
+    } else {
+      const initialEventsSesions = initializeEventsSections(data, days);
+      setEventsSections(initialEventsSesions);
+    }
+  }, [data, days]);
   const initialEventsSesions = initializeEventsSections(events, days);
   const [eventsSections, setEventsSections] = useState(initialEventsSesions);
 
@@ -100,21 +127,14 @@ export default function Calendar({ events, uid }) {
     });
 
     const event = data.current;
-
-    return await fetch("/api/changeEvent", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: event?.title,
-        description: event?.description,
-        startTime: event?.startTime,
-        endTime: event?.endTime,
-        id: event?.id,
-        date: overId,
-        uid: uid,
-      }),
+    await changeEvent({
+      title: event?.title,
+      description: event?.description,
+      startTime: event?.startTime,
+      endTime: event?.endTime,
+      id: event?.id,
+      date: overId,
+      uid: uid,
     });
   };
   const event = events.find((el) => el.id === activeId);
