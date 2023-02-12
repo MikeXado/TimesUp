@@ -2,8 +2,11 @@
 import useSWR from "swr";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useSWRConfig } from "swr";
+import { Spinner } from "flowbite-react";
+import { useMutation } from "../../../../../../utils/fetcher";
 export default function AddNewTask({ boardId, id, status }) {
+  const createTask = useMutation("/api/addNewTask");
+  const { isLoading } = useSWR("/api/getTasks");
   const [isOpen, setIsOpen] = useState(false);
   const { register, handleSubmit, reset } = useForm();
   const [subtask, setSubtask] = useState("");
@@ -36,44 +39,39 @@ export default function AddNewTask({ boardId, id, status }) {
   };
 
   const onSubmit = async (data) => {
-    const addNewTask = async () => {
-      await fetch("/api/addNewTask", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...data,
-          boardId: boardId,
-          id: id,
-          status: status,
-          subtasks: subtasks,
-        }),
-      });
-    };
-
+    await createTask({
+      ...data,
+      boardId: boardId,
+      id: id,
+      status: status,
+      subtasks: subtasks,
+    });
     reset();
     setIsOpen(false);
-    addNewTask();
   };
   return (
     <>
-      <button
-        onClick={handleOpenModal}
-        className="flex justify-center items-center  text-md text-white mt-3 font-semibold  w-[30px] h-[30px] bg-indigo-600 hover:bg-indigo-700 rounded-full"
-      >
-        <svg
-          fill="#fff"
-          width="25px"
-          height="25px"
-          viewBox="0 0 22 22"
-          xmlns="http://www.w3.org/2000/svg"
-          id="memory-plus"
+      {isLoading ? (
+        <div className="flex justify-center items-center">
+          <Spinner />
+        </div>
+      ) : (
+        <button
+          onClick={handleOpenModal}
+          className="flex justify-center items-center  text-md text-white mt-3 font-semibold  w-[30px] h-[30px] bg-indigo-600 hover:bg-indigo-700 rounded-full"
         >
-          <path d="M12 17H10V12H5V10H10V5H12V10H17V12H12Z" />
-        </svg>
-      </button>
-
+          <svg
+            fill="#fff"
+            width="25px"
+            height="25px"
+            viewBox="0 0 22 22"
+            xmlns="http://www.w3.org/2000/svg"
+            id="memory-plus"
+          >
+            <path d="M12 17H10V12H5V10H10V5H12V10H17V12H12Z" />
+          </svg>
+        </button>
+      )}
       <div
         className={
           "fixed top-0 left-0 right-0 z-50 flex justify-center items-center bg-black bg-opacity-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0  md:h-screen" +

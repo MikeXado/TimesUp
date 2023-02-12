@@ -3,13 +3,7 @@ import { useState } from "react";
 import { CSS } from "@dnd-kit/utilities";
 import Detail from "./Detail";
 import { useSortable } from "@dnd-kit/sortable";
-export default function Event({
-  event,
-  setIsFetching,
-  startTransition,
-  day,
-  uid,
-}) {
+export default function Event({ event, day, uid }) {
   const { attributes, setNodeRef, listeners, transform } = useSortable({
     id: event.id,
     data: {
@@ -43,8 +37,6 @@ export default function Event({
       <Detail
         isOpen={isOpen}
         eventId={event.id}
-        setIsFetching={setIsFetching}
-        startTransition={startTransition}
         setIsOpen={setIsOpen}
         day={day}
         event={event}

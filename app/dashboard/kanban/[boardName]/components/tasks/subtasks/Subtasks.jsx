@@ -1,9 +1,9 @@
 import Subtask from "./Subtask";
 
-export default function Subtasks({ taskId, boardId, uid, subtasks }) {
+export default function Subtasks({ taskId, boardId, uid }) {
   return (
     <>
-      {subtasks.map((subtask) => {
+      {/* {subtasks.map((subtask) => {
         return (
           <Subtask
             key={subtask.id}
@@ -13,7 +13,7 @@ export default function Subtasks({ taskId, boardId, uid, subtasks }) {
             uid={uid}
           />
         );
-      })}
+      })} */}
     </>
   );
 }
