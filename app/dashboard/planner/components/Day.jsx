@@ -26,24 +26,18 @@ export default function Day({ day, dayIdx, events, uid }) {
         {format(day, "d MMM")}
       </span>
 
-      {isLoading ? (
+      {/* {isLoading ? (
         <div className="flex items-center justify-center w-full h-full">
           <Spinner />
         </div>
-      ) : (
-        <SortableContext
-          items={events}
-          id={dayIdx}
-          strategy={verticalListSortingStrategy}
-        >
-          <Droppable dropableName={day}>
-            {events.map((event) => {
-              return <Event key={event.id} event={event} day={day} uid={uid} />;
-            })}
-          </Droppable>
-        </SortableContext>
-      )}
-
+      ) : ( */}
+      <SortableContext items={events} id={dayIdx}>
+        <Droppable dropableName={day}>
+          {events.map((event) => {
+            return <Event key={event.id} event={event} day={day} uid={uid} />;
+          })}
+        </Droppable>
+      </SortableContext>
       <AddEvent day={day} uid={uid} />
     </div>
   );

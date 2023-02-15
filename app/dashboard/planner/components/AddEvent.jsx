@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "../../../../utils/fetcher";
-
+import { useRouter } from "next/navigation";
 export default function AddEvent({ day, uid }) {
+  const router = useRouter();
   const createEvent = useMutation("/api/addEvent");
-
+  const [isFetching, setIsFetching] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const { register, handleSubmit } = useForm();
   const onOpen = () => {
@@ -12,8 +13,10 @@ export default function AddEvent({ day, uid }) {
   };
 
   const handleSendEventToDb = async (data) => {
-    setIsOpen(false);
+    setIsFetching(true);
     await createEvent({ ...data, date: day, uid: uid });
+    setIsFetching(false);
+    setIsOpen(false);
   };
 
   const onSubmit = (data) => {
@@ -163,7 +166,7 @@ export default function AddEvent({ day, uid }) {
                 clipRule="evenodd"
               ></path>
             </svg>{" "}
-            Create event
+            {isFetching ? "Creating event..." : "Create event"}
           </button>
         </form>
       </div>

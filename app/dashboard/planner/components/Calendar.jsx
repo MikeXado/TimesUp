@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   format,
   startOfToday,
@@ -32,7 +32,16 @@ import {
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import useSWR, { mutate } from "swr";
 import { useMutation } from "../../../../utils/fetcher";
+import { Spinner } from "flowbite-react";
+import { id } from "date-fns/locale";
 export default function Calendar({ events, uid }) {
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
   const changeEvent = useMutation("/api/changeEvent");
   const eventsFetcher = async () => {
     const res = await fetch("/api/getEvents", {
@@ -47,7 +56,10 @@ export default function Calendar({ events, uid }) {
     return events;
   };
 
-  const { data, isLoading } = useSWR("/api/getEvents", eventsFetcher);
+  const { data, isLoading } = useSWR("/api/getEvents", eventsFetcher, {
+    fallbackData: events,
+    revalidateOnMount: true,
+  });
 
   let today = startOfToday();
   const [currentMonth, setCurrentMonth] = useState(format(today, "MMM-yyyy"));
@@ -58,27 +70,52 @@ export default function Calendar({ events, uid }) {
     start: startOfMonth(firstDayCurrentMonth),
     end: endOfMonth(firstDayCurrentMonth),
   });
+  const newDays = useRef(days);
+
+  const initialEventsSesions = initializeEventsSections(
+    events,
+    newDays.current
+  );
+  const [eventsSections, setEventsSections] = useState(initialEventsSesions);
 
   useEffect(() => {
     if (!data) {
       mutate();
-    } else {
-      const initialEventsSesions = initializeEventsSections(data, days);
-      setEventsSections(initialEventsSesions);
     }
-  }, [data, days]);
-  const initialEventsSesions = initializeEventsSections(events, days);
-  const [eventsSections, setEventsSections] = useState(initialEventsSesions);
+    setEventsSections(() => {
+      return initializeEventsSections(data, newDays.current);
+    });
+  }, [data]);
 
   const nextMonth = () => {
     let firstDayNextMonth = add(firstDayCurrentMonth, { months: 1 });
-
     setCurrentMonth(format(firstDayNextMonth, "MMM-yyyy"));
+    let newFirstDayCurrentMonth = parse(
+      format(firstDayNextMonth, "MMM-yyyy"),
+      "MMM-yyyy",
+      new Date()
+    );
+    let newDaysI = eachDayOfInterval({
+      start: startOfMonth(newFirstDayCurrentMonth),
+      end: endOfMonth(newFirstDayCurrentMonth),
+    });
+    const newEventsSections = initializeEventsSections(data, newDaysI);
+    setEventsSections(newEventsSections);
   };
   const prevMonth = () => {
     let firstDayNextMonth = add(firstDayCurrentMonth, { months: -1 });
-
     setCurrentMonth(format(firstDayNextMonth, "MMM-yyyy"));
+    let newFirstDayCurrentMonth = parse(
+      format(firstDayNextMonth, "MMM-yyyy"),
+      "MMM-yyyy",
+      new Date()
+    );
+    let newDaysI = eachDayOfInterval({
+      start: startOfMonth(newFirstDayCurrentMonth),
+      end: endOfMonth(newFirstDayCurrentMonth),
+    });
+    const newEventsSections = initializeEventsSections(data, newDaysI);
+    setEventsSections(newEventsSections);
   };
 
   const handleDragStart = ({ active }) => {
@@ -92,12 +129,11 @@ export default function Calendar({ events, uid }) {
     const activeContainer = findEventsSectionContainer(eventsSections, id);
     const overContainer = findEventsSectionContainer(eventsSections, overId);
 
-    console.log(activeContainer, overContainer);
-
     if (
       !activeContainer ||
       !overContainer ||
       isSameDay(new Date(activeContainer), new Date(overContainer))
+      // isSameDay(new Date(activeContainer), new Date(overContainer))
     ) {
       return;
     }
@@ -127,20 +163,26 @@ export default function Calendar({ events, uid }) {
     });
 
     const event = data.current;
-    await changeEvent({
-      title: event?.title,
-      description: event?.description,
-      startTime: event?.startTime,
-      endTime: event?.endTime,
-      id: event?.id,
-      date: overId,
-      uid: uid,
+    await fetch("/api/changeEvent", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: event?.title,
+        description: event?.description,
+        startTime: event?.startTime,
+        endTime: event?.endTime,
+        id: event?.id,
+        date: overId,
+        uid: uid,
+      }),
     });
   };
-  const event = events.find((el) => el.id === activeId);
+  const event = data.find((el) => el.id === activeId);
 
-  const handleDragEnd = (event) => {
-    const { active, over } = event;
+  const handleDragEnd = async (e) => {
+    const { active, over } = e;
     const { id, data } = active;
     const { id: overId } = over;
 
@@ -153,7 +195,7 @@ export default function Calendar({ events, uid }) {
     ) {
       return;
     }
-
+    //
     const activeIndex = eventsSections[activeContainer].findIndex(
       (task) => task.id === id
     );
@@ -173,12 +215,13 @@ export default function Calendar({ events, uid }) {
     }
   };
 
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  );
+  if (!data) {
+    return (
+      <div className="flex w-full justify-center items-center h-screen">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <div className="text-gray-700 mt-24 bg-white w-full">

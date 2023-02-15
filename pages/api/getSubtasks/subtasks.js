@@ -1,7 +1,8 @@
-import { getSubtasks } from "../../lib/db";
+import { getSubtasks } from "../../../lib/db";
 
 export default async function handler(req, res) {
   const data = req.body;
+  const { taskId } = req.query;
   try {
     const subtasks = await getSubtasks(data);
 

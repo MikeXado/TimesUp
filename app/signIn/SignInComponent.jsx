@@ -1,10 +1,12 @@
 "use client";
-
+import useSWR from "swr";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 export default function SignInComponents() {
+  const { data } = useSWR("/api/getTasks");
+  console.log(data);
   const [authError, setAuthError] = useState();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);

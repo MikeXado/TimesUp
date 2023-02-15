@@ -1,6 +1,9 @@
-import Subtasks from "./subtasks/Subtasks";
-
+import Subtask from "./subtasks/Subtask";
+import useSWR, { useSWRConfig } from "swr";
 export default function PreviewTask({ isOpen, setIsOpen, task, uid }) {
+  const { cache } = useSWRConfig();
+  const data = cache.get(`/api/getSubtasks/subtasks/${task.id}`)?.data;
+
   const handleOpenModal = () => {
     setIsOpen((prev) => !prev);
   };
@@ -46,7 +49,19 @@ export default function PreviewTask({ isOpen, setIsOpen, task, uid }) {
             {task.description}
           </div>
           <div className="p-6 pt-1">
-            <Subtasks taskId={task.id} uid={uid} boardId={task.boardId} />
+            <>
+              {data?.map((subtask) => {
+                return (
+                  <Subtask
+                    key={subtask.id}
+                    task={subtask}
+                    taskId={task.id}
+                    boardId={task.boardId}
+                    uid={uid}
+                  />
+                );
+              })}
+            </>
           </div>
         </div>
       </div>

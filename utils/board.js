@@ -1,9 +1,15 @@
-import { isSameDay, parseISO } from "date-fns";
+import {
+  isSameDay,
+  parseISO,
+  eachDayOfInterval,
+  startOfMonth,
+  endOfMonth,
+} from "date-fns";
 import { getEventByDay } from "./events";
 import { getTaskByStatus } from "./tasks";
 
 export const initializeBoard = (tasks, columns) => {
-  const boardSestions = {};
+  let boardSestions = {};
   Object.keys(columns).forEach((columnKey) => {
     boardSestions[columnKey] = getTaskByStatus(tasks, columnKey);
   });
@@ -13,6 +19,7 @@ export const initializeBoard = (tasks, columns) => {
 
 export const initializeEventsSections = (events, days) => {
   const eventsSections = {};
+
   days.forEach((day) => {
     eventsSections[day] = getEventByDay(events, day);
   });
