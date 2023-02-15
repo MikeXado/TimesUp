@@ -6,7 +6,7 @@ export default function Droppable({ children, dropableName }) {
   return (
     <div
       ref={setNodeRef}
-      className="flex flex-col px-1 py-1 overflow-auto max-h-28 "
+      className="flex flex-col px-1 py-1 overflow-y-auto overflow-x-hidden max-h-28 "
     >
       {children}
     </div>

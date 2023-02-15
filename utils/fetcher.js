@@ -1,4 +1,4 @@
-import { revalidate } from "../app/Providers";
+import { revalidate } from "../app/dashboard/components/dashboard/SwrConfig";
 
 export const useMutation = (key) => {
   return async function (data) {

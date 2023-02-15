@@ -1,7 +1,8 @@
 "use client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { revalidate } from "../../Providers";
+import { revalidate } from "../components/dashboard/SwrConfig";
+
 export default function User({ user, currentUser }) {
   const router = useRouter();
   const handleCreateChatDb = async () => {

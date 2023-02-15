@@ -6,6 +6,7 @@ import PreviewTask from "./PreviewTask";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useDraggable } from "@dnd-kit/core";
+import useSWR from "swr";
 const inter = Inter({
   display: "swap",
 });
@@ -15,6 +16,27 @@ export default function Task({ task, boardId, uid, taskId, status }) {
   const [isDeleting, setIsDeleting] = useState();
   const [isPending, startTransition] = useTransition();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const getSubtasks = async () => {
+    const data = await fetch(`/api/getSubtasks/subtasks`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        boardId: task.boardId,
+        uid: uid,
+        taskId: task.id,
+      }),
+    });
+    const subtasks = await data.json();
+    return subtasks;
+  };
+
+  const { data: subtasks } = useSWR(
+    `/api/getSubtasks/subtasks/${task.id}`,
+    getSubtasks
+  );
 
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({

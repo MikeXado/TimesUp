@@ -1,9 +1,9 @@
-import Link from "next/link";
 import AddNewBoard from "./components/boards/addNewBoard";
 
 import KanbanBoards from "./components/sidebar/KanbanBoards";
 import { cookies } from "next/headers";
 import Sidebar from "./components/sidebar/sidebar";
+
 export default function KanbanLayout({ children }) {
   const nextCookie = cookies();
   const id = nextCookie.get("u_i").value;

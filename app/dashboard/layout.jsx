@@ -1,7 +1,10 @@
 import { cookies } from "next/headers";
+
 import { getSpecificUser } from "../../lib/db";
+
 import Navbar from "./components/dashboard/navbar/Navbar";
 import Sidebar from "./components/dashboard/sidebar/Sidebar";
+import SwrConfig from "./components/dashboard/SwrConfig";
 export default async function layout({ children }) {
   const nextCookies = cookies();
 
@@ -17,7 +20,8 @@ export default async function layout({ children }) {
         {/* Header */}
         {/* <HeaderStats /> */}
         <div className="mx-auto w-full lg:pt-0">
-          {children}
+          <SwrConfig>{children}</SwrConfig>
+
           {/* <FooterAdmin /> */}
         </div>
       </div>

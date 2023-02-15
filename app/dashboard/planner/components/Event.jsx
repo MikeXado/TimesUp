@@ -4,7 +4,7 @@ import { CSS } from "@dnd-kit/utilities";
 import Detail from "./Detail";
 import { useSortable } from "@dnd-kit/sortable";
 export default function Event({ event, day, uid }) {
-  const { attributes, setNodeRef, listeners, transform } = useSortable({
+  const { attributes, setNodeRef, listeners, transform } = useDraggable({
     id: event.id,
     data: {
       ...event,

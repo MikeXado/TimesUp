@@ -1,10 +1,12 @@
 "use client";
-import useSWR from "swr";
-import { useRef, useState } from "react";
+import useSWR, { mutate } from "swr";
+import { useRef, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { Spinner } from "flowbite-react";
 import { useMutation } from "../../../../../../utils/fetcher";
+import { useRouter } from "next/navigation";
 export default function AddNewTask({ boardId, id, status }) {
+  const router = useRouter();
   const createTask = useMutation("/api/addNewTask");
   const { isLoading } = useSWR("/api/getTasks");
   const [isOpen, setIsOpen] = useState(false);
@@ -12,7 +14,10 @@ export default function AddNewTask({ boardId, id, status }) {
   const [subtask, setSubtask] = useState("");
   const [subtasks, setSubtasks] = useState([]);
   const [showSubtaskInput, setShowSubtaskInput] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const [isFetching, setIsFetching] = useState(false);
 
+  const isMutating = isFetching || isPending;
   const handleShowSubtaskInput = () => {
     setShowSubtaskInput((prev) => !prev);
   };
@@ -39,6 +44,9 @@ export default function AddNewTask({ boardId, id, status }) {
   };
 
   const onSubmit = async (data) => {
+    reset();
+    setIsOpen(false);
+
     await createTask({
       ...data,
       boardId: boardId,
@@ -46,12 +54,10 @@ export default function AddNewTask({ boardId, id, status }) {
       status: status,
       subtasks: subtasks,
     });
-    reset();
-    setIsOpen(false);
   };
   return (
     <>
-      {isLoading ? (
+      {isMutating ? (
         <div className="flex justify-center items-center">
           <Spinner />
         </div>

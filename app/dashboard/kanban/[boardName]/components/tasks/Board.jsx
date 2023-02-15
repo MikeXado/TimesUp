@@ -12,10 +12,17 @@ import {
   TouchSensor,
 } from "@dnd-kit/core";
 import { sortableKeyboardCoordinates, arrayMove } from "@dnd-kit/sortable";
-import { useCallback, useEffect, useState } from "react";
+import {
+  Suspense,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import Column from "./Columns";
 import Task from "./Task";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import {
   findBoardSectionContainer,
   initializeBoard,
@@ -53,41 +60,37 @@ export default function Board({ uid, tasks, boardId, initColumns }) {
     return columns;
   };
 
-  const { data, isLoading, mutate } = useSWR("/api/getTasks", tasksFetcher);
-  const { data: columnsData } = useSWR("/api/getColumns", columnsFetcher);
-  console.log(columnsData);
+  const hasMounted = useRef(false);
+  useEffect(() => {
+    hasMounted.current = true;
+    mutate();
+  }, []);
 
-  // const [columns, setColumns] = useState(() => {
-  //   let newColumns = {};
-  //   if (!columnsData) {
-  //     revalidate();
-  //   } else {
-  //     columnsData?.forEach((el) => {
-  //       newColumns[el.column] = el.column;
-  //     });
-  //     return newColumns;
-  //   }
-  // });
+  const { data, isLoading } = useSWR("/api/getTasks", tasksFetcher, {
+    fallbackData: tasks,
+    revalidateOnMount: true,
+  });
 
-  // const initialBoardSections = initializeBoard( columns);
+  const { data: columnsData } = useSWR("/api/getColumns", columnsFetcher, {
+    fallbackData: initColumns,
+    revalidateOnMount: true,
+  });
+
   const [boardSections, setBoardSections] = useState({});
 
-  useEffect(() => {
-    if (!data) {
-      revalidate();
-    } else if (!columnsData) {
-      revalidate();
-    } else {
-      let newColumns = {};
-      columnsData?.forEach((el) => {
-        newColumns[el.column] = el.column;
-      });
-      const initialBoardSections = initializeBoard(data, newColumns);
-      setBoardSections(initialBoardSections);
-    }
-  }, [data, columnsData]);
+  let newColumns = {};
+  columnsData.forEach((el) => {
+    newColumns[el.column] = el.column;
+  });
 
-  console.log(boardSections);
+  useEffect(() => {
+    let newColumns = {};
+    columnsData.forEach((el) => {
+      newColumns[el.column] = el.column;
+    });
+    const initialBoardSections = initializeBoard(data, newColumns);
+    setBoardSections(initialBoardSections);
+  }, [data, columnsData]);
 
   const [activeId, setActiveId] = useState(null);
 
@@ -212,6 +215,22 @@ export default function Board({ uid, tasks, boardId, initColumns }) {
   };
 
   const task = tasks.find((el) => el.id === activeId);
+
+  if (!data) {
+    return (
+      <div className="flex w-full justify-center items-center h-screen">
+        <Spinner />
+      </div>
+    );
+  }
+
+  if (!columnsData) {
+    return (
+      <div className="flex w-full justify-center items-center h-screen">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <DndContext
