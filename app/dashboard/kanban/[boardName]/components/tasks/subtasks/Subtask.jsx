@@ -1,23 +1,19 @@
 import { useState } from "react";
+import { useMutation } from "../../../../../../../utils/fetcher";
 
-export default function Subtask({ task, taskId, boardId, uid }) {
-  const [done, setDone] = useState(task.done);
+export default function Subtask({ subtask, taskId, boardId, uid }) {
+  const [done, setDone] = useState(subtask.done);
+  const changeSubtask = useMutation("/api/changeSubtask");
   const handleChange = async (e) => {
     let done = e.target.checked;
     setDone(done);
-    return await fetch("/api/changeSubtask", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id: task.id,
-        title: task.title,
-        done: done,
-        taskId,
-        boardId,
-        uid,
-      }),
+    await changeSubtask({
+      id: subtask.id,
+      title: subtask.title,
+      done: done,
+      taskId,
+      boardId,
+      uid,
     });
   };
   return (
@@ -39,7 +35,7 @@ export default function Subtask({ task, taskId, boardId, uid }) {
             (done ? " line-through" : " ")
           }
         >
-          {task.title}
+          {subtask.title}
         </label>
       </div>
     </>

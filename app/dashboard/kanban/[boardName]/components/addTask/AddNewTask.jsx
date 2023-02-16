@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { Spinner } from "flowbite-react";
 import { useMutation } from "../../../../../../utils/fetcher";
 import { useRouter } from "next/navigation";
-export default function AddNewTask({ boardId, id, status }) {
+export default function AddNewTask({ boardId, uid, status }) {
   const router = useRouter();
   const createTask = useMutation("/api/addNewTask");
   const { isLoading } = useSWR("/api/getTasks");
@@ -14,10 +14,8 @@ export default function AddNewTask({ boardId, id, status }) {
   const [subtask, setSubtask] = useState("");
   const [subtasks, setSubtasks] = useState([]);
   const [showSubtaskInput, setShowSubtaskInput] = useState(false);
-  const [isPending, startTransition] = useTransition();
   const [isFetching, setIsFetching] = useState(false);
 
-  const isMutating = isFetching || isPending;
   const handleShowSubtaskInput = () => {
     setShowSubtaskInput((prev) => !prev);
   };
@@ -45,39 +43,38 @@ export default function AddNewTask({ boardId, id, status }) {
 
   const onSubmit = async (data) => {
     reset();
-    setIsOpen(false);
 
+    setIsFetching(true);
     await createTask({
       ...data,
       boardId: boardId,
-      id: id,
+      uid: uid,
       status: status,
       subtasks: subtasks,
     });
+    setIsFetching(false);
+
+    setIsOpen(false);
+    setSubtasks([]);
   };
   return (
     <>
-      {isMutating ? (
-        <div className="flex justify-center items-center">
-          <Spinner />
-        </div>
-      ) : (
-        <button
-          onClick={handleOpenModal}
-          className="flex justify-center items-center  text-md text-white mt-3 font-semibold  w-[30px] h-[30px] bg-indigo-600 hover:bg-indigo-700 rounded-full"
+      <button
+        onClick={handleOpenModal}
+        className="flex justify-center items-center  text-md text-white mt-3 font-semibold  w-[30px] h-[30px] bg-indigo-600 hover:bg-indigo-700 rounded-full"
+      >
+        <svg
+          fill="#fff"
+          width="25px"
+          height="25px"
+          viewBox="0 0 22 22"
+          xmlns="http://www.w3.org/2000/svg"
+          id="memory-plus"
         >
-          <svg
-            fill="#fff"
-            width="25px"
-            height="25px"
-            viewBox="0 0 22 22"
-            xmlns="http://www.w3.org/2000/svg"
-            id="memory-plus"
-          >
-            <path d="M12 17H10V12H5V10H10V5H12V10H17V12H12Z" />
-          </svg>
-        </button>
-      )}
+          <path d="M12 17H10V12H5V10H10V5H12V10H17V12H12Z" />
+        </svg>
+      </button>
+
       <div
         className={
           "fixed top-0 left-0 right-0 z-50 flex justify-center items-center bg-black bg-opacity-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0  md:h-screen" +
@@ -228,7 +225,7 @@ export default function AddNewTask({ boardId, id, status }) {
                     type="submit"
                     className="bg-indigo-600 hover:bg-indigo-700 text-white text-lg font-semibold py-2 px-10 rounded-lg"
                   >
-                    Add
+                    {isFetching ? "Adding..." : "Add"}
                   </button>
                 </div>
               </form>

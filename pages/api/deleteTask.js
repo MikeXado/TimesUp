@@ -4,6 +4,7 @@ export default async function handler(req, res) {
   const data = req.body;
 
   try {
+    console.log(data);
     await deleteTask(data);
     res.status(200).json({ message: "task deleted" });
   } catch (err) {
