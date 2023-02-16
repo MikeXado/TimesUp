@@ -1,6 +1,6 @@
 import Subtask from "./subtasks/Subtask";
 import useSWR, { useSWRConfig } from "swr";
-export default function PreviewTask({ isOpen, setIsOpen, task, uid }) {
+export default function PreviewTask({ isOpen, setIsOpen, task }) {
   const { cache } = useSWRConfig();
   const data = cache.get(`/api/getSubtasks/subtasks/${task.id}`)?.data;
 
@@ -54,10 +54,10 @@ export default function PreviewTask({ isOpen, setIsOpen, task, uid }) {
                 return (
                   <Subtask
                     key={subtask.id}
-                    task={subtask}
+                    subtask={subtask}
                     taskId={task.id}
                     boardId={task.boardId}
-                    uid={uid}
+                    uid={task.uid}
                   />
                 );
               })}

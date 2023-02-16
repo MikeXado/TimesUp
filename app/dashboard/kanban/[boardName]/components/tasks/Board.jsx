@@ -241,29 +241,23 @@ export default function Board({ uid, tasks, boardId, initColumns }) {
       onDragEnd={handleDragEnd}
       onDragOver={handleDragOver}
     >
-      {isLoading ? (
-        <div className="flex justify-center w-full h-screen items-center">
-          <Spinner />
+      <div className="overflow-y-hidden  overflow-x-scroll">
+        <div className="h-screen pl-2 flex-1 flex flex-nowrap lg:w-[2500px] w-[1920px]">
+          {Object.keys(boardSections).map((column) => {
+            return (
+              <Column
+                key={column}
+                id={uid}
+                tasks={boardSections[column]}
+                column={column}
+                isLoading={isLoading}
+                boardId={boardId}
+              />
+            );
+          })}
+          <AddNewColumn uid={uid} boardId={boardId} />
         </div>
-      ) : (
-        <div className="overflow-y-hidden  overflow-x-scroll">
-          <div className="h-screen pl-2 flex-1 flex flex-nowrap lg:w-[2500px] w-[1920px]">
-            {Object.keys(boardSections).map((column) => {
-              return (
-                <Column
-                  key={column}
-                  id={uid}
-                  tasks={boardSections[column]}
-                  status={column}
-                  isLoading={isLoading}
-                  boardId={boardId}
-                />
-              );
-            })}
-            <AddNewColumn uid={uid} boardId={boardId} />
-          </div>
-        </div>
-      )}
+      </div>
       {/*  */}
       <DragOverlay dropAnimation={dropAnimation}>
         {activeId ? (

@@ -1,20 +1,12 @@
 import { useRouter } from "next/navigation";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useMutation } from "../../../../../../../utils/fetcher";
 import EditTask from "./Edit";
 
-export default function More({
-  isOpen,
-  setIsOpen,
-  taskId,
-  boardId,
-  uid,
-  setIsDeleting,
-  startTransition,
-  task,
-}) {
+export default function More({ isOpen, setIsOpen, task }) {
   const removeTask = useMutation("/api/deleteTask");
   const router = useRouter();
+  const [isDeleting, setIsDeleting] = useState(false);
   const wrapperRef = useRef(null);
   useEffect(() => {
     function handleClickOutside(event) {
@@ -31,11 +23,8 @@ export default function More({
 
   const deleteTask = async () => {
     setIsDeleting(true);
-    removeTask({ taskId, boardId, uid });
+    removeTask({ taskId: task.id, boardId: task.boardId, uid: task.uid });
     setIsDeleting(false);
-    startTransition(() => {
-      router.refresh();
-    });
   };
 
   return (
@@ -50,12 +39,12 @@ export default function More({
         <div>Choose an option</div>
       </div>
       <ul className="py-2 text-sm text-gray-700 dark:text-gray-200 px-4">
-        <EditTask task={task} uid={uid} />
+        <EditTask task={task} />
         <button
           onClick={deleteTask}
           className="bg-red-500 text-white py-2 px-10 flex justify-center w-full rounded-lg"
         >
-          Delete
+          {isDeleting ? "Deleting..." : "Delete"}
         </button>
       </ul>
     </div>
