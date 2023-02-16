@@ -1,15 +1,16 @@
 "use client";
 import useSWR, { useSWRConfig } from "swr";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "../../../../../../../utils/fetcher";
 import { Spinner } from "flowbite-react";
+import EditSubtask from "../subtasks/EditSubtask";
 
-export default function EditTask({ task, uid }) {
+export default function EditTask({ task }) {
   const { cache } = useSWRConfig();
   const dbSubtasks = cache.get(`/api/getSubtasks/subtasks/${task.id}`)?.data;
   const editTask = useMutation("/api/editTask");
-  const editSubtask = useMutation("/api/deleteSubtask");
+  const removeSubtasks = useMutation("/api/deleteSubtask");
   const [isOpen, setIsOpen] = useState(false);
   const { register, handleSubmit, reset } = useForm();
 
@@ -20,40 +21,21 @@ export default function EditTask({ task, uid }) {
   const [subtasks, setSubtasks] = useState(dbSubtasks ? dbSubtasks : []);
   const [showSubtaskInput, setShowSubtaskInput] = useState(false);
 
-  // useEffect(() => {
-  //   setSubtasks(task.subtasks);
-  // }, [task.subtasks]);
+  useEffect(() => {
+    setSubtasks(dbSubtasks);
+  }, [dbSubtasks]);
 
   const handleShowSubtaskInput = () => {
     setShowSubtaskInput((prev) => !prev);
   };
-
   const handleSubtaskInputChange = (e) => {
     setSubtask(e.target.value);
   };
   const handleAddSubtask = () => {
-    setNewSubtasks((prev) => [...prev, { title: subtask, done: false }]);
     setSubtasks((prev) => [...prev, { title: subtask, done: false }]);
+    setNewSubtasks((prev) => [...prev, { title: subtask, done: false }]);
     setSubtask("");
     setShowSubtaskInput(false);
-  };
-
-  const deleteSubtask = async (subtask) => {
-    const newSubs = subtasks.filter((el) => {
-      return el !== subtask;
-    });
-    setSubtasks(newSubs);
-
-    if (subtask.id) {
-      setIsFetching(true);
-      await editSubtask({
-        id: subtask.id,
-        uid: uid,
-        boardId: task.boardId,
-        taskId: task.id,
-      });
-      setIsFetching(false);
-    }
   };
 
   const handleOpenModal = () => {
@@ -61,19 +43,18 @@ export default function EditTask({ task, uid }) {
   };
 
   const onSubmit = async (data) => {
-    reset();
     setIsFetchingEdit(true);
     await editTask({
       ...data,
       boardId: task.boardId,
-      uid: uid,
+      uid: task.uid,
       id: task.id,
       status: task.status,
       subtasks: newSubtasks,
     });
     setIsFetchingEdit(false);
     setIsOpen(false);
-    setSubtasks([]);
+    setNewSubtasks([]);
   };
 
   return (
@@ -165,44 +146,19 @@ export default function EditTask({ task, uid }) {
                     Add subtasks
                   </label>
                   <ul className="max-h-[300px] overflow-y-auto">
-                    {(subtasks || dbSubtasks).map((subtask, index) => {
+                    {subtasks?.map((subtask, index) => {
                       return (
-                        <div key={index} className="relative px-5">
-                          <li className="list-none border w-full border-gray-200 rounded-md py-3 pl-3 mb-3">
-                            {subtask.title}
-                          </li>
-
-                          <button
-                            type="button"
-                            className="bg-gray-200 p-2 rounded-lg absolute right-[26px] top-[7px]"
-                            onClick={() => {
-                              deleteSubtask(subtask);
-                            }}
-                          >
-                            {isFetching ? (
-                              <div className="w-5 h-5">
-                                <Spinner className="w-5 h-5" />
-                              </div>
-                            ) : (
-                              <>
-                                <svg
-                                  aria-hidden="true"
-                                  className="w-5 h-5"
-                                  fill="currentColor"
-                                  viewBox="0 0 20 20"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <path
-                                    fillRule="evenodd"
-                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                    clipRule="evenodd"
-                                  ></path>
-                                </svg>
-                                <span className="sr-only">delete task</span>{" "}
-                              </>
-                            )}
-                          </button>
-                        </div>
+                        <EditSubtask
+                          key={index}
+                          subtask={subtask}
+                          setSubtasks={setSubtasks}
+                          uid={task.uid}
+                          boardId={task.boardId}
+                          taskId={task.id}
+                          subtasks={subtasks}
+                          setNewSubtasks={setNewSubtasks}
+                          newSubtasks={newSubtasks}
+                        />
                       );
                     })}
                   </ul>
@@ -244,7 +200,7 @@ export default function EditTask({ task, uid }) {
                     type="submit"
                     className="bg-indigo-600 hover:bg-indigo-700 text-white text-lg font-semibold py-2 px-10 rounded-lg"
                   >
-                    {isFetchingEdit ? "Editing..." : "Add"}
+                    {isFetchingEdit ? "Editing..." : "Edit"}
                   </button>
                 </div>
               </form>
