@@ -32,7 +32,7 @@ export default function Task({ task }) {
     return subtasks;
   };
 
-  const { data: subtasks, mutate } = useSWR(
+  const { data: subtasks } = useSWR(
     `/api/getSubtasks/subtasks/${task.id}`,
     getSubtasks
   );
@@ -68,7 +68,7 @@ export default function Task({ task }) {
     let allSubtasksLength = subtasks?.length;
     let progress = Math.floor((doneSubtasksLength * 100) / allSubtasksLength);
     setProgress(progress);
-  }, [subtasks, mutate]);
+  }, [subtasks]);
   return (
     <>
       <li

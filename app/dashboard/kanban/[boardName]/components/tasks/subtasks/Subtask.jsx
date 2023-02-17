@@ -1,20 +1,25 @@
 import { useState } from "react";
-import { useMutation } from "../../../../../../../utils/fetcher";
-
+import { mutate } from "swr";
 export default function Subtask({ subtask, taskId, boardId, uid }) {
   const [done, setDone] = useState(subtask.done);
-  const changeSubtask = useMutation("/api/changeSubtask");
   const handleChange = async (e) => {
     let done = e.target.checked;
     setDone(done);
-    await changeSubtask({
-      id: subtask.id,
-      title: subtask.title,
-      done: done,
-      taskId,
-      boardId,
-      uid,
+    await fetch("/api/changeSubtask", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: subtask.id,
+        title: subtask.title,
+        done: done,
+        taskId,
+        boardId,
+        uid,
+      }),
     });
+    mutate(`/api/getSubtasks/subtasks/${taskId}`);
   };
   return (
     <>

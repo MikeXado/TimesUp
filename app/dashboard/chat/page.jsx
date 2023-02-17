@@ -19,7 +19,7 @@ export default async function Messanger() {
       <h1 className="mb-4 text-3xl font-extrabold leading-none tracking-tight text-gray-900 dark:text-white">
         Your messages
       </h1>
-      <AddNewChat users={filteredUsers} currentUserUid={currentUserUid} />
+      <AddNewChat users={filteredUsers} />
     </div>
   );
 }

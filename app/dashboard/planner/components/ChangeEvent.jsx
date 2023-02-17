@@ -1,7 +1,10 @@
+import { memo, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "../../../../utils/fetcher";
+import { UserContext } from "../../contexts/UserProvider";
 
-export default function ChangeEvent({ isOpen, eventId, setIsOpen, day, uid }) {
+export default memo(function ChangeEvent({ isOpen, eventId, setIsOpen, day }) {
+  const uid = useContext(UserContext);
   const changeEvent = useMutation("/api/changeEvent");
 
   const { register, handleSubmit } = useForm();
@@ -151,4 +154,4 @@ export default function ChangeEvent({ isOpen, eventId, setIsOpen, day, uid }) {
       </form>
     </div>
   );
-}
+});

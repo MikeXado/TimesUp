@@ -1,8 +1,10 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import autosize from "autosize";
-export default function MessagesFrom({ id, setHeight, chat, currentUser }) {
+import { UserContext } from "../../../contexts/UserProvider";
+export default function MessagesFrom({ id, setHeight, chat }) {
+  const currentUser = useContext(UserContext);
   const [message, setMessage] = useState("");
   const textareaRef = useRef();
   autosize(textareaRef.current);

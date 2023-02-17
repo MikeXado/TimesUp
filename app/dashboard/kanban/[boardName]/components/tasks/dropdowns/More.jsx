@@ -1,9 +1,9 @@
 import { useRouter } from "next/navigation";
-import { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useMutation } from "../../../../../../../utils/fetcher";
 import EditTask from "./Edit";
 
-export default function More({ isOpen, setIsOpen, task }) {
+export default React.memo(function More({ isOpen, setIsOpen, task }) {
   const removeTask = useMutation("/api/deleteTask");
   const router = useRouter();
   const [isDeleting, setIsDeleting] = useState(false);
@@ -49,4 +49,4 @@ export default function More({ isOpen, setIsOpen, task }) {
       </ul>
     </div>
   );
-}
+});

@@ -1,17 +1,14 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useContext, useRef, useState } from "react";
 import {
   format,
   startOfToday,
-  startOfWeek,
-  endOfWeek,
   endOfMonth,
   add,
   parse,
   eachDayOfInterval,
   startOfMonth,
-  parseISO,
   isSameDay,
 } from "date-fns";
 import {
@@ -33,8 +30,10 @@ import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import useSWR, { mutate } from "swr";
 import { useMutation } from "../../../../utils/fetcher";
 import { Spinner } from "flowbite-react";
-import { id } from "date-fns/locale";
-export default function Calendar({ events, uid }) {
+import { UserContext } from "../../contexts/UserProvider";
+
+export default function Calendar({ events }) {
+  const uid = useContext(UserContext);
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -42,7 +41,6 @@ export default function Calendar({ events, uid }) {
     })
   );
 
-  const changeEvent = useMutation("/api/changeEvent");
   const eventsFetcher = async () => {
     const res = await fetch("/api/getEvents", {
       method: "POST",
@@ -292,14 +290,11 @@ export default function Calendar({ events, uid }) {
                     day={new Date(day)}
                     dayIdx={dayIdx}
                     events={eventsSections[day]}
-                    uid={uid}
                   />
                 );
               })}
             </div>
-            <DragOverlay>
-              {event ? <Event event={event} uid={uid} /> : null}
-            </DragOverlay>
+            <DragOverlay>{event ? <Event event={event} /> : null}</DragOverlay>
           </DndContext>
         </div>
       </div>

@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import { getPreferences } from "../../../../../utils/store/appSlices";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
-export default function PreferencesModal() {
+export default memo(function PreferencesModal() {
   const dispath = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const { register, handleSubmit, getValues, watch } = useForm({
@@ -241,4 +241,4 @@ export default function PreferencesModal() {
       </div>
     </>
   );
-}
+});

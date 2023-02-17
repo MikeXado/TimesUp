@@ -10,11 +10,7 @@ import {
 } from "@dnd-kit/sortable";
 import Event from "./Event";
 import AddEvent from "./AddEvent";
-export default function Day({ day, dayIdx, events, uid }) {
-  const [isPending, startTransition] = useTransition();
-  const [isFetching, setIsFetching] = useState(false);
-
-  const isLoading = isFetching || isPending;
+export default function Day({ day, dayIdx, events }) {
   return (
     <div
       className={
@@ -25,20 +21,14 @@ export default function Day({ day, dayIdx, events, uid }) {
       <span className="mx-2 my-1 text-xs font-bold">
         {format(day, "d MMM")}
       </span>
-
-      {/* {isLoading ? (
-        <div className="flex items-center justify-center w-full h-full">
-          <Spinner />
-        </div>
-      ) : ( */}
       <SortableContext items={events} id={dayIdx}>
         <Droppable dropableName={day}>
           {events.map((event) => {
-            return <Event key={event.id} event={event} day={day} uid={uid} />;
+            return <Event key={event.id} event={event} day={day} />;
           })}
         </Droppable>
       </SortableContext>
-      <AddEvent day={day} uid={uid} />
+      <AddEvent day={day} />
     </div>
   );
 }

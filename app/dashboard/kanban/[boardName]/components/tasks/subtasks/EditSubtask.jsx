@@ -1,6 +1,7 @@
+import { setISOWeekYear } from "date-fns";
 import { Spinner } from "flowbite-react";
 import React, { useState } from "react";
-import { useMutation } from "../../../../../../../utils/fetcher";
+import { mutate } from "swr";
 
 export default function EditSubtask({
   subtask,
@@ -13,29 +14,34 @@ export default function EditSubtask({
   newSubtasks,
 }) {
   const [isFetching, setIsFetching] = useState(false);
-  const removeSubtasks = useMutation("/api/deleteSubtask");
 
   const deleteSubtask = async (subtask) => {
     if (subtask.id) {
       setIsFetching(true);
-      await removeSubtasks({
-        id: subtask.id,
-        uid: uid,
-        boardId: boardId,
-        taskId: taskId,
+      await fetch("/api/deleteSubtask", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: subtask.id,
+          uid: uid,
+          boardId: boardId,
+          taskId: taskId,
+        }),
       });
+      mutate(`/api/getSubtasks/subtasks/${taskId}`);
       setIsFetching(false);
-    } else {
-      const newSubs = subtasks.filter((el) => {
-        return el.title !== subtask.title;
-      });
-
-      const sendingSubtasks = newSubtasks.filter((el) => {
-        return el.title !== subtask.title;
-      });
-      setSubtasks(newSubs);
-      setNewSubtasks(sendingSubtasks);
     }
+    const newSubs = subtasks.filter((el) => {
+      return el.title !== subtask.title;
+    });
+
+    setSubtasks(newSubs);
+    const sendingSubtasks = newSubtasks.filter((el) => {
+      return el.title !== subtask.title;
+    });
+    setNewSubtasks(sendingSubtasks);
   };
 
   return (

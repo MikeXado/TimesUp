@@ -71,13 +71,6 @@ export default function CardProfile({ watch }) {
                 <p className="mb-4 text-lg leading-relaxed text-blueGray-700">
                   {about}
                 </p>
-                <a
-                  href="#pablo"
-                  className="font-normal text-lightBlue-500"
-                  onClick={(e) => e.preventDefault()}
-                >
-                  Show more
-                </a>
               </div>
             </div>
           </div>
