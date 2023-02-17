@@ -1,8 +1,10 @@
-import { useState, useTransition } from "react";
+import { useContext, useState, memo } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "../../../../utils/fetcher";
 import { useRouter } from "next/navigation";
-export default function AddEvent({ day, uid }) {
+import { UserContext } from "../../contexts/UserProvider";
+export default memo(function AddEvent({ day }) {
+  const uid = useContext(UserContext);
   const router = useRouter();
   const createEvent = useMutation("/api/addEvent");
   const [isFetching, setIsFetching] = useState(false);
@@ -172,4 +174,4 @@ export default function AddEvent({ day, uid }) {
       </div>
     </>
   );
-}
+});

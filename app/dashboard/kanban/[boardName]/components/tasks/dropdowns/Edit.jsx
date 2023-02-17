@@ -1,21 +1,19 @@
 "use client";
-import useSWR, { useSWRConfig } from "swr";
-import { useEffect, useState } from "react";
+import { useSWRConfig } from "swr";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "../../../../../../../utils/fetcher";
-import { Spinner } from "flowbite-react";
+
 import EditSubtask from "../subtasks/EditSubtask";
 
-export default function EditTask({ task }) {
+export default React.memo(function EditTask({ task }) {
   const { cache } = useSWRConfig();
   const dbSubtasks = cache.get(`/api/getSubtasks/subtasks/${task.id}`)?.data;
   const editTask = useMutation("/api/editTask");
-  const removeSubtasks = useMutation("/api/deleteSubtask");
   const [isOpen, setIsOpen] = useState(false);
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit } = useForm();
 
   const [subtask, setSubtask] = useState("");
-  const [isFetching, setIsFetching] = useState(false);
   const [isFetchingEdit, setIsFetchingEdit] = useState(false);
   const [newSubtasks, setNewSubtasks] = useState([]);
   const [subtasks, setSubtasks] = useState(dbSubtasks ? dbSubtasks : []);
@@ -210,4 +208,4 @@ export default function EditTask({ task }) {
       </div>
     </>
   );
-}
+});

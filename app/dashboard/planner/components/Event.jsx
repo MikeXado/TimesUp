@@ -1,9 +1,9 @@
-import { useDraggable, useDroppable } from "@dnd-kit/core";
-import { useState } from "react";
+import { useDraggable } from "@dnd-kit/core";
+import { useContext, useState } from "react";
 import { CSS } from "@dnd-kit/utilities";
 import Detail from "./Detail";
 import { useSortable } from "@dnd-kit/sortable";
-export default function Event({ event, day, uid }) {
+export default function Event({ event, day }) {
   const { attributes, setNodeRef, listeners, transform } = useDraggable({
     id: event.id,
     data: {
@@ -40,7 +40,6 @@ export default function Event({ event, day, uid }) {
         setIsOpen={setIsOpen}
         day={day}
         event={event}
-        uid={uid}
       />
       <div
         className="absolute right-0 top-0 h-full z-5 "

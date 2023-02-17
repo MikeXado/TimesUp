@@ -1,14 +1,11 @@
 "use client";
-import useSWR, { mutate } from "swr";
-import { useRef, useState, useTransition } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Spinner } from "flowbite-react";
 import { useMutation } from "../../../../../../utils/fetcher";
-import { useRouter } from "next/navigation";
-export default function AddNewTask({ boardId, uid, status }) {
-  const router = useRouter();
+import { UserContext } from "../../../../contexts/UserProvider";
+export default function AddNewTask({ boardId, status }) {
+  const uid = useContext(UserContext);
   const createTask = useMutation("/api/addNewTask");
-  const { isLoading } = useSWR("/api/getTasks");
   const [isOpen, setIsOpen] = useState(false);
   const { register, handleSubmit, reset } = useForm();
   const [subtask, setSubtask] = useState("");

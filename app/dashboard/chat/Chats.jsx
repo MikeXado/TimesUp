@@ -1,13 +1,6 @@
-// import { getAllChats } from "../../../lib/db";
 import Chat from "./Chat";
-// import { cookies } from "next/headers";
 import useSWR from "swr";
 export default function Chats() {
-  // const nextCookies = cookies();
-
-  // const currentUserUid = nextCookies.get("u_i").value;
-  // const chats = await getAllChats(currentUserUid);
-
   const chatFetcher = async () => {
     const res = await fetch("/api/getChats");
     const chats = await res.json();

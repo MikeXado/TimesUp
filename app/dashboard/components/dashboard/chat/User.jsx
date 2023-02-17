@@ -1,12 +1,14 @@
 import { useRouter } from "next/navigation";
+import { useContext } from "react";
+import { UserContext } from "../../../contexts/UserProvider";
 
 export default function User({
   user,
   setIsTyping,
   setIsFetching,
   startTransition,
-  currentUser,
 }) {
+  const currentUser = useContext(UserContext);
   const router = useRouter();
   const handleAddPreferUser = async () => {
     setIsFetching(true);

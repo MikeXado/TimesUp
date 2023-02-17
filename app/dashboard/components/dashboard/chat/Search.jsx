@@ -6,7 +6,7 @@ import { debounce } from "lodash";
 
 const User = dynamic(() => import("./User"));
 const PreferUser = dynamic(() => import("./PreferUser"));
-export default function Search({ filteredUsers, chats, currentUser }) {
+export default function Search({ filteredUsers, chats }) {
   const [isTyping, setIsTyping] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [isFetching, setIsFetching] = useState(false);
@@ -91,7 +91,6 @@ export default function Search({ filteredUsers, chats, currentUser }) {
               setIsTyping={setIsTyping}
               setIsFetching={setIsFetching}
               startTransition={startTransition}
-              currentUser={currentUser}
             />
           );
         })}
@@ -104,9 +103,7 @@ export default function Search({ filteredUsers, chats, currentUser }) {
       ) : (
         <div className="pl-2 pr-2">
           {chats.map((chat) => {
-            return (
-              <PreferUser key={chat.id} chat={chat} currentUser={currentUser} />
-            );
+            return <PreferUser key={chat.id} chat={chat} />;
           })}
         </div>
       )}

@@ -1,6 +1,7 @@
 import Subtask from "./subtasks/Subtask";
 import useSWR, { useSWRConfig } from "swr";
-export default function PreviewTask({ isOpen, setIsOpen, task }) {
+import React from "react";
+export default React.memo(function PreviewTask({ isOpen, setIsOpen, task }) {
   const { cache } = useSWRConfig();
   const data = cache.get(`/api/getSubtasks/subtasks/${task.id}`)?.data;
 
@@ -67,4 +68,4 @@ export default function PreviewTask({ isOpen, setIsOpen, task }) {
       </div>
     </div>
   );
-}
+});

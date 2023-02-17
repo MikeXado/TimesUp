@@ -1,9 +1,12 @@
 "use client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useContext } from "react";
 import { revalidate } from "../components/dashboard/SwrConfig";
+import { UserContext } from "../contexts/UserProvider";
 
-export default function User({ user, currentUser }) {
+export default function User({ user }) {
+  const currentUser = useContext(UserContext);
   const router = useRouter();
   const handleCreateChatDb = async () => {
     const combinedUid = await fetch("/api/createChatDb", {

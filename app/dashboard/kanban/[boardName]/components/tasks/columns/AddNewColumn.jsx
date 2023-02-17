@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useMutation } from "../../../../../../../utils/fetcher";
-
-export default function AddNewColumn({ uid, boardId }) {
-  const createColumn = useMutation("/api/addColumn");
+import React from "react";
+import { mutate } from "swr";
+import { UserContext } from "../../../../../contexts/UserProvider";
+export default React.memo(function AddNewColumn({ boardId }) {
+  const uid = useContext(UserContext);
   const [isOpenInput, setIsOpenInput] = useState(false);
 
   const { register, handleSubmit, reset } = useForm();
@@ -13,11 +14,18 @@ export default function AddNewColumn({ uid, boardId }) {
   };
 
   const sendData = async (data) => {
-    await createColumn({
-      column: data.column,
-      uid: uid,
-      boardId: boardId,
+    await fetch("/api/addColumn", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        column: data.column,
+        uid: uid,
+        boardId: boardId,
+      }),
     });
+    mutate("/api/getColumns");
     reset();
   };
 
@@ -61,4 +69,4 @@ export default function AddNewColumn({ uid, boardId }) {
       </div>
     </div>
   );
-}
+});

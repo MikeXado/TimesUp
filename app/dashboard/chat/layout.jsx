@@ -3,7 +3,6 @@
 import Link from "next/link";
 import Chats from "./Chats";
 import { useState } from "react";
-import ChatsWrapper from "./ChatsWrapper";
 export default function Layout({ children }) {
   const [collapseShow, setCollapseShow] = useState("hidden");
 

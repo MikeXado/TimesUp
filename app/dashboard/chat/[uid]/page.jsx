@@ -20,12 +20,7 @@ export default async function PrivateChat({ params: { uid } }) {
         }
       />
       <div className="">
-        <Message
-          id={uid}
-          uid={currentUserUid}
-          chatMembers={chat.members}
-          chatData={data}
-        />
+        <Message id={uid} chatMembers={chat.members} chatData={data} />
       </div>
     </div>
   );

@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
 import { Spinner } from "flowbite-react";
-export default function PreferUser({ chat, currentUser }) {
+import { UserContext } from "../../../contexts/UserProvider";
+export default function PreferUser({ chat }) {
+  const currentUser = useContext(UserContext);
   const router = useRouter();
-  const [user, setUser] = useState({});
   const handleCreateChatDb = () => {
     router.push(`/dashboard/chat/${chat.id}`);
   };
