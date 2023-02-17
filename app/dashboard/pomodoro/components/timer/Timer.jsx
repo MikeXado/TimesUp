@@ -4,10 +4,12 @@ import { getTime, startOfToday, parseISO, isSameDay } from "date-fns";
 import useSound from "use-sound";
 import timesUpSfx from "../../../../../public/sounds/timesUp.mp3";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Controls from "../controls/Controls";
-export default function Timer({ currentUserUid, pomodoros }) {
+import { UserContext } from "../../../contexts/UserProvider";
+export default function Timer({ pomodoros }) {
+  const currentUserUid = useContext(UserContext);
   const { pomo, long, short, untilLong, sound } = useSelector(
     (state) => state.preferences
   );

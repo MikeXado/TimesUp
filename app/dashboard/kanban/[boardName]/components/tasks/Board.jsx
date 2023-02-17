@@ -5,35 +5,27 @@ import {
   DragOverlay,
   useSensor,
   useSensors,
-  PointerSensor,
-  KeyboardSensor,
   defaultDropAnimation,
   MouseSensor,
   TouchSensor,
 } from "@dnd-kit/core";
-import { sortableKeyboardCoordinates, arrayMove } from "@dnd-kit/sortable";
-import {
-  Suspense,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { arrayMove } from "@dnd-kit/sortable";
+import { useContext, useEffect, useMemo, useState } from "react";
 import Column from "./Columns";
 import Task from "./Task";
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 import {
   findBoardSectionContainer,
   initializeBoard,
 } from "../../../../../../utils/board";
 import AddNewColumn from "./columns/AddNewColumn";
 import { Spinner } from "flowbite-react";
-import { revalidate } from "../../../../../Providers";
 import { useMutation } from "../../../../../../utils/fetcher";
-// import { tasksFetcher } from "../../../../../../utils/swr/kanbanTasks";
+import { UserContext } from "../../../../contexts/UserProvider";
 
-export default function Board({ uid, tasks, boardId, initColumns }) {
+export default function Board({ tasks, boardId, initColumns }) {
+  const uid = useContext(UserContext);
+
   const editTask = useMutation("/api/editTask");
   const tasksFetcher = async () => {
     const res = await fetch("/api/getTasks", {
@@ -60,37 +52,38 @@ export default function Board({ uid, tasks, boardId, initColumns }) {
     return columns;
   };
 
-  const hasMounted = useRef(false);
-  useEffect(() => {
-    hasMounted.current = true;
-    mutate();
-  }, []);
+  const { data, isLoading: tasksLoading } = useSWR(
+    "/api/getTasks",
+    tasksFetcher,
+    {
+      fallbackData: tasks,
+      revalidateOnMount: true,
+    }
+  );
 
-  const { data, isLoading } = useSWR("/api/getTasks", tasksFetcher, {
-    fallbackData: tasks,
-    revalidateOnMount: true,
-  });
-
-  const { data: columnsData } = useSWR("/api/getColumns", columnsFetcher, {
-    fallbackData: initColumns,
-    revalidateOnMount: true,
-  });
+  const { data: columnsData, isLoading: columnsLoading } = useSWR(
+    "/api/getColumns",
+    columnsFetcher,
+    {
+      fallbackData: initColumns,
+      revalidateOnMount: true,
+    }
+  );
 
   const [boardSections, setBoardSections] = useState({});
 
-  let newColumns = {};
-  columnsData.forEach((el) => {
-    newColumns[el.column] = el.column;
-  });
-
-  useEffect(() => {
+  let newColumns = useMemo(() => {
     let newColumns = {};
     columnsData.forEach((el) => {
       newColumns[el.column] = el.column;
     });
+    return newColumns;
+  }, [columnsData]);
+
+  useEffect(() => {
     const initialBoardSections = initializeBoard(data, newColumns);
     setBoardSections(initialBoardSections);
-  }, [data, columnsData]);
+  }, [data, newColumns]);
 
   const [activeId, setActiveId] = useState(null);
 
@@ -151,21 +144,6 @@ export default function Board({ uid, tasks, boardId, initColumns }) {
         ],
       };
     });
-
-    // return await fetch("/api/editTask", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     boardId: task.boardId,
-    //     description: task.description,
-    //     id: task.id,
-    //     status: overId,
-    //     title: task.title,
-    //     uid: uid,
-    //   }),
-    // });
     await editTask({
       boardId: task.boardId,
       description: task.description,
@@ -216,7 +194,7 @@ export default function Board({ uid, tasks, boardId, initColumns }) {
 
   const task = tasks.find((el) => el.id === activeId);
 
-  if (!data) {
+  if (tasksLoading) {
     return (
       <div className="flex w-full justify-center items-center h-screen">
         <Spinner />
@@ -224,7 +202,7 @@ export default function Board({ uid, tasks, boardId, initColumns }) {
     );
   }
 
-  if (!columnsData) {
+  if (columnsLoading) {
     return (
       <div className="flex w-full justify-center items-center h-screen">
         <Spinner />
@@ -247,21 +225,19 @@ export default function Board({ uid, tasks, boardId, initColumns }) {
             return (
               <Column
                 key={column}
-                id={uid}
                 tasks={boardSections[column]}
                 column={column}
-                isLoading={isLoading}
                 boardId={boardId}
               />
             );
           })}
-          <AddNewColumn uid={uid} boardId={boardId} />
+          <AddNewColumn boardId={boardId} />
         </div>
       </div>
       {/*  */}
       <DragOverlay dropAnimation={dropAnimation}>
         {activeId ? (
-          <Task uid={uid} boardId={boardId} taskId={activeId} task={task} />
+          <Task boardId={boardId} taskId={activeId} task={task} />
         ) : null}
       </DragOverlay>
     </DndContext>

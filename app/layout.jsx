@@ -1,5 +1,5 @@
 import "../styles/globals.css";
-import Providers from "./Providers";
+
 function RootLayout({ children }) {
   return (
     <html>
@@ -9,9 +9,7 @@ function RootLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </head>
-      <body className="bg-[#F2F6FE]">
-        <Providers>{children}</Providers>
-      </body>
+      <body className="bg-[#F2F6FE]">{children}</body>
     </html>
   );
 }

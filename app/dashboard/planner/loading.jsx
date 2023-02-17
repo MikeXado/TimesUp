@@ -1,3 +1,9 @@
+"use client";
+import { Spinner } from "flowbite-react";
 export default function Loading() {
-  return <div>Loading...</div>;
+  return (
+    <div className="flex w-full lg:h-screen justify-center items-center">
+      <Spinner />
+    </div>
+  );
 }

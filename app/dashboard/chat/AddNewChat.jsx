@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
-import { Button, Modal } from "flowbite-react";
+import React, { memo, useEffect, useMemo, useState } from "react";
+import { Modal } from "flowbite-react";
 import User from "./User";
 import { debounce } from "lodash";
-export default function AddNewChat({ users, currentUserUid }) {
+export default function AddNewChat({ users }) {
   const [search, setSearch] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const onOpen = () => {
@@ -40,6 +40,7 @@ export default function AddNewChat({ users, currentUserUid }) {
       >
         Send Message
       </button>
+
       <Modal show={isOpen} size="lg" popup={true} onClose={onOpen}>
         <Modal.Header />
         <Modal.Body>
@@ -84,13 +85,7 @@ export default function AddNewChat({ users, currentUserUid }) {
             </div>
             <ul className="mt-5">
               {filteredUsers.map((user) => {
-                return (
-                  <User
-                    key={user.id}
-                    user={user}
-                    currentUser={currentUserUid}
-                  />
-                );
+                return <User key={user.id} user={user} />;
               })}
             </ul>
           </div>

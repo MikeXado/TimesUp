@@ -1,9 +1,9 @@
-import AddNewBoard from "./components/boards/addNewBoard";
-
 import KanbanBoards from "./components/sidebar/KanbanBoards";
 import { cookies } from "next/headers";
 import Sidebar from "./components/sidebar/sidebar";
+import dynamic from "next/dynamic";
 
+const AddNewBoard = dynamic(() => import("./components/boards/addNewBoard"));
 export default function KanbanLayout({ children }) {
   const nextCookie = cookies();
   const id = nextCookie.get("u_i").value;

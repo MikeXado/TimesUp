@@ -5,6 +5,8 @@ import { getSpecificUser } from "../../lib/db";
 import Navbar from "./components/dashboard/navbar/Navbar";
 import Sidebar from "./components/dashboard/sidebar/Sidebar";
 import SwrConfig from "./components/dashboard/SwrConfig";
+import ReduxProvider from "./contexts/ReduxProvider";
+import UserProvider from "./contexts/UserProvider";
 export default async function layout({ children }) {
   const nextCookies = cookies();
 
@@ -20,8 +22,11 @@ export default async function layout({ children }) {
         {/* Header */}
         {/* <HeaderStats /> */}
         <div className="mx-auto w-full lg:pt-0">
-          <SwrConfig>{children}</SwrConfig>
-
+          <ReduxProvider>
+            <UserProvider uid={currentUserUid}>
+              <SwrConfig>{children}</SwrConfig>
+            </UserProvider>
+          </ReduxProvider>
           {/* <FooterAdmin /> */}
         </div>
       </div>

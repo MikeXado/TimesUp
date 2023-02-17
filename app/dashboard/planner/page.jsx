@@ -1,7 +1,6 @@
 import { getEvents } from "../../../lib/db";
 import Calendar from "./components/Calendar";
 import { cookies } from "next/headers";
-import { Suspense } from "react";
 
 export default async function Planner() {
   const nextCookies = cookies();
@@ -10,9 +9,5 @@ export default async function Planner() {
 
   const events = await getEvents(currentUserUid);
 
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <Calendar events={events} uid={currentUserUid} />
-    </Suspense>
-  );
+  return <Calendar events={events} />;
 }
