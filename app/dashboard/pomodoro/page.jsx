@@ -19,7 +19,7 @@ export default async function Pomodoro({ searchParams: { status } }) {
       }
     >
       <Status />
-      <Timer currentUserUid={currentUserUid} pomodoros={pomodoros} />
+      <Timer pomodoros={pomodoros} />
     </div>
   );
 }

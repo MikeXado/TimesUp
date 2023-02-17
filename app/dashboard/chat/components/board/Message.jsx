@@ -1,10 +1,12 @@
 "use client";
 
 import MessagesFrom from "./MessagesForm";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import { clientPusher } from "../../../../../pusher";
+import { UserContext } from "../../../contexts/UserProvider";
 
-export default function Message({ id, uid, chatMembers, chatData }) {
+export default function Message({ id, chatMembers, chatData }) {
+  const uid = useContext(UserContext);
   const [height, setHeight] = useState(50);
 
   const [messages, setMessages] = useState(chatData);
@@ -99,12 +101,7 @@ export default function Message({ id, uid, chatMembers, chatData }) {
           </div>
         </>
       )}
-      <MessagesFrom
-        id={id}
-        currentUser={uid}
-        setHeight={setHeight}
-        chat={chatMembers}
-      />
+      <MessagesFrom id={id} setHeight={setHeight} chat={chatMembers} />
     </div>
   );
 }

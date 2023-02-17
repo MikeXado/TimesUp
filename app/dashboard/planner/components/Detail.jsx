@@ -1,13 +1,12 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import ChangeEvent from "./ChangeEvent";
 import DetailPopup from "./DetailPopup";
-export default function Detail({
+export default memo(function Detail({
   isOpen,
   eventId,
   setIsOpen,
   day,
   event,
-  uid,
 }) {
   const [isChangeOpen, setIsChangeOpen] = useState(false);
 
@@ -19,7 +18,6 @@ export default function Detail({
           eventId={eventId}
           setIsOpen={setIsChangeOpen}
           day={day}
-          uid={uid}
         />
       ) : (
         <DetailPopup
@@ -31,4 +29,4 @@ export default function Detail({
       )}
     </>
   );
-}
+});

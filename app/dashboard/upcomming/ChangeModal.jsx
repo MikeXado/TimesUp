@@ -1,9 +1,11 @@
 import { Modal, Button, TextInput, Label, Textarea } from "flowbite-react";
-import React, { useState } from "react";
+import React, { memo, useContext, useState } from "react";
 
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-export default function PopUp({ setIsFetching, startTransition, uid }) {
+import { UserContext } from "../contexts/UserProvider";
+export default memo(function PopUp({ setIsFetching, startTransition }) {
+  const uid = useContext(UserContext);
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const { register, handleSubmit } = useForm();
@@ -92,4 +94,4 @@ export default function PopUp({ setIsFetching, startTransition, uid }) {
       </Modal>
     </React.Fragment>
   );
-}
+});

@@ -11,7 +11,7 @@ export default async function Sessions() {
 
   return (
     <div className="mt-24 px-5">
-      <TableSessions sessions={sessions} uid={currentUserUid} />
+      <TableSessions sessions={sessions} />
     </div>
   );
 }
