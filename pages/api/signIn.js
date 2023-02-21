@@ -1,7 +1,6 @@
 import { signIn } from "../../lib/firebase";
 import { serialize } from "cookie";
 import { getSessionToken } from "../../lib/firebase";
-import { addCurrentUser } from "../../lib/db";
 export default async function handler(req, res) {
   let { password, email } = req.body;
 
