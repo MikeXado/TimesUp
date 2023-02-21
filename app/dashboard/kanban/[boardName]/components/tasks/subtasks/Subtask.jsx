@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { mutate } from "swr";
-export default function Subtask({ subtask, taskId, boardId, uid }) {
+export default function Subtask({ subtask, task }) {
   const [done, setDone] = useState(subtask.done);
+
   const handleChange = async (e) => {
     let done = e.target.checked;
     setDone(done);
@@ -14,12 +15,12 @@ export default function Subtask({ subtask, taskId, boardId, uid }) {
         id: subtask.id,
         title: subtask.title,
         done: done,
-        taskId,
-        boardId,
-        uid,
+        taskId: task.id,
+        boardId: task.boardId,
+        uid: task.uid,
       }),
     });
-    mutate(`/api/getSubtasks/subtasks/${taskId}`);
+    mutate(`/api/getSubtasks/subtasks/${task.id}`);
   };
   return (
     <>
@@ -36,7 +37,7 @@ export default function Subtask({ subtask, taskId, boardId, uid }) {
         <label
           htmlFor="done"
           className={
-            "ml-2 text-sm font-medium text-gray-900 dark:text-gray-300" +
+            "ml-2 text-sm font-medium text-white " +
             (done ? " line-through" : " ")
           }
         >

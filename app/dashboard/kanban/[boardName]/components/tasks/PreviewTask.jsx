@@ -11,14 +11,14 @@ export default React.memo(function PreviewTask({ isOpen, setIsOpen, task }) {
   return (
     <div
       className={
-        "fixed top-0 left-0 right-0 z-50 flex justify-center items-center bg-black bg-opacity-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0  md:h-screen" +
+        "fixed top-0 left-0 right-0 z-50 flex justify-center items-center bg-black bg-opacity-30  w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0  md:h-screen" +
         (isOpen ? " " : " hidden")
       }
     >
       <div className="relative w-full h-full max-w-md md:h-auto">
-        <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <div className="relative bg-[#192555] rounded-lg shadow ">
           <button
-            className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+            className="absolute top-3 right-2.5 text-white bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
             onClick={handleOpenModal}
           >
             <svg
@@ -37,14 +37,14 @@ export default React.memo(function PreviewTask({ isOpen, setIsOpen, task }) {
             <span className="sr-only">Close modal</span>
           </button>
 
-          <div className="px-6 py-4 border-b rounded-t dark:border-gray-600">
-            <h3 className="text-base font-semibold text-gray-900 lg:text-xl dark:text-white">
+          <div className="px-6 py-4 border-b rounded-t ">
+            <h3 className="text-base font-semibold text-white lg:text-xl ">
               {task.title}
             </h3>
           </div>
 
-          <div className="p-6 pt-1">
-            <div className="mb-1 text-md font-medium text-gray-900 dark:text-white">
+          <div className="p-6 pt-1 text-[#cbcdd7]">
+            <div className="mb-1 text-md font-medium text-white ">
               Description
             </div>
             {task.description}
@@ -53,13 +53,7 @@ export default React.memo(function PreviewTask({ isOpen, setIsOpen, task }) {
             <>
               {data?.map((subtask) => {
                 return (
-                  <Subtask
-                    key={subtask.id}
-                    subtask={subtask}
-                    taskId={task.id}
-                    boardId={task.boardId}
-                    uid={task.uid}
-                  />
+                  <Subtask key={subtask.id} subtask={subtask} task={task} />
                 );
               })}
             </>

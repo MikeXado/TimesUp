@@ -42,7 +42,7 @@ export default function PreferUser({ chat }) {
       ) : (
         <button
           onClick={handleCreateChatDb}
-          className="flex  w-full justify-start text-start text-gray-700 hover:text-indigo-500 hover:bg-indigo-100 rounded-md  py-2 my-2"
+          className="flex  w-full justify-start text-start text-white hover:text-white hover:bg-[#192555] rounded-md  py-2 my-2"
         >
           <span className="bg-indigo-500 h-2 w-2 m-2 rounded-full"></span>
           <div className="flex-grow font-medium px-2">{data?.displayName}</div>
