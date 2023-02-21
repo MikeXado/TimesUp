@@ -49,6 +49,7 @@ export default React.memo(function EditTask({ task }) {
       id: task.id,
       status: task.status,
       subtasks: newSubtasks,
+      progress: task.progress,
     });
     setIsFetchingEdit(false);
     setIsOpen(false);

@@ -14,8 +14,8 @@ export default async function Chat() {
   const chats = await getAllChats(currentUserUid);
 
   return (
-    <div className="relative flex flex-col min-w-0 w-full break-words bg-white pb-6  mb-6 shadow-lg rounded">
-      <h1 className="text-2xl font-bold pl-5 pt-5">Chat</h1>
+    <div className="relative flex flex-col min-w-0 w-full break-words bg-[#111c44]  pb-6  mb-6 shadow-lg rounded">
+      <h1 className="text-2xl font-bold pl-5 pt-5 text-white">Chat</h1>
       <Search filteredUsers={filteredUsers} chats={chats} />
     </div>
   );

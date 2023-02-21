@@ -3,10 +3,14 @@ import { useForm } from "react-hook-form";
 import React from "react";
 import { mutate } from "swr";
 import { UserContext } from "../../../../../contexts/UserProvider";
-export default React.memo(function AddNewColumn({ boardId }) {
+export default React.memo(function AddNewColumn({
+  boardId,
+  setNewWidth,
+  columnsData,
+}) {
   const uid = useContext(UserContext);
   const [isOpenInput, setIsOpenInput] = useState(false);
-
+  const [alreadyExist, setAlreadyExist] = useState(false);
   const { register, handleSubmit, reset } = useForm();
 
   const handleOpen = () => {
@@ -14,6 +18,16 @@ export default React.memo(function AddNewColumn({ boardId }) {
   };
 
   const sendData = async (data) => {
+    let alreadyExist = columnsData.find((el) =>
+      el.column === data.column ? true : false
+    );
+
+    if (alreadyExist) {
+      setAlreadyExist(true);
+      return;
+    }
+
+    setNewWidth(true);
     await fetch("/api/addColumn", {
       method: "POST",
       headers: {
@@ -27,10 +41,12 @@ export default React.memo(function AddNewColumn({ boardId }) {
     });
     mutate("/api/getColumns");
     reset();
+    setNewWidth(false);
+    setAlreadyExist(false);
   };
 
   return (
-    <div className="w-[500px] bg-[#F5F5F5]  mt-3 mr-3 px-4 rounded-lg">
+    <div className="w-[400px] bg-[#F5F5F5] mt-3 mr-3 px-4 rounded-lg">
       <div className="flex flex-col items-center justify-center w-full h-full">
         <button
           onClick={handleOpen}
@@ -43,18 +59,28 @@ export default React.memo(function AddNewColumn({ boardId }) {
         </button>
         <div className={isOpenInput ? " " : " hidden"}>
           <form onSubmit={handleSubmit(sendData)}>
-            <div className="relative w-full flex justify-center items-center">
-              <input
-                className="w-full py-2 px-1 pr-10"
-                placeholder="Enter a column name"
-                {...register("column")}
-              />
-              <button
-                type="submit"
-                className="absolute right-0 bg-blue-500 text-white py-2 px-3"
+            <div>
+              <label
+                className={
+                  "block text-black font-semibold text-md" +
+                  (alreadyExist ? " text-red-500" : " ")
+                }
               >
-                Add
-              </button>
+                {alreadyExist ? "Column already exists!!" : "Enter column name"}
+              </label>
+              <div className="relative w-full flex justify-center items-center">
+                <input
+                  className="w-full py-2 px-1 pr-10"
+                  placeholder="Enter a column name"
+                  {...register("column")}
+                />
+                <button
+                  type="submit"
+                  className="absolute right-0 bg-blue-500 text-white py-2 px-3"
+                >
+                  Add
+                </button>
+              </div>
             </div>
           </form>
           <div>

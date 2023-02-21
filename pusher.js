@@ -4,7 +4,7 @@ import ClientPusher from "pusher-js";
 export const serverPusher = new Pusher({
   appId: process.env.NEXT_PUBLIC_PUSHER_APP_ID,
   key: process.env.NEXT_PUBLIC_PUSHER_KEY,
-  secret: process.env.NEXT_PUBLIC_PUSHER_SECRET,
+  secret: process.env.PUSHER_SECRET,
   cluster: "us2",
 });
 

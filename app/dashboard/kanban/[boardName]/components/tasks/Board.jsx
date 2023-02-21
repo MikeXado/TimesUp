@@ -10,7 +10,14 @@ import {
   TouchSensor,
 } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
-import { useContext, useEffect, useMemo, useState } from "react";
+import {
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import Column from "./Columns";
 import Task from "./Task";
 import useSWR from "swr";
@@ -25,6 +32,12 @@ import { UserContext } from "../../../../contexts/UserProvider";
 
 export default function Board({ tasks, boardId, initColumns }) {
   const uid = useContext(UserContext);
+  const [newWidth, setNewWidth] = useState(false);
+  const boardRef = useRef();
+  const scrollDiv = useRef(null);
+  const [prevWidth, setPrevWidth] = useState(
+    initColumns.length <= 1 ? 100 + "%" : 400 * initColumns.length + "px"
+  );
 
   const editTask = useMutation("/api/editTask");
   const tasksFetcher = async () => {
@@ -69,6 +82,20 @@ export default function Board({ tasks, boardId, initColumns }) {
       revalidateOnMount: true,
     }
   );
+
+  useEffect(() => {
+    if (newWidth) {
+      setPrevWidth(
+        columnsData.length <= 1 ? 100 + "%" : 400 * columnsData.length + "px"
+      );
+      // scrollDiv?.current?.scrollIntoView({
+      //   inline: "end",
+      //   block: "start",
+      //   behavior: "smooth",
+      // });
+      console.log(columnsData);
+    }
+  }, [newWidth, columnsData]);
 
   const [boardSections, setBoardSections] = useState({});
 
@@ -219,8 +246,14 @@ export default function Board({ tasks, boardId, initColumns }) {
       onDragEnd={handleDragEnd}
       onDragOver={handleDragOver}
     >
-      <div className="overflow-y-hidden  overflow-x-scroll">
-        <div className="h-screen pl-2 flex-1 flex flex-nowrap lg:w-[2500px] w-[1920px]">
+      <div className="overflow-y-hidden overflow-x-auto mb-2 ">
+        <div
+          ref={boardRef}
+          className={`pl-2 mb-2 flex-1 flex xl:h-[800px] lg:h-[730px] h-screen`}
+          style={{
+            width: prevWidth,
+          }}
+        >
           {Object.keys(boardSections).map((column) => {
             return (
               <Column
@@ -231,7 +264,13 @@ export default function Board({ tasks, boardId, initColumns }) {
               />
             );
           })}
-          <AddNewColumn boardId={boardId} />
+
+          <AddNewColumn
+            boardId={boardId}
+            setNewWidth={setNewWidth}
+            columnsData={columnsData}
+          />
+          <span ref={scrollDiv}></span>
         </div>
       </div>
       {/*  */}

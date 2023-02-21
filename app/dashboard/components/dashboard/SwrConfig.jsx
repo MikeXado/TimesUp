@@ -33,8 +33,12 @@ function tackQueries(useSWRNext) {
   };
 }
 
+console.log(queries);
+
 export const revalidate = async () => {
-  let promises = [...queries.values()].map((key) => mutate(key));
+  let promises = [...queries.values()].map((key) => {
+    mutate(key);
+  });
 
   return Promise.all(promises);
 };

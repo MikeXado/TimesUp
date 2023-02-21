@@ -9,5 +9,9 @@ export default async function Planner() {
 
   const events = await getEvents(currentUserUid);
 
-  return <Calendar events={events} />;
+  return (
+    <div className="mx-3 mb-3">
+      <Calendar events={events} />
+    </div>
+  );
 }

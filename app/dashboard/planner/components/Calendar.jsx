@@ -222,7 +222,7 @@ export default function Calendar({ events }) {
   }
 
   return (
-    <div className="text-gray-700 mt-24 bg-white w-full">
+    <div className="text-white mt-24 bg-[#111c44] rounded-lg w-full">
       <div className="flex flex-grow w-full h-[calc(100vh-90px)] overflow-auto">
         <div className="flex flex-col flex-grow">
           <div className="flex items-center mt-4  border-b-2 pb-5">
@@ -282,7 +282,7 @@ export default function Calendar({ events }) {
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
           >
-            <div className="grid flex-grow w-full h-auto grid-cols-7 grid-rows-5 gap-px pt-px mt-1 bg-gray-200">
+            <div className="grid flex-grow w-full h-auto grid-cols-7 grid-rows-5 gap-px pt-px mt-1 bg-[#111c44]">
               {Object.keys(eventsSections).map((day, dayIdx) => {
                 return (
                   <Day
