@@ -44,7 +44,7 @@ export default function Search({ filteredUsers, chats }) {
       <form className="pt-5 pl-2 pr-2">
         <label
           htmlFor="default-search"
-          className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+          className="mb-2 text-sm font-medium text-gray-900 sr-only"
         >
           Search
         </label>
@@ -52,7 +52,7 @@ export default function Search({ filteredUsers, chats }) {
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <svg
               aria-hidden="true"
-              className="w-5 h-5 text-gray-500 dark:text-gray-400"
+              className="w-5 h-5 text-white "
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -68,7 +68,7 @@ export default function Search({ filteredUsers, chats }) {
           </div>
           <input
             id="default-search"
-            className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="block w-full p-4 placeholder-white pl-10 text-sm text-white border border-gray-300 rounded-lg bg-[#192555]"
             placeholder="Search users..."
             onChange={debouncedChangeHandler}
             onFocus={handleStartTyping}
@@ -80,7 +80,7 @@ export default function Search({ filteredUsers, chats }) {
         className={
           isTyping === false
             ? "hidden"
-            : " " + " bg-white rounded shadow-2xl py-1 ml-3 mr-3 "
+            : " " + " bg-[#192555] rounded shadow-2xl py-1 ml-3 mr-3 px-2"
         }
       >
         {debouncedUsers.map((user) => {

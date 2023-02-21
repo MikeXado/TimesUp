@@ -24,7 +24,7 @@ export default memo(function ChangeEvent({ isOpen, eventId, setIsOpen, day }) {
     <div
       id="drawer-form"
       className={
-        "fixed z-40 h-screen p-4 overflow-y-auto bg-white border-l-4 w-[500px] max-w-full  transition-transform right-0 top-0 translate-x-full" +
+        "fixed z-40 h-screen p-4 overflow-y-auto bg-[#192555]  w-[500px] max-w-full  transition-transform right-0 top-0 translate-x-full" +
         (isOpen ? " translate-x-0" : "")
       }
       tabIndex="-1"
@@ -32,7 +32,7 @@ export default memo(function ChangeEvent({ isOpen, eventId, setIsOpen, day }) {
     >
       <h5
         id="drawer-label"
-        className="inline-flex items-center mb-6 text-base font-semibold text-gray-500 uppercase dark:text-gray-400"
+        className="inline-flex items-center mb-6 text-base font-semibold text-white uppercase "
       >
         <svg
           className="w-5 h-5 mr-2"
@@ -52,7 +52,7 @@ export default memo(function ChangeEvent({ isOpen, eventId, setIsOpen, day }) {
       <button
         onClick={onOpen}
         type="button"
-        className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+        className="text-white bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
       >
         <svg
           aria-hidden="true"
@@ -73,14 +73,14 @@ export default memo(function ChangeEvent({ isOpen, eventId, setIsOpen, day }) {
         <div className="mb-6">
           <label
             htmlFor="title"
-            className="block mb-2 text-sm font-medium text-gray-900 "
+            className="block mb-2 text-sm font-medium text-white "
           >
             Title
           </label>
           <input
             type="text"
             id="title"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full p-2.5"
+            className="bg-[#111c44] border-none placeholder-gray-300 text-white text-sm rounded-lg focus:ring-blue-900 focus:border-blue-900 block w-full p-2.5"
             placeholder="SCRUM Meeting"
             {...register("title", { required: true })}
             required
@@ -90,13 +90,14 @@ export default memo(function ChangeEvent({ isOpen, eventId, setIsOpen, day }) {
           <div>
             <label
               htmlFor="startTime"
-              className="block mb-2 text-sm font-medium text-gray-900 "
+              className="block mb-2 text-sm font-medium text-white "
             >
               Start time
             </label>
             <input
               id="startTime"
               type="time"
+              className="bg-[#111c44] text-white border-none rounded-lg"
               {...register("startTime", { required: true })}
             />
             <span className="font-bold text-lg ml-2 mr-2">-</span>
@@ -105,13 +106,14 @@ export default memo(function ChangeEvent({ isOpen, eventId, setIsOpen, day }) {
           <div>
             <label
               htmlFor="endTime"
-              className="block mb-2 text-sm font-medium text-gray-900 "
+              className="block mb-2 text-sm font-medium text-white "
             >
               Start time
             </label>
             <input
               id="endTime"
               type="time"
+              className="bg-[#111c44] text-white border-none rounded-lg"
               {...register("endTime", { required: true })}
             />
           </div>
@@ -119,14 +121,14 @@ export default memo(function ChangeEvent({ isOpen, eventId, setIsOpen, day }) {
         <div className="mb-6">
           <label
             htmlFor="description"
-            className="block mb-2 text-sm font-medium text-gray-900 "
+            className="block mb-2 text-sm font-medium text-white "
           >
             Description
           </label>
           <textarea
             id="description"
             rows="8"
-            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-indigo-600 focus:border-indigo-600 "
+            className="block p-2.5 w-full text-sm placeholder-gray-300 text-white bg-[#111c44] rounded-lg border-none focus:ring-blue-900  focus:border-blue-900"
             placeholder="Write event description..."
             {...register("description")}
           ></textarea>
@@ -134,7 +136,7 @@ export default memo(function ChangeEvent({ isOpen, eventId, setIsOpen, day }) {
 
         <button
           type="submit"
-          className="text-white justify-center flex items-center bg-indigo-600 hover:bg-indigo-700 w-full focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 "
+          className="text-white justify-center flex items-center bg-[#111c44]   w-full focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 "
         >
           <svg
             className="w-5 h-5 mr-2"

@@ -48,6 +48,7 @@ export default function AddNewTask({ boardId, status }) {
       uid: uid,
       status: status,
       subtasks: subtasks,
+      progress: 0,
     });
     setIsFetching(false);
 

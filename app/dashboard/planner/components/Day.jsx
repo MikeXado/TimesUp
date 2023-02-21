@@ -14,7 +14,7 @@ export default function Day({ day, dayIdx, events }) {
   return (
     <div
       className={
-        "relative flex flex-col bg-white group " +
+        "relative flex flex-col bg-[#192555] group " +
         (dayIdx === 0 ? colStartClasses[getDay(day)] : "")
       }
     >

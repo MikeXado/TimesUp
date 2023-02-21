@@ -6,15 +6,17 @@ export default function Board({ board }) {
   const slicePath = pathname.substring("/dashboard/kanban/".length);
 
   return (
-    <Link
-      className={
-        "mb-4 py-2 px-2 rounded-lg hover:bg-indigo-700 hover:text-white " +
-        (slicePath === board.id ? " bg-indigo-700 text-white" : " bg-gray-100")
-      }
-      href={`/dashboard/kanban/${board.id}`}
-      key={board.id}
-    >
-      {board.title}
-    </Link>
+    <li className="flex items-center w-full p-2 text-base font-normal text-[#cbcdd7] transition duration-75 rounded-lg pl-11">
+      <Link
+        className={
+          "w-full py-2 pl-2 rounded-lg hover:bg-[#192555] hover:text-white " +
+          (slicePath === board.id ? " bg-[#192555]  text-[#cbcdd7]" : " ")
+        }
+        href={`/dashboard/kanban/${board.id}`}
+        key={board.id}
+      >
+        {board.title}
+      </Link>
+    </li>
   );
 }

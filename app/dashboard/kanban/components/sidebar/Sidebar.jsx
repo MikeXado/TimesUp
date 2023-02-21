@@ -58,7 +58,7 @@ export default function Sidebar({ children }) {
       {/* Collapse */}
       <div
         className={
-          "lg:flex lg:flex-col lg:items-stretch lg:opacity-100 lg:relative lg:mt-4 lg:shadow-none shadow absolute top-0 left-0 right-0 z-5 overflow-y-auto overflow-x-hidden h-auto items-center flex-1 rounded " +
+          "lg:flex lg:flex-col lg:items-stretch lg:opacity-100 lg:relative lg:mt-4 lg:shadow-none shadow absolute top-0 left-0 right-0 z-5 items-center flex-1 overflow-y-auto h-auto rounded " +
           collapseShow
         }
       >
@@ -96,7 +96,7 @@ export default function Sidebar({ children }) {
         </div>
 
         <h6 className="lg:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
-          Users
+          Boards
         </h6>
 
         {children}

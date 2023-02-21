@@ -1,12 +1,19 @@
 import { Inter } from "@next/font/google";
 import { Spinner } from "flowbite-react";
-import { useEffect, useState, useTransition } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useTransition,
+} from "react";
 import More from "./dropdowns/More";
 import PreviewTask from "./PreviewTask";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useDraggable } from "@dnd-kit/core";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 const inter = Inter({
   display: "swap",
 });
@@ -57,22 +64,29 @@ export default function Task({ task }) {
     setIsOpen((prev) => !prev);
   };
 
+  let doneSubtasks = useMemo(() => {
+    let filteredSubtasks = subtasks?.filter((subtask) => {
+      return subtask.done === true;
+    });
+    return filteredSubtasks;
+  }, [subtasks]);
+
   useEffect(() => {
     if (!subtasks) {
       return;
     }
-    let doneSubtasks = subtasks?.filter((subtask) => {
-      return subtask.done === true;
-    });
     let doneSubtasksLength = doneSubtasks?.length;
     let allSubtasksLength = subtasks?.length;
-    let progress = Math.floor((doneSubtasksLength * 100) / allSubtasksLength);
-    setProgress(progress);
-  }, [subtasks]);
+    let newProgress = Math.floor(
+      (doneSubtasksLength * 100) / allSubtasksLength
+    );
+    setProgress(newProgress);
+  }, [subtasks, doneSubtasks]);
+
   return (
     <>
       <li
-        className="py-3 sm:py-4 mb-5 list-none w-full bg-white shadow-xl rounded-lg px-3"
+        className="py-3 sm:py-4 mb-5 list-none w-full bg-[#192555] shadow-xl rounded-lg px-3"
         style={style}
         ref={setNodeRef}
         {...listeners}
@@ -92,7 +106,7 @@ export default function Task({ task }) {
             >
               <path
                 d="M17.5 4C17.5 4.69223 17.2947 5.36892 16.9101 5.94449C16.5256 6.52007 15.9789 6.96867 15.3394 7.23357C14.6999 7.49848 13.9961 7.56779 13.3172 7.43275C12.6383 7.2977 12.0146 6.96435 11.5251 6.47487C11.0356 5.98539 10.7023 5.36175 10.5673 4.68281C10.4322 4.00388 10.5015 3.30015 10.7664 2.66061C11.0313 2.02107 11.4799 1.47444 12.0555 1.08986C12.6311 0.705271 13.3078 0.5 14 0.5C14.9272 0.503294 15.8156 0.873101 16.4712 1.52877C17.1269 2.18443 17.4967 3.07275 17.5 4ZM4 0.5C3.30777 0.5 2.63108 0.705271 2.05551 1.08986C1.47993 1.47444 1.03133 2.02107 0.766423 2.66061C0.501516 3.30015 0.432205 4.00388 0.567253 4.68281C0.702301 5.36175 1.03564 5.98539 1.52513 6.47487C2.01461 6.96435 2.63825 7.2977 3.31719 7.43275C3.99612 7.56779 4.69985 7.49848 5.33939 7.23357C5.97894 6.96867 6.52556 6.52007 6.91015 5.94449C7.29473 5.36892 7.5 4.69223 7.5 4C7.49671 3.07275 7.1269 2.18443 6.47124 1.52877C5.81557 0.873101 4.92725 0.503294 4 0.5ZM24 0.5C23.3078 0.5 22.6311 0.705271 22.0555 1.08986C21.4799 1.47444 21.0313 2.02107 20.7664 2.66061C20.5015 3.30015 20.4322 4.00388 20.5673 4.68281C20.7023 5.36175 21.0356 5.98539 21.5251 6.47487C22.0146 6.96435 22.6383 7.2977 23.3172 7.43275C23.9961 7.56779 24.6999 7.49848 25.3394 7.23357C25.9789 6.96867 26.5256 6.52007 26.9101 5.94449C27.2947 5.36892 27.5 4.69223 27.5 4C27.4967 3.07275 27.1269 2.18443 26.4712 1.52877C25.8156 0.873101 24.9272 0.503294 24 0.5Z"
-                fill="#000"
+                fill="#fff"
               />
             </svg>
           </button>
@@ -105,23 +119,23 @@ export default function Task({ task }) {
         <div onClick={handleOpenModal}>
           <div
             className={
-              "font-semibold mb-2 text-[#0D062D] cursor-pointer text-lg " +
+              "font-semibold mb-2 text-white cursor-pointer text-lg " +
               inter.className
             }
           >
             {" "}
             {task.title}
           </div>
-          <div className={"text-md text-[#787486] " + inter.className}>
+          <div className={"text-md text-[#cbcdd7] " + inter.className}>
             {task.description}
           </div>
           <div>
             <div className="flex w-full justify-end mb-1">
-              <span className="text-sm font-medium text-indigo-700 dark:text-white">
-                {progress}%
+              <span className="text-sm font-medium text-indigo-600 dark:text-white">
+                {isNaN(progress) ? 0 : progress}%
               </span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+            <div className="w-full bg-[#051139] rounded-full h-2.5 dark:bg-gray-700">
               <div
                 className="bg-indigo-700 h-2.5 rounded-full"
                 style={{ width: progress + "%" }}
