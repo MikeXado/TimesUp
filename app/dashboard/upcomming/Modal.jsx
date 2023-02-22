@@ -4,6 +4,7 @@ import React, { memo, useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { UserContext } from "../contexts/UserProvider";
+import { toast } from "react-toastify";
 export default memo(function PopUp({ setIsFetching, startTransition }) {
   const uid = useContext(UserContext);
   const router = useRouter();
@@ -25,7 +26,7 @@ export default memo(function PopUp({ setIsFetching, startTransition }) {
     }).then((res) => res.json());
 
     setIsFetching(false);
-
+    toast.success("New session added!");
     startTransition(() => {
       router.refresh();
     });

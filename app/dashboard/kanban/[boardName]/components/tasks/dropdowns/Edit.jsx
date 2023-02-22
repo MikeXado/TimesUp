@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "../../../../../../../utils/fetcher";
 
 import EditSubtask from "../subtasks/EditSubtask";
+import { toast } from "react-toastify";
 
 export default React.memo(function EditTask({ task }) {
   const { cache } = useSWRConfig();
@@ -52,6 +53,7 @@ export default React.memo(function EditTask({ task }) {
       progress: task.progress,
     });
     setIsFetchingEdit(false);
+    toast.success("Task edited successfully!");
     setIsOpen(false);
     setNewSubtasks([]);
   };

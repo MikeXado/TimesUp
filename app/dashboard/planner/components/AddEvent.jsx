@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "../../../../utils/fetcher";
 import { useRouter } from "next/navigation";
 import { UserContext } from "../../contexts/UserProvider";
+import { toast } from "react-toastify";
 export default memo(function AddEvent({ day }) {
   const uid = useContext(UserContext);
   const router = useRouter();
@@ -18,6 +19,7 @@ export default memo(function AddEvent({ day }) {
     setIsFetching(true);
     await createEvent({ ...data, date: day, uid: uid });
     setIsFetching(false);
+    toast.success("Event added!");
     setIsOpen(false);
   };
 

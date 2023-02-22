@@ -1,6 +1,7 @@
 "use client";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { useMutation } from "../../../../../../utils/fetcher";
 import { UserContext } from "../../../../contexts/UserProvider";
 export default function AddNewTask({ boardId, status }) {
@@ -51,7 +52,7 @@ export default function AddNewTask({ boardId, status }) {
       progress: 0,
     });
     setIsFetching(false);
-
+    toast.success("Task was created!");
     setIsOpen(false);
     setSubtasks([]);
   };
@@ -80,7 +81,7 @@ export default function AddNewTask({ boardId, status }) {
         }
       >
         <div className="relative w-full h-full max-w-md md:h-auto">
-          <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+          <div className="relative bg-[#111c44] rounded-lg shadow ">
             <button
               className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
               onClick={handleOpenModal}
@@ -101,9 +102,9 @@ export default function AddNewTask({ boardId, status }) {
               <span className="sr-only">Close modal</span>
             </button>
 
-            <div className="px-6 py-4 border-b rounded-t dark:border-gray-600">
-              <h3 className="text-base font-semibold text-gray-900 lg:text-xl dark:text-white">
-                Add New Board
+            <div className="px-6 py-4  rounded-t">
+              <h3 className="text-base font-semibold text-white lg:text-xl ">
+                Add New Task
               </h3>
             </div>
 
@@ -115,14 +116,14 @@ export default function AddNewTask({ boardId, status }) {
                 <div className="mb-6">
                   <label
                     htmlFor="title"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    className="block mb-2 text-md font-medium text-white "
                   >
                     Title
                   </label>
                   <input
                     type="text"
                     id="title"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="bg-[#192555] w-full border-none text-white placeholder-white text-sm rounded-lg focus:ring-[#6e6ae4] focus:border-[#6e6ae4]"
                     placeholder="Dashboard making"
                     {...register("title", { required: true })}
                   />
@@ -131,14 +132,14 @@ export default function AddNewTask({ boardId, status }) {
                 <div className="mb-6">
                   <label
                     htmlFor="description"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    className="block mb-2 text-md font-medium text-white "
                   >
                     Description
                   </label>
                   <input
                     type="text"
                     id="description"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="bg-[#192555] border-none w-full text-white placeholder-white text-sm rounded-lg focus:ring-[#6e6ae4] focus:border-[#6e6ae4]"
                     placeholder="A small tasks during dashboard developing"
                     {...register("description")}
                   />
@@ -146,7 +147,7 @@ export default function AddNewTask({ boardId, status }) {
                 <div className="mb-6">
                   <label
                     htmlFor="subtasks"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    className="block mb-2 text-md font-medium text-white "
                   >
                     Add subtasks
                   </label>
@@ -154,13 +155,13 @@ export default function AddNewTask({ boardId, status }) {
                     {subtasks.map((subtask, index) => {
                       return (
                         <div key={index} className="relative px-5">
-                          <li className="list-none border w-full border-gray-200 rounded-md py-3 pl-3 mb-3">
+                          <li className="list-none w-full text-white  rounded-md py-3 pl-3 mb-3">
                             {subtask}
                           </li>
 
                           <button
                             type="button"
-                            className="bg-gray-200 p-2 rounded-lg absolute right-[26px] top-[7px]"
+                            className="bg-transparent border border-[#6e6ae4] p-2 rounded-lg absolute right-[26px] top-[5.5px]"
                             onClick={() => {
                               deleteSubtask(subtask);
                             }}
@@ -169,7 +170,7 @@ export default function AddNewTask({ boardId, status }) {
                             <svg
                               aria-hidden="true"
                               className="w-5 h-5"
-                              fill="currentColor"
+                              fill="#fff"
                               viewBox="0 0 20 20"
                               xmlns="http://www.w3.org/2000/svg"
                             >
@@ -193,14 +194,14 @@ export default function AddNewTask({ boardId, status }) {
                       id="subtasks"
                       onChange={handleSubtaskInputChange}
                       className={
-                        "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        "bg-[#192555]  border-none text-white text-sm rounded-lg focus:ring-[#6e6ae4] focus:border-[#6e6ae4] block w-full p-2.5 "
                       }
                       value={subtask}
                     />
                     <div className="absolute right-2 top-[6px] z-10">
                       <button
                         type="button"
-                        className="bg-gray-200 py-1 px-3  rounded-lg"
+                        className="bg-[#6e6ae4] text-white py-1 px-3  rounded-lg"
                         onClick={handleAddSubtask}
                       >
                         Add
@@ -210,7 +211,7 @@ export default function AddNewTask({ boardId, status }) {
                   <button
                     type="button"
                     className={
-                      "w-full bg-gray-200 py-2 mt-3 px-10 rounded-lg" +
+                      "w-full bg-[#6e6ae4] text-white py-2 mt-3 px-10 rounded-lg" +
                       (showSubtaskInput ? " hidden" : " ")
                     }
                     onClick={handleShowSubtaskInput}
