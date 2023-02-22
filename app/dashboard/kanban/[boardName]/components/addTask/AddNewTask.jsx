@@ -59,7 +59,7 @@ export default function AddNewTask({ boardId, status }) {
     <>
       <button
         onClick={handleOpenModal}
-        className="flex justify-center items-center  text-md text-white mt-3 font-semibold  w-[30px] h-[30px] bg-indigo-600 hover:bg-indigo-700 rounded-full"
+        className="flex justify-center items-center  text-md text-white mt-3 font-semibold  w-[30px] h-[30px] bg-[#6e6ae4] hover:bg-indigo-700 rounded-full"
       >
         <svg
           fill="#fff"
