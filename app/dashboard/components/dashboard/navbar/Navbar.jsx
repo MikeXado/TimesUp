@@ -64,7 +64,7 @@ export default function Navbar({ currentUser }) {
 
           <button
             onClick={handleOpenSidebar}
-            className="text-gray-500 w-10 h-5 relative focus:outline-none"
+            className="text-gray-500 w-10 h-5 relative focus:outline-none lg:hidden"
           >
             <span className="sr-only">Open main menu</span>
             <div>

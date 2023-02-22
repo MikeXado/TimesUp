@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 
-import { getBoards, getSpecificUser } from "../../lib/db";
+import { getAllChats, getBoards, getSpecificUser } from "../../lib/db";
 
 import Navbar from "./components/dashboard/navbar/Navbar";
 import Sidebar from "./components/dashboard/sidebar/Sidebar";
@@ -17,13 +17,14 @@ export default async function layout({ children }) {
 
   const boards = await getBoards(currentUserUid);
 
+  const chats = await getAllChats(currentUserUid);
   return (
     <>
       <UserProvider uid={currentUserUid}>
         <SwrConfig>
           <ReduxProvider>
             <NavbarProvider>
-              <Sidebar boards={boards} />
+              <Sidebar boards={boards} chats={chats} />
               <div className="relative lg:ml-72 ml-0 overflow-y-auto overflow-x-hidden transform transition duration-500 ease-in-out">
                 <Navbar currentUser={currentUser} />
                 {/* Header */}

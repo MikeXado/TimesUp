@@ -30,7 +30,7 @@ export default function User({ user }) {
     <li className="pb-2">
       <button
         onClick={handleCreateChatDb}
-        className="flex items-center text-base sm:items-center py-1 font-normal text-gray-900 rounded-lg"
+        className="flex items-center w-full pl-2 py-2 text-base sm:items-center font-normal hover:bg-[#192555] text-white rounded-lg "
       >
         <div className="relative flex items-center space-x-2">
           <div className="relative">
@@ -40,8 +40,12 @@ export default function User({ user }) {
               </svg>
             </span>
             <Image
-              src="https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
-              alt=""
+              src={
+                user.photoUrl
+                  ? user.photoUrl
+                  : "https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
+              }
+              alt="avatar"
               width={50}
               height={50}
               className="rounded-full"
@@ -49,7 +53,7 @@ export default function User({ user }) {
           </div>
           <div className="flex flex-col leading-tight">
             <div className="text-lg mt-1 flex items-center">
-              <span className="text-gray-700 mr-3">{user.displayName}</span>
+              <span className="text-white mr-3">{user.displayName}</span>
             </div>
           </div>
         </div>
