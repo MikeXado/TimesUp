@@ -11,7 +11,7 @@ export default function CardProfile({ watch }) {
   const photoUrl = watch("photoUrl");
   return (
     <>
-      <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg mt-5">
+      <div className="relative flex flex-col min-w-0 break-words bg-[#111c44] w-full mb-6 shadow-xl rounded-lg mt-5">
         <div className="px-6">
           <div className="flex flex-wrap justify-center">
             <div className="w-full px-4 flex justify-center">
@@ -49,7 +49,7 @@ export default function CardProfile({ watch }) {
             </div> */}
           </div>
           <div className="text-center mt-32">
-            <h3 className="text-xl font-semibold leading-normal mb-2 text-blueGray-700">
+            <h3 className="text-xl font-semibold leading-normal mb-2 text-white">
               {username}
             </h3>
             <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
@@ -57,7 +57,7 @@ export default function CardProfile({ watch }) {
               {city ? city + "," : ""} {country}
             </div>
             <div className="mb-2 text-blueGray-600 mt-5">
-              <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
+              <i className="fas fa-briefcase mr-2 text-lg text-gray-200"></i>
               {email}
             </div>
             {/* <div className="mb-2 text-blueGray-600">
@@ -68,7 +68,7 @@ export default function CardProfile({ watch }) {
           <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
             <div className="flex flex-wrap justify-center">
               <div className="w-full lg:w-9/12 px-4">
-                <p className="mb-4 text-lg leading-relaxed text-blueGray-700">
+                <p className="mb-4 text-lg leading-relaxed text-white">
                   {about}
                 </p>
               </div>

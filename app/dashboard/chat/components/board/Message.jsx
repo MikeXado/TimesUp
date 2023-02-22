@@ -32,7 +32,7 @@ export default function Message({ id, chatMembers, chatData }) {
   }, [messages]);
 
   return (
-    <div className=" bg-white mt-1 pb-1">
+    <div className="mt-1">
       {messages?.length === 0 || chatData?.length === 0 ? (
         <div
           className="justify-center overflow-y-auto items-center w-full flex flex-col p-3 "
@@ -47,7 +47,7 @@ export default function Message({ id, chatMembers, chatData }) {
       ) : (
         <>
           <div
-            className={`flex flex-col p-3 overflow-y-auto bg-white mt-1`}
+            className={`flex flex-col p-3 overflow-y-auto bg-[#051139] mt-1`}
             style={{
               height: `calc(100vh - ${
                 height < 50 ? 50 : height > 200 ? 200 : height
@@ -72,7 +72,7 @@ export default function Message({ id, chatMembers, chatData }) {
                       <div>
                         <span
                           className={
-                            "px-4 py-2 inline-block bg-indigo-500 break-all text-white" +
+                            "px-4 py-2 inline-block bg-[#6e6ae4] break-all text-white" +
                             (uid === message.uid
                               ? " rounded-l-lg rounded-tr-lg"
                               : " rounded-r-lg rounded-tl-lg")

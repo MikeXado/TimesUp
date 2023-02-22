@@ -36,7 +36,7 @@ export default function MessagesFrom({ id, setHeight, chat }) {
   };
 
   return (
-    <div className="border-t-2 border-gray-200 px-4 pt-4 flex items-center justify-center w-full  sm:mb-0">
+    <div className="bg-[#051139] px-4 pt-4 flex items-center justify-center w-full  sm:mb-0">
       <div className="relative flex w-full">
         <span className="absolute items-center inset-y-0 flex ">
           <button
@@ -47,7 +47,7 @@ export default function MessagesFrom({ id, setHeight, chat }) {
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              stroke="currentColor"
+              stroke="white"
               className="h-6 w-6 text-gray-600"
             >
               <path
@@ -65,7 +65,7 @@ export default function MessagesFrom({ id, setHeight, chat }) {
           ref={textareaRef}
           type="text"
           placeholder="Write your message!"
-          className="w-full resize-none pr-32 h-12 max-h-[200px] focus:outline-none focus:placeholder-gray-400 focus:border-indigo-600 text-gray-600 placeholder-gray-600 pl-12 bg-white rounded-l-md"
+          className="w-full bg-[#111c44] border-none resize-none pr-32 h-12 max-h-[200px] focus:outline-none   focus:ring-[#6e6ae4] focus:border-[#6e6ae4] text-white placeholder-white pl-12  rounded-l-md"
         />
         <div className="absolute right-0 items-center inset-y-0 hidden sm:flex">
           <button
@@ -76,8 +76,8 @@ export default function MessagesFrom({ id, setHeight, chat }) {
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              stroke="currentColor"
-              className="h-6 w-6 text-gray-600"
+              stroke="white"
+              className="h-6 w-6 text-white"
             >
               <path
                 strokeLinecap="round"
@@ -95,8 +95,8 @@ export default function MessagesFrom({ id, setHeight, chat }) {
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              stroke="currentColor"
-              className="h-6 w-6 text-gray-600"
+              stroke="white"
+              className="h-6 w-6 text-white"
             >
               <path
                 strokeLinecap="round"
@@ -120,8 +120,8 @@ export default function MessagesFrom({ id, setHeight, chat }) {
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              stroke="currentColor"
-              className="h-6 w-6 text-gray-600"
+              stroke="white"
+              className="h-6 w-6 text-white"
             >
               <path
                 strokeLinecap="round"
@@ -136,7 +136,7 @@ export default function MessagesFrom({ id, setHeight, chat }) {
       <button
         onClick={addMessage}
         type="button"
-        className="inline-flex items-center  justify-center rounded-r-lg px-4 mr-4 py-3 transition duration-500 ease-in-out text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none"
+        className="inline-flex items-center  justify-center rounded-r-lg px-4 mr-4 py-3 transition duration-500 ease-in-out text-white bg-[#6e6ae4] hover:bg-indigo-700 focus:outline-none"
       >
         <span className="font-bold">Send</span>
         <svg

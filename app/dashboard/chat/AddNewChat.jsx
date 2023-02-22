@@ -36,23 +36,23 @@ export default function AddNewChat({ users }) {
     <React.Fragment>
       <button
         onClick={onOpen}
-        className="bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-10 rounded-lg"
+        className="bg-[#6e6ae4] mt-5  text-white py-3 px-10 rounded-lg"
       >
         Send Message
       </button>
 
       <Modal show={isOpen} size="lg" popup={true} onClose={onOpen}>
-        <Modal.Header />
-        <Modal.Body>
+        <Modal.Header className="bg-[#111c44]" />
+        <Modal.Body className="bg-[#111c44]">
           <div className="space-y-6 px-6 pb-4 sm:pb-6 lg:px-8 xl:pb-8">
-            <h3 className="text-xl text-center font-medium text-gray-900 dark:text-white">
+            <h3 className="text-xl text-center font-medium text-white ">
               Add new message
             </h3>
             <div>
               <form className="pt-5">
                 <label
                   htmlFor="default-search"
-                  className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+                  className="mb-2 text-sm font-medium text-white sr-only"
                 >
                   Search
                 </label>
@@ -60,7 +60,7 @@ export default function AddNewChat({ users }) {
                   <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                     <svg
                       aria-hidden="true"
-                      className="w-5 h-5 text-gray-500 dark:text-gray-400"
+                      className="w-5 h-5 text-white "
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -76,7 +76,7 @@ export default function AddNewChat({ users }) {
                   </div>
                   <input
                     id="default-search"
-                    className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="block w-full p-4 pl-10 text-sm bg-[#192555] placeholder-white text-white border-none  rounded-lg  focus:ring-[#6e6ae4] focus:border-[#6e6ae4] "
                     placeholder="Search users..."
                     onChange={debouncedChangeHandler}
                   />

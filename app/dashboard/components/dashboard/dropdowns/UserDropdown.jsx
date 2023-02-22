@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { current } from "@reduxjs/toolkit";
+import Link from "next/link";
+import { UserContext } from "../../../contexts/UserProvider";
 
 export default function UserDropdown({ currentUser }) {
+  const uid = useContext(UserContext);
   const router = useRouter();
   const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
   const wrapperRef = React.useRef(null);
@@ -56,47 +59,49 @@ export default function UserDropdown({ currentUser }) {
       <div
         ref={wrapperRef}
         className={
-          "z-10 absolute  top-[60px] lg:left-[-95px]  shadow-lg border bg-white divide-y divide-gray-100 rounded-lg  w-44 dark:bg-gray-700 dark:divide-gray-600" +
+          "z-10 absolute  top-[60px] lg:left-[-95px]  shadow-lg  bg-[#111c44] border-none divide-y divide-gray-500 rounded-lg  w-44 " +
           (dropdownPopoverShow ? " " : " hidden")
         }
       >
-        <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
+        <div className="px-4 py-3 text-sm text-white ">
           <div>{currentUser.displayName}</div>
-          <div className="font-medium truncate">{currentUser.email}</div>
+          <div className="font-medium truncate text-gray-300">
+            {currentUser.email}
+          </div>
         </div>
         <ul
-          className="py-2 text-sm text-gray-700 dark:text-gray-200"
+          className="py-2 text-sm text-white "
           aria-labelledby="dropdownUserAvatarButton"
         >
           <li>
-            <a
-              href="#"
-              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+            <Link
+              href="/dashboard"
+              className="block px-4 py-2 hover:bg-[#192555]"
             >
               Dashboard
-            </a>
+            </Link>
           </li>
           <li>
-            <a
-              href="#"
-              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+            <Link
+              href="/dashboard/settings"
+              className="block px-4 py-2 hover:bg-[#192555]"
             >
               Settings
-            </a>
+            </Link>
           </li>
           <li>
-            <a
-              href="#"
-              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+            <Link
+              href={`/dashboard/${uid}`}
+              className="block px-4 py-2 hover:bg-[#192555]"
             >
-              Earnings
-            </a>
+              Profile
+            </Link>
           </li>
         </ul>
         <div className="py-2 px-4">
           <button
             onClick={onSubmit}
-            className=" w-full block px-4 py-2 text-sm text-gray-700 hover:bg-red-500 hover:text-white dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+            className=" w-full block px-4 py-2 text-sm text-white hover:bg-red-500 hover:text-white dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
           >
             Sign out
           </button>

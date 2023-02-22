@@ -46,13 +46,13 @@ export default function EditSubtask({
 
   return (
     <li className="relative px-5 list-none">
-      <h6 className="list-none border w-full border-gray-200 rounded-md py-3 pl-3 mb-3">
+      <h6 className="list-none w-full text-white  rounded-md py-3 pl-3 mb-3">
         {subtask.title}
       </h6>
 
       <button
         type="button"
-        className="bg-gray-200 p-2 rounded-lg absolute right-[26px] top-[5.5px]"
+        className="bg-transparent border border-[#6e6ae4] p-2 rounded-lg absolute right-[26px] top-[5.5px]"
         onClick={() => {
           deleteSubtask(subtask);
         }}
@@ -66,7 +66,7 @@ export default function EditSubtask({
             <svg
               aria-hidden="true"
               className="w-5 h-5"
-              fill="currentColor"
+              fill="#fff"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
             >
