@@ -8,6 +8,7 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Controls from "../controls/Controls";
 import { UserContext } from "../../../contexts/UserProvider";
+import { toast } from "react-toastify";
 export default function Timer({ pomodoros }) {
   const currentUserUid = useContext(UserContext);
   const { pomo, long, short, untilLong, sound } = useSelector(
@@ -60,13 +61,15 @@ export default function Timer({ pomodoros }) {
       id: currentUserUid,
     };
 
-    return await fetch("/api/addPomodoro", {
+    await fetch("/api/addPomodoro", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     });
+
+    toast.success("Wow awesome , new pomodoro done. Congrats!!");
   }, [today, time, pomo, currentUserUid]);
 
   useEffect(() => {

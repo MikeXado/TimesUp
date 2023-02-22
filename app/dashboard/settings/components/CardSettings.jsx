@@ -2,6 +2,7 @@
 
 import PhotoInput from "./PhotoInput";
 import { useState } from "react";
+import { toast } from "react-toastify";
 export default function CardSettings({
   register,
   handleSubmit,
@@ -25,6 +26,7 @@ export default function CardSettings({
       },
       body: JSON.stringify(newProfile),
     });
+    toast.success("Profile updated successfully!");
   };
 
   const onSubmit = async (data) => {
@@ -37,6 +39,7 @@ export default function CardSettings({
 
     const url = res.json();
     const image = await url;
+
     setValue("photoUrl", image);
     changeProfile(data, image);
   };
