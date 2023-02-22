@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import React from "react";
 import { mutate } from "swr";
 import { UserContext } from "../../../../../contexts/UserProvider";
+import { Spinner } from "flowbite-react";
 export default React.memo(function AddNewColumn({
   boardId,
   setNewWidth,
@@ -12,7 +13,7 @@ export default React.memo(function AddNewColumn({
   const [isOpenInput, setIsOpenInput] = useState(false);
   const [alreadyExist, setAlreadyExist] = useState(false);
   const { register, handleSubmit, reset } = useForm();
-
+  const [isFetching, setIsFetching] = useState(false);
   const handleOpen = () => {
     setIsOpenInput((prev) => !prev);
   };
@@ -28,6 +29,7 @@ export default React.memo(function AddNewColumn({
     }
 
     setNewWidth(true);
+    setIsFetching(true);
     await fetch("/api/addColumn", {
       method: "POST",
       headers: {
@@ -40,18 +42,19 @@ export default React.memo(function AddNewColumn({
       }),
     });
     mutate("/api/getColumns");
+    setIsFetching(false);
     reset();
     setNewWidth(false);
     setAlreadyExist(false);
   };
 
   return (
-    <div className="w-[400px] bg-[#F5F5F5] mt-3 mr-3 px-4 rounded-lg">
+    <div className="w-[400px] bg-[#192555] mt-3 mr-3  rounded-lg">
       <div className="flex flex-col items-center justify-center w-full h-full">
         <button
           onClick={handleOpen}
           className={
-            "bg-white rounded-lg shadow-lg w-full py-3" +
+            "bg-[#6e6ae4] text-white rounded-lg shadow-lg w-full py-3" +
             (isOpenInput ? " hidden" : " ")
           }
         >
@@ -62,35 +65,27 @@ export default React.memo(function AddNewColumn({
             <div>
               <label
                 className={
-                  "block text-black font-semibold text-md" +
-                  (alreadyExist ? " text-red-500" : " ")
+                  "block  font-semibold text-md" +
+                  (alreadyExist ? " text-red-500" : " text-white")
                 }
               >
                 {alreadyExist ? "Column already exists!!" : "Enter column name"}
               </label>
-              <div className="relative w-full flex justify-center items-center">
+              <div className="relative w-full mt-3 flex justify-center items-center">
                 <input
-                  className="w-full py-2 px-1 pr-10"
+                  className="w-[300px] py-2 pr-[60px]  bg-[#111c44] text-white placeholder-white border-none "
                   placeholder="Enter a column name"
                   {...register("column")}
                 />
                 <button
                   type="submit"
-                  className="absolute right-0 bg-blue-500 text-white py-2 px-3"
+                  className="absolute right-0 bg-[#6e6ae4] text-white py-2 px-3"
                 >
-                  Add
+                  {isFetching ? <Spinner /> : "Add"}
                 </button>
               </div>
             </div>
           </form>
-          <div>
-            <label
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              htmlFor="colorPicker"
-            >
-              Choose color
-            </label>
-          </div>
         </div>
       </div>
     </div>

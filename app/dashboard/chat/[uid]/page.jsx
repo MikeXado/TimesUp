@@ -13,7 +13,7 @@ export default async function PrivateChat({ params: { uid } }) {
   const data = await getMessages(uid, currentUserUid);
 
   return (
-    <div className="lg:ml-56 overflow-hidden">
+    <div className="mt-24 mx-4 mb-4 overflow-hidden bg-[#111c44] rounded-lg">
       <Header
         chat={
           chat.members[0] !== currentUserUid ? chat.members[0] : chat.members[1]

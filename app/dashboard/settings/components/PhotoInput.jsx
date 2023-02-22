@@ -6,7 +6,7 @@ export default function PhotoInput({ register }) {
     <div className="flex items-center  w-full mb-10">
       <label
         htmlFor="dropzone-file"
-        className="flex flex-col items-center justify-center w-[70px] h-[70px]  border-2 border-gray-300 rounded-full cursor-pointer bg-gray-50 "
+        className="flex flex-col items-center justify-center w-[70px] h-[70px]  border-2 border-[#6e6ae4] rounded-full cursor-pointer bg-[#192555] "
       >
         <div className="flex flex-col items-center justify-center pt-5 pb-6">
           <svg
@@ -17,7 +17,7 @@ export default function PhotoInput({ register }) {
           >
             <path
               d="m 8 1 c -1.65625 0 -3 1.34375 -3 3 s 1.34375 3 3 3 s 3 -1.34375 3 -3 s -1.34375 -3 -3 -3 z m -1.5 7 c -2.492188 0 -4.5 2.007812 -4.5 4.5 v 0.5 c 0 1.109375 0.890625 2 2 2 h 8 c 1.109375 0 2 -0.890625 2 -2 v -0.5 c 0 -2.492188 -2.007812 -4.5 -4.5 -4.5 z m 0 0"
-              fill="gray"
+              fill="#6e6ae4"
             />
           </svg>
         </div>

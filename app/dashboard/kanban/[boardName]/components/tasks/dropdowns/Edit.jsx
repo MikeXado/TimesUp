@@ -61,7 +61,7 @@ export default React.memo(function EditTask({ task }) {
       <button
         onClick={handleOpenModal}
         type="button"
-        className="bg-gray-200 mb-3 py-2 px-10 flex justify-center w-full rounded-lg"
+        className="bg-[#192555] text-white mb-3 py-2 px-10 flex justify-center w-full rounded-lg"
       >
         Edit
       </button>{" "}
@@ -72,7 +72,7 @@ export default React.memo(function EditTask({ task }) {
         }
       >
         <div className="relative w-full h-full max-w-md md:h-auto">
-          <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+          <div className="relative bg-[#111c44] rounded-lg shadow dark:bg-gray-700">
             <button
               className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
               onClick={handleOpenModal}
@@ -94,7 +94,7 @@ export default React.memo(function EditTask({ task }) {
             </button>
 
             <div className="px-6 py-4 border-b rounded-t dark:border-gray-600">
-              <h3 className="text-base font-semibold text-gray-900 lg:text-xl dark:text-white">
+              <h3 className="text-base font-semibold text-white lg:text-xl">
                 Edit Task
               </h3>
             </div>
@@ -107,7 +107,7 @@ export default React.memo(function EditTask({ task }) {
                 <div className="mb-6">
                   <label
                     htmlFor="title"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    className="block mb-2 text-md font-medium text-white "
                   >
                     Title
                   </label>
@@ -115,7 +115,7 @@ export default React.memo(function EditTask({ task }) {
                     defaultValue={task.title}
                     type="text"
                     id="title"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="bg-[#192555]  text-white text-sm rounded-lg focus:ring-[#6e6ae4] border-none placeholder-white focus:border-[#6e6ae4] block w-full p-2.5 "
                     placeholder="Dashboard making"
                     {...register("title", { required: true })}
                   />
@@ -124,7 +124,7 @@ export default React.memo(function EditTask({ task }) {
                 <div className="mb-6">
                   <label
                     htmlFor="description"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    className="block mb-2 text-md font-medium text-white "
                   >
                     Description
                   </label>
@@ -132,7 +132,7 @@ export default React.memo(function EditTask({ task }) {
                     defaultValue={task.description}
                     type="text"
                     id="description"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="bg-[#192555]  text-white text-sm rounded-lg focus:ring-[#6e6ae4] border-none placeholder-white focus:border-[#6e6ae4] block w-full p-2.5 "
                     placeholder="A small tasks during dashboard developing"
                     {...register("description")}
                   />
@@ -140,7 +140,7 @@ export default React.memo(function EditTask({ task }) {
                 <div className="mb-6">
                   <label
                     htmlFor="subtasks"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    className="block mb-2 text-md font-medium text-white "
                   >
                     Add subtasks
                   </label>
@@ -169,14 +169,14 @@ export default React.memo(function EditTask({ task }) {
                       id="subtasks"
                       onChange={handleSubtaskInputChange}
                       className={
-                        "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        "bg-[#192555]  border-none text-white text-sm rounded-lg focus:ring-[#6e6ae4] focus:border-[#6e6ae4] block w-full p-2.5 "
                       }
                       value={subtask}
                     />
                     <div className="absolute right-2 top-[6px] z-10">
                       <button
                         type="button"
-                        className="bg-gray-200 py-1 px-3  rounded-lg"
+                        className="bg-[#6e6ae4] text-white py-1 px-3  rounded-lg"
                         onClick={handleAddSubtask}
                       >
                         Add
@@ -186,7 +186,7 @@ export default React.memo(function EditTask({ task }) {
                   <button
                     type="button"
                     className={
-                      "w-full bg-gray-200 py-2 mt-3 px-10 rounded-lg" +
+                      "w-full bg-[#6e6ae4] text-white py-2 mt-3 px-10 rounded-lg" +
                       (showSubtaskInput ? " hidden" : " ")
                     }
                     onClick={handleShowSubtaskInput}

@@ -131,13 +131,13 @@ export default function Task({ task }) {
           </div>
           <div>
             <div className="flex w-full justify-end mb-1">
-              <span className="text-sm font-medium text-indigo-600 dark:text-white">
+              <span className="text-sm font-medium text-[#6e6ae4] dark:text-white">
                 {isNaN(progress) ? 0 : progress}%
               </span>
             </div>
-            <div className="w-full bg-[#051139] rounded-full h-2.5 dark:bg-gray-700">
+            <div className="w-full  rounded-full h-2.5 bg-[#051139]">
               <div
-                className="bg-indigo-700 h-2.5 rounded-full"
+                className="bg-gradient-to-l from-purple-600 via-indigo-700 to-indigo-800 h-2.5 rounded-full"
                 style={{ width: progress + "%" }}
               ></div>
             </div>

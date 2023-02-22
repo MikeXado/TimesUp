@@ -5,8 +5,8 @@ import { getSpecificUser } from "../../../../lib/db";
 export default async function Header({ chat }) {
   const user = await getSpecificUser(chat);
   return (
-    <div className=" w-full flex  items-center h-20  bg-white">
-      <Link className="ml-2 mr-10" href="/dashboard/chat">
+    <div className=" w-full flex  items-center h-20  ">
+      <Link className="ml-2 mr-10 text-white" href="/dashboard/chat">
         Back
       </Link>
 
@@ -24,7 +24,7 @@ export default async function Header({ chat }) {
                   ? user.photoUrl
                   : "https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
               }
-              alt=""
+              alt="avatar"
               width={50}
               height={50}
               className="rounded-full"
@@ -32,9 +32,9 @@ export default async function Header({ chat }) {
           </div>
           <div className="flex flex-col leading-tight">
             <div className="text-lg font-semibold mt-1 flex items-center">
-              <span className="text-gray-700 mr-3">{user.displayName}</span>
+              <span className="text-white mr-3">{user.displayName}</span>
             </div>
-            <span className="text-md text-gray-600">{user.email}</span>
+            <span className="text-md text-gray-300">{user.email}</span>
           </div>
         </div>
       </Link>

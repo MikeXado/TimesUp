@@ -31,14 +31,11 @@ export default React.memo(function More({ isOpen, setIsOpen, task }) {
     <div
       ref={wrapperRef}
       className={
-        "z-10 absolute top-5 right-0 shadow-lg border bg-white divide-y divide-gray-100 rounded-lg  w-44 dark:bg-gray-700 dark:divide-gray-600" +
+        "z-10 absolute top-5 right-0 shadow-lg  bg-[#111c44] rounded-lg  w-44  " +
         (isOpen ? " " : " hidden")
       }
     >
-      <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
-        <div>Choose an option</div>
-      </div>
-      <ul className="py-2 text-sm text-gray-700 dark:text-gray-200 px-4">
+      <ul className="py-2 text-sm text-gray-700  px-4">
         <EditTask task={task} />
         <button
           onClick={deleteTask}
