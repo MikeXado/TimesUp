@@ -1,5 +1,6 @@
 import { useRouter } from "next/navigation";
 import React, { useRef, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { useMutation } from "../../../../../../../utils/fetcher";
 import EditTask from "./Edit";
 
@@ -25,6 +26,7 @@ export default React.memo(function More({ isOpen, setIsOpen, task }) {
     setIsDeleting(true);
     removeTask({ taskId: task.id, boardId: task.boardId, uid: task.uid });
     setIsDeleting(false);
+    toast.success("Task deleted successfully");
   };
 
   return (

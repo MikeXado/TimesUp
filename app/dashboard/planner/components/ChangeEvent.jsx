@@ -1,5 +1,6 @@
 import { memo, useContext } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { useMutation } from "../../../../utils/fetcher";
 import { UserContext } from "../../contexts/UserProvider";
 
@@ -15,6 +16,7 @@ export default memo(function ChangeEvent({ isOpen, eventId, setIsOpen, day }) {
   const handleSendEventToDb = async (data) => {
     setIsOpen(false);
     await changeEvent({ ...data, id: eventId, uid: uid, date: day });
+    toast.success("Event changed!");
   };
 
   const onSubmit = (data) => {
