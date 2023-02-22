@@ -4,6 +4,7 @@ import React from "react";
 import { mutate } from "swr";
 import { UserContext } from "../../../../../contexts/UserProvider";
 import { Spinner } from "flowbite-react";
+import { toast } from "react-toastify";
 export default React.memo(function AddNewColumn({
   boardId,
   setNewWidth,
@@ -43,6 +44,7 @@ export default React.memo(function AddNewColumn({
     });
     mutate("/api/getColumns");
     setIsFetching(false);
+    toast.success("New column was added!");
     reset();
     setNewWidth(false);
     setAlreadyExist(false);

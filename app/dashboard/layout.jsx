@@ -8,6 +8,7 @@ import SwrConfig from "./components/dashboard/SwrConfig";
 import NavbarProvider from "./contexts/NavbarContext";
 import ReduxProvider from "./contexts/ReduxProvider";
 import UserProvider from "./contexts/UserProvider";
+
 export default async function layout({ children }) {
   const nextCookies = cookies();
 

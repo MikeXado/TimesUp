@@ -3,6 +3,8 @@
 :root {
   --primary: #051139;
   --secondary: #192555;
+  --toastify-color-dark: #111c44;
+  --toastify-color-success: #6e6ae4;
 }
 
 * {
