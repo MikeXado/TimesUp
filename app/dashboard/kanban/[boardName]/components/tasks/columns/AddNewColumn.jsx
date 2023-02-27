@@ -5,12 +5,14 @@ import { mutate } from "swr";
 import { UserContext } from "../../../../../contexts/UserProvider";
 import { Spinner } from "flowbite-react";
 import { toast } from "react-toastify";
+import { useMutation } from "../../../../../../../utils/fetcher";
 export default React.memo(function AddNewColumn({
   boardId,
   setNewWidth,
   columnsData,
 }) {
   const uid = useContext(UserContext);
+  const createColumn = useMutation("/api/addColumn");
   const [isOpenInput, setIsOpenInput] = useState(false);
   const [alreadyExist, setAlreadyExist] = useState(false);
   const { register, handleSubmit, reset } = useForm();
@@ -31,18 +33,14 @@ export default React.memo(function AddNewColumn({
 
     setNewWidth(true);
     setIsFetching(true);
-    await fetch("/api/addColumn", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+    await createColumn(
+      {
         column: data.column,
         uid: uid,
         boardId: boardId,
-      }),
-    });
-    mutate("/api/getColumns");
+      },
+      ["/api/getColumns"]
+    );
     setIsFetching(false);
     toast.success("New column was added!");
     reset();

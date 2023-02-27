@@ -43,15 +43,18 @@ export default React.memo(function EditTask({ task }) {
 
   const onSubmit = async (data) => {
     setIsFetchingEdit(true);
-    await editTask({
-      ...data,
-      boardId: task.boardId,
-      uid: task.uid,
-      id: task.id,
-      status: task.status,
-      subtasks: newSubtasks,
-      progress: task.progress,
-    });
+    await editTask(
+      {
+        ...data,
+        boardId: task.boardId,
+        uid: task.uid,
+        id: task.id,
+        status: task.status,
+        subtasks: newSubtasks,
+        progress: task.progress,
+      },
+      ["/api/getTasks", `/api/getSubtasks/subtasks/${task.id}`]
+    );
     setIsFetchingEdit(false);
     toast.success("Task edited successfully!");
     setIsOpen(false);

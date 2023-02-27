@@ -17,7 +17,7 @@ export default memo(function AddEvent({ day }) {
 
   const handleSendEventToDb = async (data) => {
     setIsFetching(true);
-    await createEvent({ ...data, date: day, uid: uid });
+    await createEvent({ ...data, date: day, uid: uid }, ["/api/getEvents"]);
     setIsFetching(false);
     toast.success("Event added!");
     setIsOpen(false);

@@ -9,7 +9,6 @@ export default function SwrConfig({ children }) {
     <SWRConfig
       value={{
         fetcher: (...args) => fetch(...args).then((res) => res.json()),
-        use: [tackQueries],
       }}
     >
       {children}
@@ -17,26 +16,24 @@ export default function SwrConfig({ children }) {
   );
 }
 
-let queries = new Set();
+// let queries = new Set();
 
-function tackQueries(useSWRNext) {
-  return (key, fetcher, config) => {
-    const swr = useSWRNext(key, fetcher, config);
+// function tackQueries(useSWRNext) {
+//   return (key, fetcher, config) => {
+//     const swr = useSWRNext(key, fetcher, config);
 
-    useEffect(() => {
-      queries.add(key);
+//     useEffect(() => {
+//       queries.add(key);
 
-      return () => queries.delete(key);
-    }, [key]);
+//       return () => queries.delete(key);
+//     }, [key]);
 
-    return swr;
-  };
-}
+//     return swr;
+//   };
+// }
 
-console.log(queries);
-
-export const revalidate = async () => {
-  let promises = [...queries.values()].map((key) => {
+export const revalidate = async (keys) => {
+  let promises = keys.map((key) => {
     mutate(key);
   });
 

@@ -1,25 +1,21 @@
 import Subtask from "./subtasks/Subtask";
 import useSWR, { useSWRConfig } from "swr";
-import React from "react";
-export default React.memo(function PreviewTask({ isOpen, setIsOpen, task }) {
+import React, { useCallback } from "react";
+export default React.memo(function PreviewTask({ task, handleClick }) {
   const { cache } = useSWRConfig();
   const data = cache.get(`/api/getSubtasks/subtasks/${task.id}`)?.data;
 
-  const handleOpenModal = () => {
-    setIsOpen((prev) => !prev);
-  };
   return (
     <div
       className={
-        "fixed top-0 left-0 right-0 z-50 flex justify-center items-center bg-black bg-opacity-30  w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0  md:h-screen" +
-        (isOpen ? " " : " hidden")
+        "fixed top-0 left-0 right-0 z-50 flex justify-center items-center bg-black bg-opacity-30  w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0  md:h-screen"
       }
     >
       <div className="relative w-full h-full max-w-md md:h-auto">
         <div className="relative bg-[#192555] rounded-lg shadow ">
           <button
+            onClick={handleClick}
             className="absolute top-3 right-2.5 text-white bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
-            onClick={handleOpenModal}
           >
             <svg
               aria-hidden="true"
