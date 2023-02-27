@@ -11,12 +11,12 @@ export default async function Pomodoro({ searchParams: { status } }) {
     <div className="mx-4 mb-4 mt-20">
       <div
         className={
-          "md:h-screen h-full py-20 rounded-lg flex flex-col justify-center items-center w-full" +
-          (status === "short"
-            ? " bg-[#F2FFF5]"
-            : status === "long"
-            ? " bg-[#F2F9FF]"
-            : " bg-[#FFF2F2]")
+          "md:h-screen h-full py-20 rounded-lg flex flex-col justify-center items-center w-full"
+          // (status === "short"
+          //   ? " bg-[#F2FFF5]"
+          //   : status === "long"
+          //   ? " bg-[#F2F9FF]"
+          //   : " bg-[#FFF2F2]")
         }
       >
         <Status />
