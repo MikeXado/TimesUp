@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
-import { revalidate } from "../components/dashboard/SwrConfig";
+import { mutate } from "swr";
 import { UserContext } from "../contexts/UserProvider";
 
 export default function User({ user }) {
@@ -21,7 +21,7 @@ export default function User({ user }) {
       }
     });
 
-    await revalidate();
+    mutate("/api/getChats");
 
     return router.push(`/dashboard/chat/${combinedUid}`);
   };

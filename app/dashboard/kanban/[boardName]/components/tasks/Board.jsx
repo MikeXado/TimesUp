@@ -20,7 +20,7 @@ import {
 } from "react";
 import Column from "./Columns";
 import Task from "./Task";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import {
   findBoardSectionContainer,
   initializeBoard,
@@ -171,14 +171,34 @@ export default function Board({ tasks, boardId, initColumns }) {
         ],
       };
     });
-    await editTask({
-      boardId: task.boardId,
-      description: task.description,
-      id: task.id,
-      status: overId,
-      title: task.title,
-      uid: uid,
-    });
+    await editTask(
+      {
+        boardId: task.boardId,
+        description: task.description,
+        id: task.id,
+        status: overId,
+        title: task.title,
+        uid: uid,
+      },
+      ["/api/getTasks"]
+    );
+
+    // await fetch("/api/editTask", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     boardId: task.boardId,
+    //     description: task.description,
+    //     id: task.id,
+    //     status: overId,
+    //     title: task.title,
+    //     uid: uid,
+    //     progress: task.progress,
+    //   }),
+    // });
+    // mutate("/api/getTasks");
   };
 
   async function handleDragEnd(event) {

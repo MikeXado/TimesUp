@@ -43,14 +43,17 @@ export default function AddNewTask({ boardId, status }) {
     reset();
 
     setIsFetching(true);
-    await createTask({
-      ...data,
-      boardId: boardId,
-      uid: uid,
-      status: status,
-      subtasks: subtasks,
-      progress: 0,
-    });
+    await createTask(
+      {
+        ...data,
+        boardId: boardId,
+        uid: uid,
+        status: status,
+        subtasks: subtasks,
+        progress: 0,
+      },
+      ["/api/getTasks"]
+    );
     setIsFetching(false);
     toast.success("Task was created!");
     setIsOpen(false);

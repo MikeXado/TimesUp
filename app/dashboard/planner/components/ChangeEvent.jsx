@@ -15,7 +15,9 @@ export default memo(function ChangeEvent({ isOpen, eventId, setIsOpen, day }) {
 
   const handleSendEventToDb = async (data) => {
     setIsOpen(false);
-    await changeEvent({ ...data, id: eventId, uid: uid, date: day });
+    await changeEvent({ ...data, id: eventId, uid: uid, date: day }, [
+      "/api/getEvents",
+    ]);
     toast.success("Event changed!");
   };
 

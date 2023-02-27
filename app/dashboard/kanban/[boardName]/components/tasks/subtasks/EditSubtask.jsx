@@ -2,6 +2,7 @@ import { setISOWeekYear } from "date-fns";
 import { Spinner } from "flowbite-react";
 import React, { useState } from "react";
 import { mutate } from "swr";
+import { useMutation } from "../../../../../../../utils/fetcher";
 
 export default function EditSubtask({
   subtask,
@@ -14,23 +15,20 @@ export default function EditSubtask({
   newSubtasks,
 }) {
   const [isFetching, setIsFetching] = useState(false);
-
+  const removeSubtask = useMutation("/api/deleteSubtask");
   const deleteSubtask = async (subtask) => {
     if (subtask.id) {
       setIsFetching(true);
-      await fetch("/api/deleteSubtask", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+
+      await removeSubtask(
+        {
           id: subtask.id,
           uid: uid,
           boardId: boardId,
           taskId: taskId,
-        }),
-      });
-      mutate(`/api/getSubtasks/subtasks/${taskId}`);
+        },
+        [`/api/getSubtasks/subtasks/${taskId}`]
+      );
       setIsFetching(false);
     }
     const newSubs = subtasks.filter((el) => {
