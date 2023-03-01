@@ -4,20 +4,12 @@ import { getTime, startOfToday, parseISO, isSameDay } from "date-fns";
 import useSound from "use-sound";
 import timesUpSfx from "../../../../../public/sounds/timesUp.mp3";
 import { useRouter, useSearchParams } from "next/navigation";
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Controls from "../controls/Controls";
 import { UserContext } from "../../../contexts/UserProvider";
 import { toast } from "react-toastify";
 import { usePush } from "../../../../../utils/fetcher";
-import CircularTimer from "./CircularTimer";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 
 export default function Timer({ pomodoros }) {
@@ -43,12 +35,6 @@ export default function Timer({ pomodoros }) {
       seconds % 60 > 9 ? seconds % 60 : "0" + (seconds % 60)
     }`;
   };
-
-  let minutesFormated = Math.floor(secondsLeft / 60);
-
-  let secondsFormated =
-    secondsLeft % 60 > 9 ? secondsLeft % 60 : "0" + (secondsLeft % 60);
-
   useEffect(() => {
     if (status === "short") {
       setSecondsLeft(short * 60);

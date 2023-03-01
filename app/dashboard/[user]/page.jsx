@@ -24,28 +24,6 @@ export default async function UserInfo({ params: { user } }) {
                 />
               </div>
             </div>
-            {/* <div className="w-full px-4 text-center mt-20">
-          <div className="flex justify-center py-4 lg:pt-4 pt-8">
-            <div className="mr-4 p-3 text-center">
-              <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                22
-              </span>
-              <span className="text-sm text-blueGray-400">Friends</span>
-            </div>
-            <div className="mr-4 p-3 text-center">
-              <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                10
-              </span>
-              <span className="text-sm text-blueGray-400">Photos</span>
-            </div>
-            <div className="lg:mr-4 p-3 text-center">
-              <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                89
-              </span>
-              <span className="text-sm text-blueGray-400">Comments</span>
-            </div>
-          </div>
-        </div> */}
           </div>
           <div className="text-center mt-32">
             <h1 className="text-2xl font-semibold leading-normal mb-2 text-white">
@@ -60,11 +38,6 @@ export default async function UserInfo({ params: { user } }) {
               {specificUser.city ? specificUser.city + "," : ""}{" "}
               {specificUser.country}
             </div>
-
-            {/* <div className="mb-2 text-blueGray-600">
-          <i className="fas fa-university mr-2 text-lg text-blueGray-400"></i>
-          University of Computer Science
-        </div> */}
           </div>
           <div className="mt-10 py-10 border-t border-gray-500 text-center">
             <div className="flex flex-wrap justify-center">
