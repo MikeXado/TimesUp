@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
 import { Spinner } from "flowbite-react";
 import { UserContext } from "../../../contexts/UserProvider";
 export default function PreferUser({ chat }) {
   const currentUser = useContext(UserContext);
+  const [user, setUser] = useState({});
   const router = useRouter();
   const handleCreateChatDb = () => {
     router.push(`/dashboard/chat/${chat.id}`);
@@ -14,7 +15,6 @@ export default function PreferUser({ chat }) {
 
   const currentMember =
     chat.members[0] !== currentUser ? chat.members[0] : chat.members[1];
-
   const fetchSpecificUser = async () => {
     const data = await fetch("/api/getSpecificUser", {
       method: "POST",
@@ -29,7 +29,7 @@ export default function PreferUser({ chat }) {
   };
 
   const { data, error, isLoading } = useSWR(
-    "/api/getSpecificUser",
+    `/api/getSpecificUser/${currentMember}`,
     fetchSpecificUser
   );
 
@@ -39,6 +39,8 @@ export default function PreferUser({ chat }) {
         <div className="w-full justify-start py-2 my-2 ml-3">
           <Spinner />
         </div>
+      ) : error ? (
+        <div>Failed to fetch</div>
       ) : (
         <button
           onClick={handleCreateChatDb}

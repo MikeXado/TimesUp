@@ -53,7 +53,7 @@ export default function UserDropdown({ currentUser }) {
           alt=""
           width={50}
           height={50}
-          className=" lg:w-[50px] md:w-[50px] sm:w-[50px] w-[40px] bg-gray-800 rounded-full lg:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+          className=" lg:w-[50px] lg:h-[50px] md:w-[50px] md:h-[50px]  sm:w-[50px] sm:h-[50px] h-[40px] w-[40px] bg-gray-800 rounded-full lg:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
         />
       </button>
 
