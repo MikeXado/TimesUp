@@ -1,12 +1,14 @@
 import { format, isSameDay, parseISO } from "date-fns";
 import { Spinner } from "flowbite-react";
+import { useSearchParams } from "next/navigation";
 import { useContext } from "react";
 import useSWR from "swr";
+import SuspenseAfterInitialRender from "../../../components/dashboard/suspense/SuspenseAfterInitialRender";
 import { UserContext } from "../../../contexts/UserProvider";
 import AddEvent from "../AddEvent";
 import MobileEvent from "./MobileEvent";
 
-export default function MobileEvents({ selectedDay }) {
+export default function MobileEvents({ selectedDay, events }) {
   const uid = useContext(UserContext);
   const eventsFetcher = async () => {
     const res = await fetch("/api/getEvents", {
@@ -21,20 +23,26 @@ export default function MobileEvents({ selectedDay }) {
     return events;
   };
 
-  const { data, isLoading } = useSWR("/api/getEvents", eventsFetcher);
+  const { data, isLoading } = useSWR("/api/getEvents", eventsFetcher, {
+    fallbackData: events,
+    revalidateOnMount: true,
+  });
 
   const filteredEvents = data?.filter((el) => {
     return isSameDay(selectedDay, parseISO(el.date));
   });
 
-  console.log(filteredEvents);
   return (
-    <div className="relative bg-[#111c44] px-5 pt-5 text-white rounded-lg h-screen overflow-y-auto w-full">
+    <div className="bg-[#111c44] px-5 pt-5 text-white rounded-lg h-screen overflow-y-auto w-full">
       <div className="font-bold text-lg">
         Schedule for {format(selectedDay, "MMMM dd,yyyy")}
       </div>
+      <div className="relative mt-2">
+        <AddEvent day={selectedDay} />
+      </div>
+
       {isLoading ? (
-        <div className="flex justify-center items-center w-full h-full">
+        <div className="flex justify-center items-center h-full w-full">
           <Spinner />
         </div>
       ) : filteredEvents?.length === 0 ? (
@@ -51,7 +59,6 @@ export default function MobileEvents({ selectedDay }) {
           );
         })
       )}
-      <AddEvent day={selectedDay} />
     </div>
   );
 }

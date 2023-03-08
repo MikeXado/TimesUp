@@ -2,30 +2,14 @@
 
 import React, { useContext, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Icon } from "../../Icon";
 import { NavbarContext } from "../../../contexts/NavbarContext";
-import KanbanDropdown from "../dropdowns/KanbanDropdown";
-import ChatDropdown from "../dropdowns/ChatDropdown";
-
-// import NotificationDropdown from "components/Dropdowns/NotificationDropdown.js";
-// import UserDropdown from "components/Dropdowns/UserDropdown.js";
-
-export default function Sidebar({ boards, chats }) {
-  const [collapseShow, setCollapseShow] = React.useState("hidden");
-  const params = usePathname();
-  let newParam = params.substring("/dashboard/".length);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+import KanbanOpenDrawer from "../buttons/KanbanOpenDrawer";
+import ChatOpenDrawer from "../buttons/ChatOpenDrawer";
+export default function Sidebar() {
   const { isOpen, setIsOpen } = useContext(NavbarContext);
-  console.log(isOpen);
+
   const handleOpenSidebar = () => {
     setIsOpen(false);
-  };
-
-  const handleOpenDropDown = (id) => {
-    if (id === "e-commerce") {
-      setDropdownOpen((prev) => !prev);
-    }
   };
 
   return (
@@ -88,7 +72,7 @@ export default function Sidebar({ boards, chats }) {
             </li>
 
             <li>
-              <ChatDropdown chats={chats} />
+              <ChatOpenDrawer />
             </li>
 
             <li className="">
@@ -217,7 +201,7 @@ export default function Sidebar({ boards, chats }) {
               </Link>
             </li>
             <li>
-              <KanbanDropdown boards={boards} />
+              <KanbanOpenDrawer />
             </li>
 
             <li className="">

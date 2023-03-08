@@ -1,18 +1,23 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-export default function AddNewBoard({ id }) {
+import { toast } from "react-toastify";
+import { mutate } from "swr";
+import { UserContext } from "../../../contexts/UserProvider";
+export default function AddNewBoard() {
+  const id = useContext(UserContext);
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const { register, handleSubmit, reset } = useForm();
-
+  const [isFetching, setIsFetching] = useState(false);
   const handleOpenModal = () => {
     setIsOpen((prev) => !prev);
   };
 
   const onSubmit = async (data) => {
+    setIsFetching(true);
     await fetch("/api/addBoards", {
       method: "POST",
       headers: {
@@ -20,7 +25,9 @@ export default function AddNewBoard({ id }) {
       },
       body: JSON.stringify({ ...data, id: id }),
     });
-
+    setIsFetching(false);
+    mutate("/api/getBoards/boards");
+    toast.success("New board was created!");
     reset();
     setIsOpen(false);
     router.refresh();
@@ -28,7 +35,7 @@ export default function AddNewBoard({ id }) {
   return (
     <>
       <button
-        className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-lg py-2 px-10 rounded-lg"
+        className=" bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-lg py-2 px-10 rounded-lg"
         onClick={handleOpenModal}
       >
         Add new board
@@ -110,7 +117,7 @@ export default function AddNewBoard({ id }) {
                     type="submit"
                     className="bg-indigo-600 hover:bg-indigo-700 text-white text-lg font-semibold py-2 px-10 rounded-lg"
                   >
-                    Add
+                    {isFetching ? "Adding..." : "Add"}
                   </button>
                 </div>
               </form>

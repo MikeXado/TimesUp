@@ -11,7 +11,7 @@ export default async function Planner() {
   const events = await getEvents(currentUserUid);
 
   return (
-    <div className="mx-3 mb-3 mt-24">
+    <div className="mx-3 mb-3 mt-24 overflow-hidden">
       <Calendar events={events} />
       <MobileCalendar events={events} />
     </div>

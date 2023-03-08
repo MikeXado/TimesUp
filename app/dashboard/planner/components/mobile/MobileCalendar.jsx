@@ -10,12 +10,13 @@ import {
   startOfMonth,
   startOfToday,
 } from "date-fns";
-import { useContext, useState } from "react";
+import { Suspense, useContext, useState } from "react";
 import { UserContext } from "../../../contexts/UserProvider";
 import useSWR from "swr";
 import MobileCalendarDay from "./MobileCalendarDay";
 import MobileEvents from "./MobileEvents";
 import AddEvent from "../AddEvent";
+import { Spinner } from "flowbite-react";
 export default function MobileCalendar({ events }) {
   let today = startOfToday();
   const [currentMonth, setCurrentMonth] = useState(format(today, "MMM-yyyy"));
@@ -105,7 +106,8 @@ export default function MobileCalendar({ events }) {
           </div>
         </div>
       </div>
-      <MobileEvents selectedDay={selectedDay} />
+
+      <MobileEvents selectedDay={selectedDay} events={events} />
     </div>
   );
 }

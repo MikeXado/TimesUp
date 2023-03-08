@@ -1,12 +1,13 @@
-import { useRouter } from "next/navigation";
-import React, { useRef, useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+import { useRef, useEffect, useState, memo } from "react";
 import { toast } from "react-toastify";
 import { useMutation } from "../../../../../../../utils/fetcher";
-import EditTask from "./Edit";
 
-export default React.memo(function More({ task }) {
+const EditTask = dynamic(() => import("./Edit"));
+
+export default memo(function More({ task }) {
   const removeTask = useMutation("/api/deleteTask");
-  const router = useRouter();
+
   const [isOpen, setIsOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const wrapperRef = useRef(null);

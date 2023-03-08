@@ -10,25 +10,19 @@ import {
   TouchSensor,
 } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
-import {
-  useContext,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
-import Column from "./Columns";
-import Task from "./Task";
-import useSWR, { mutate } from "swr";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
+const Column = dynamic(() => import("./Columns"));
+const Task = dynamic(() => import("./Task"));
+import useSWR from "swr";
 import {
   findBoardSectionContainer,
   initializeBoard,
 } from "../../../../../../utils/board";
-import AddNewColumn from "./columns/AddNewColumn";
+const AddNewColumn = dynamic(() => import("./columns/AddNewColumn"));
 import { Spinner } from "flowbite-react";
 import { useMutation } from "../../../../../../utils/fetcher";
 import { UserContext } from "../../../../contexts/UserProvider";
+import dynamic from "next/dynamic";
 
 export default function Board({ tasks, boardId, initColumns }) {
   const uid = useContext(UserContext);
@@ -88,12 +82,6 @@ export default function Board({ tasks, boardId, initColumns }) {
       setPrevWidth(
         columnsData.length <= 1 ? 100 + "%" : 400 * columnsData.length + "px"
       );
-      // scrollDiv?.current?.scrollIntoView({
-      //   inline: "end",
-      //   block: "start",
-      //   behavior: "smooth",
-      // });
-      console.log(columnsData);
     }
   }, [newWidth, columnsData]);
 
@@ -154,7 +142,6 @@ export default function Board({ tasks, boardId, initColumns }) {
       // Find the indexes for the items
       const activeIndex = activeItems.findIndex((item) => item.id === id);
       const overIndex = overItems.findIndex((item) => item.id !== overId);
-      const task = data.current?.task;
 
       return {
         ...boardSection,
@@ -171,6 +158,8 @@ export default function Board({ tasks, boardId, initColumns }) {
         ],
       };
     });
+
+    const task = data.current?.task;
     await editTask(
       {
         boardId: task.boardId,
@@ -182,23 +171,6 @@ export default function Board({ tasks, boardId, initColumns }) {
       },
       ["/api/getTasks"]
     );
-
-    // await fetch("/api/editTask", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     boardId: task.boardId,
-    //     description: task.description,
-    //     id: task.id,
-    //     status: overId,
-    //     title: task.title,
-    //     uid: uid,
-    //     progress: task.progress,
-    //   }),
-    // });
-    // mutate("/api/getTasks");
   };
 
   async function handleDragEnd(event) {

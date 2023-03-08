@@ -3,7 +3,11 @@ const nextConfig = {
   reactStrictMode: true,
   experimental: {
     appDir: true,
+    fontLoaders: [
+      { loader: "next/font/google", options: { subsets: ["latin"] } },
+    ],
   },
+
   images: {
     remotePatterns: [
       {
@@ -16,6 +20,7 @@ const nextConfig = {
       },
     ],
   },
+
   webpack(config, options) {
     const { isServer } = options;
     config.module.rules.push({

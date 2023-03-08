@@ -222,7 +222,7 @@ export default function Calendar({ events }) {
   }
 
   return (
-    <div className="text-white mt-24 bg-[#111c44] rounded-lg w-full hidden lg:block">
+    <div className="text-white  bg-[#111c44] rounded-lg w-full overflow-hidden hidden lg:block">
       <div className="flex flex-grow w-full h-[calc(100vh-90px)] overflow-auto">
         <div className="flex flex-col flex-grow">
           <div className="flex items-center mt-4  border-b-2 pb-5">

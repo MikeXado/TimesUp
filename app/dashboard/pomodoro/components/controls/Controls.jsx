@@ -3,10 +3,13 @@ import startSfx from "../../../../../public/sounds/startTimer.mp3";
 import pauseSfx from "../../../../../public/sounds/pauseTimer.mp3";
 import SettingsDropdown from "../dropdowns/SettingsDropdown";
 import { useRouter, useSearchParams } from "next/navigation";
-export default function Controls({ setActive, active, volume }) {
+import { useSelector } from "react-redux";
+export default function Controls({ setActive, active }) {
+  const { sound } = useSelector((state) => state.preferences);
   const searchParams = useSearchParams();
   const router = useRouter();
   const status = searchParams.get("status");
+  const volume = sound ? 1 : 0;
   const [play] = useSound(startSfx, {
     interrupt: true,
     volume: volume,

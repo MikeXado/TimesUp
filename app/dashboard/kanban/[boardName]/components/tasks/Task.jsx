@@ -1,50 +1,21 @@
 import { Inter } from "@next/font/google";
-import { Spinner } from "flowbite-react";
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  useTransition,
-  memo,
-} from "react";
-import More from "./dropdowns/More";
-import PreviewTask from "./PreviewTask";
+import { useCallback, useMemo, useState } from "react";
+const More = dynamic(() => import("./dropdowns/More"));
+const PreviewTask = dynamic(() => import("./PreviewTask"));
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { useDraggable } from "@dnd-kit/core";
-import useSWR, { mutate } from "swr";
+import dynamic from "next/dynamic";
+
+const Progress = dynamic(() => import("./Progress"));
 const inter = Inter({
   display: "swap",
 });
 
 export default function Task({ task }) {
-  const [progress, setProgress] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const handleClick = useCallback(() => {
     setIsOpen((prev) => !prev);
   }, []);
-  const getSubtasks = async () => {
-    const data = await fetch(`/api/getSubtasks/subtasks`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        boardId: task.boardId,
-        uid: task.uid,
-        taskId: task.id,
-      }),
-    });
-    const subtasks = await data.json();
-    return subtasks;
-  };
-
-  const { data: subtasks } = useSWR(
-    `/api/getSubtasks/subtasks/${task.id}`,
-    getSubtasks
-  );
 
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({
@@ -58,21 +29,6 @@ export default function Task({ task }) {
     transition,
     transform: CSS.Transform.toString(transform),
   };
-
-  useEffect(() => {
-    if (!subtasks) {
-      return;
-    }
-    let doneSubtasks = subtasks?.filter((subtask) => {
-      return subtask.done === true;
-    });
-    let doneSubtasksLength = doneSubtasks?.length;
-    let allSubtasksLength = subtasks?.length;
-    let newProgress = Math.floor(
-      (doneSubtasksLength * 100) / allSubtasksLength
-    );
-    setProgress(newProgress);
-  }, [subtasks]);
 
   const memoTasks = useMemo(() => task, [task]);
 
@@ -99,19 +55,7 @@ export default function Task({ task }) {
           <div className={"text-md text-[#cbcdd7] " + inter.className}>
             {task.description}
           </div>
-          <div>
-            <div className="flex w-full justify-end mb-1">
-              <span className="text-sm font-medium text-[#6e6ae4] dark:text-white">
-                {isNaN(progress) ? 0 : progress}%
-              </span>
-            </div>
-            <div className="w-full  rounded-full h-2.5 bg-[#051139]">
-              <div
-                className="bg-gradient-to-l from-purple-600 via-indigo-700 to-indigo-800 h-2.5 rounded-full"
-                style={{ width: progress + "%" }}
-              ></div>
-            </div>
-          </div>
+          <Progress task={memoTasks} />
         </div>
       </li>
       {isOpen && <PreviewTask task={memoTasks} handleClick={handleClick} />}

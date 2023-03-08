@@ -1,12 +1,10 @@
-import { getCurrentUser, getSessions } from "../../lib/db";
-import Chat from "./components/dashboard/chat/Chat";
-import Upcomming from "./components/dashboard/upcomming/Upcomming";
+import { getSessions } from "../../lib/db";
+const Chat = dynamic(() => import("./components/dashboard/chat/Chat"));
+const Upcomming = dynamic(() =>
+  import("./components/dashboard/upcomming/Upcomming")
+);
 import { cookies } from "next/headers";
-// export const getCurrentUser = async () => {
-//   const data = await fetch("http://localhost:3000/api/getCurrentUser");
-//   const currentUser = await data.json();
-//   return currentUser;
-// };
+import dynamic from "next/dynamic";
 
 export default async function Dashboard() {
   const nextCookies = cookies();
