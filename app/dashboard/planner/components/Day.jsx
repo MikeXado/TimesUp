@@ -1,8 +1,5 @@
 import { getDay, format, isSameDay, parseISO } from "date-fns";
 
-import { Spinner } from "flowbite-react";
-import { useTransition, useState } from "react";
-
 import Droppable from "./dnd/Droppable";
 import {
   SortableContext,

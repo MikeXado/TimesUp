@@ -1,37 +1,19 @@
 "use client";
 
 import React, { useContext } from "react";
-import { UserContext } from "../../../contexts/UserProvider";
-import { Icon } from "../../Icon";
-import useSWR from "swr";
-import Chat from "../../../chat/Chat";
-export default function ChatDropdown({ chats }) {
-  const uid = useContext(UserContext);
-
-  const [isOpen, setIsOpen] = React.useState(false);
+import { ChatDrawerContext } from "../../../contexts/ChatDrawerProvider";
+export default function ChatOpenDrawer() {
+  const { isOpen, setIsOpen } = useContext(ChatDrawerContext);
   const handleOpenDropDown = () => {
     setIsOpen((prev) => !prev);
   };
-
-  const boardsFetcher = async () => {
-    const data = await fetch("/api/getChats", {
-      method: "GET",
-    });
-    const chats = await data.json();
-    return chats;
-  };
-
-  const { data } = useSWR("/api/getChats", boardsFetcher, {
-    fallbackData: { chats, currentUser: uid },
-    revalidateOnMount: true,
-  });
 
   return (
     <>
       <button
         onClick={handleOpenDropDown}
         type="button"
-        className="flex items-center w-full p-2 text-base font-normal text-[#cbcdd7] hover:bg-[#192555] transition duration-75 rounded-lg group "
+        className="group flex items-center w-full p-2 text-base font-normal text-[#cbcdd7] hover:bg-[#192555] transition duration-75 rounded-lg"
       >
         <svg
           width="27"
@@ -60,7 +42,7 @@ export default function ChatDropdown({ chats }) {
 
         <span className="flex-1 ml-3 text-left whitespace-nowrap">Chats</span>
         <svg
-          className="w-6 h-6"
+          className="w-6 h-6 -rotate-90 group-hover:-translate-x-1/2 group-hover:transition-all transition-all"
           fill="currentColor"
           viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg"
@@ -72,21 +54,6 @@ export default function ChatDropdown({ chats }) {
           ></path>
         </svg>
       </button>
-      <ul className={"py-2 space-y-2" + (isOpen ? " " : " hidden")}>
-        {data?.chats?.map((chat) => {
-          return (
-            <Chat
-              key={chat.id}
-              chat={chat}
-              user={
-                chat.members[0] !== data.currentUser
-                  ? chat.members[0]
-                  : chat.members[1]
-              }
-            />
-          );
-        })}
-      </ul>
     </>
   );
 }

@@ -36,7 +36,7 @@ export default function MessagesFrom({ id, setHeight, chat }) {
   };
 
   return (
-    <div className="bg-[#051139] px-4 pt-4 flex items-center justify-center w-full  sm:mb-0">
+    <div className="bg-[#051139] px-0 pt-2 flex items-center justify-center w-full  sm:mb-0">
       <div className="relative flex w-full">
         <span className="absolute items-center inset-y-0 flex ">
           <button
@@ -64,8 +64,8 @@ export default function MessagesFrom({ id, setHeight, chat }) {
           value={message}
           ref={textareaRef}
           type="text"
-          placeholder="Write your message!"
-          className="w-full bg-[#111c44] border-none resize-none pr-32 h-12 max-h-[200px] focus:outline-none   focus:ring-[#6e6ae4] focus:border-[#6e6ae4] text-white placeholder-white pl-12  rounded-l-md"
+          placeholder="Message"
+          className="w-full bg-[#111c44] border-none m-[2px] focus:rind-[#6e6ae4] focus:border-[#6e6ae4] resize-none lg:pr-32 h-12 max-h-[200px]  text-white placeholder-white pl-10 lg:pl-12  rounded-l-md"
         />
         <div className="absolute right-0 items-center inset-y-0 hidden sm:flex">
           <button
@@ -138,12 +138,12 @@ export default function MessagesFrom({ id, setHeight, chat }) {
         type="button"
         className="inline-flex items-center  justify-center rounded-r-lg px-4 mr-4 py-3 transition duration-500 ease-in-out text-white bg-[#6e6ae4] hover:bg-indigo-700 focus:outline-none"
       >
-        <span className="font-bold">Send</span>
+        <span className="font-bold hidden lg:inline">Send</span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
           fill="currentColor"
-          className="h-6 w-6 ml-2 transform rotate-90"
+          className="h-6 w-6 ml-0 lg:ml-2 transform rotate-90"
         >
           <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
         </svg>

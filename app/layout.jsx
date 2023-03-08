@@ -1,6 +1,8 @@
+"use client";
+
 import "../styles/globals.css";
-import "react-toastify/dist/ReactToastify.min.css";
-import Toastify from "./Toastify";
+import dynamic from "next/dynamic";
+const Toastify = dynamic(() => import("./Toastify"));
 function RootLayout({ children }) {
   return (
     <html>
@@ -10,7 +12,7 @@ function RootLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </head>
-      <body className="bg-[#051139]">
+      <body className={"bg-[#051139]"}>
         {children}
         <Toastify />
       </body>

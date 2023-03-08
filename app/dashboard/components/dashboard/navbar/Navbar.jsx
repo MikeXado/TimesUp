@@ -2,19 +2,23 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useContext } from "react";
-import { NavbarContext } from "../../../contexts/NavbarContext";
+import OpenSidebar from "../buttons/OpenSidebar";
 import UserDropdown from "../dropdowns/UserDropdown";
-import Notification from "./Notification";
+import Notification from "../dropdowns/Notification";
 export default function Navbar({ currentUser }) {
-  const { isOpen, setIsOpen } = useContext(NavbarContext);
-
-  const handleOpenSidebar = () => {
-    setIsOpen((prev) => !prev);
-  };
+  const params = usePathname();
+  const segments = params.split("/");
+  const path = segments[2];
   return (
-    <nav className="absolute top-0 left-0 w-full pl-1 z-5 bg-transparent lg:flex-row lg:flex-nowrap lg:justify-start flex items-center">
-      <div className="w-full  mx-autp items-center flex justify-between  lg:flex-nowrap flex-wrap lg:px-5 px-4 py-4">
+    <nav
+      className={
+        path === "chat"
+          ? "hidden "
+          : "" +
+            "absolute top-0 left-0 w-full pl-1 z-5 bg-transparent lg:flex-row lg:flex-nowrap lg:justify-start items-center "
+      }
+    >
+      <div className="w-full  mx-auto items-center flex justify-between  lg:flex-nowrap flex-wrap lg:px-5 px-4 py-4">
         {/* Brand */}
         <h1 className="text-white text-sm uppercase hidden lg:inline-block font-semibold">
           Dashboard
@@ -33,6 +37,7 @@ export default function Navbar({ currentUser }) {
           </div>
         </form> */}
         {/* User */}
+
         <div className="flex w-full justify-end items-center">
           <Notification />
           <Link href="/dashboard/chat">
@@ -62,27 +67,7 @@ export default function Navbar({ currentUser }) {
             </svg>
           </Link>
 
-          <button
-            onClick={handleOpenSidebar}
-            className="text-gray-500 w-10 h-5 relative focus:outline-none lg:hidden"
-          >
-            <span className="sr-only">Open main menu</span>
-            <div>
-              <span
-                className={
-                  "top-[3px] bg-white w-5 h-[2px] absolute transform transition duration-500 ease-in-out" +
-                  (isOpen ? " w-3" : " ")
-                }
-              ></span>
-              <span className=" bg-white w-5 h-[2px] absolute transform transition duration-500 ease-in-out"></span>
-              <span
-                className={
-                  "bottom-[1px] bg-white w-5 h-[2px] absolute transform transition duration-500 ease-in-out" +
-                  (isOpen ? " w-3" : " ")
-                }
-              ></span>
-            </div>
-          </button>
+          <OpenSidebar />
 
           {/* <UserDropdown /> */}
           <UserDropdown currentUser={currentUser} />

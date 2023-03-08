@@ -6,7 +6,7 @@ export default function Board({ board }) {
   const slicePath = pathname.substring("/dashboard/kanban/".length);
 
   return (
-    <li className="flex items-center w-full p-2 text-base font-normal text-[#cbcdd7] transition duration-75 rounded-lg pl-11">
+    <li className="flex items-center w-full p-2 text-base font-normal text-[#cbcdd7] transition duration-75 rounded-lg ">
       <Link
         className={
           "w-full py-2 pl-2 rounded-lg hover:bg-[#192555] hover:text-white " +

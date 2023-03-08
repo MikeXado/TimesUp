@@ -1,6 +1,7 @@
 import Subtask from "./subtasks/Subtask";
-import useSWR, { useSWRConfig } from "swr";
-import React, { useCallback } from "react";
+
+import { useSWRConfig } from "swr";
+import React from "react";
 export default React.memo(function PreviewTask({ task, handleClick }) {
   const { cache } = useSWRConfig();
   const data = cache.get(`/api/getSubtasks/subtasks/${task.id}`)?.data;

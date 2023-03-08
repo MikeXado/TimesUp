@@ -1,7 +1,8 @@
+"use client";
+
 import React, { useContext } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { current } from "@reduxjs/toolkit";
 import Link from "next/link";
 import { UserContext } from "../../../contexts/UserProvider";
 
@@ -35,9 +36,9 @@ export default function UserDropdown({ currentUser }) {
   }, [wrapperRef]);
 
   return (
-    <div className="relative">
+    <div className="relative mx-5">
       <button
-        className="flex items-center mx-3 text-lg"
+        className="flex items-center  text-lg"
         type="button"
         onClick={openDropdownPopover}
       >
@@ -52,7 +53,7 @@ export default function UserDropdown({ currentUser }) {
           alt=""
           width={50}
           height={50}
-          className=" bg-gray-800 rounded-full lg:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+          className=" lg:w-[50px] md:w-[50px] sm:w-[50px] w-[40px] bg-gray-800 rounded-full lg:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
         />
       </button>
 

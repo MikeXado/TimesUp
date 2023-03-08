@@ -45,7 +45,7 @@ export default memo(function AddEvent({ day }) {
       <div
         id="drawer-form"
         className={
-          "fixed z-40 h-screen p-4 overflow-y-auto bg-[#192555] shadow-lg w-[500px] max-w-full  transition-transform right-0 top-0 translate-x-full" +
+          "fixed z-40 h-full p-4 overflow-y-auto bg-[#192555]  w-[500px] max-w-full  transition-transform right-0 top-0 translate-x-full" +
           (isOpen ? " translate-x-0" : "")
         }
         tabIndex="-1"

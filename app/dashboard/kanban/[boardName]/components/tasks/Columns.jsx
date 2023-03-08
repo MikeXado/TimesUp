@@ -1,12 +1,9 @@
 "use client";
-
 import Task from "./Task";
-import useSWR from "swr";
-import AddNewTask from "../addTask/AddNewTask";
-import { Spinner } from "flowbite-react";
+const AddNewTask = dynamic(() => import("../addTask/AddNewTask"));
 import Droppable from "./dnd/Droppable";
 import { SortableContext } from "@dnd-kit/sortable";
-import { useEffect, useMemo, useState } from "react";
+import dynamic from "next/dynamic";
 export default function Column({ boardId, tasks, column }) {
   return (
     <div className="h-full w-[400px] mt-3 mr-2 px-4 overflow-y-auto rounded-lg pb-[200px]">

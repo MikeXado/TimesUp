@@ -39,7 +39,7 @@ export default function Chat({ chat, user }) {
           <Spinner />
         </div>
       ) : (
-        <li className="flex items-center w-full p-2 text-base font-normal text-[#cbcdd7] transition duration-75 rounded-lg pl-11">
+        <li className="flex items-center w-full p-2 text-base font-normal text-[#cbcdd7] transition duration-75 rounded-lg pl-0">
           <button
             onClick={getChatId}
             className={
