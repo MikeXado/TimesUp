@@ -28,7 +28,7 @@ export default function Chat({ chat, user }) {
   };
 
   const { data, error, isLoading } = useSWR(
-    "/api/getSpecificUser",
+    `/api/getSpecificUser/${user}`,
     fetchSpecificUser
   );
 
