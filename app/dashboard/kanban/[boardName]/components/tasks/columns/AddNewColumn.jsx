@@ -6,11 +6,7 @@ import { UserContext } from "../../../../../contexts/UserProvider";
 import { Spinner } from "flowbite-react";
 import { toast } from "react-toastify";
 import { useMutation } from "../../../../../../../utils/fetcher";
-export default React.memo(function AddNewColumn({
-  boardId,
-  setNewWidth,
-  columnsData,
-}) {
+export default React.memo(function AddNewColumn({ boardId, columnsData }) {
   const uid = useContext(UserContext);
   const createColumn = useMutation("/api/addColumn");
   const [isOpenInput, setIsOpenInput] = useState(false);
@@ -31,7 +27,6 @@ export default React.memo(function AddNewColumn({
       return;
     }
 
-    setNewWidth(true);
     setIsFetching(true);
     await createColumn(
       {
@@ -44,7 +39,6 @@ export default React.memo(function AddNewColumn({
     setIsFetching(false);
     toast.success("New column was added!");
     reset();
-    setNewWidth(false);
     setAlreadyExist(false);
   };
 

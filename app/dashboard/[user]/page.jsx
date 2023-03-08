@@ -20,7 +20,7 @@ export default async function UserInfo({ params: { user } }) {
                   alt=""
                   width={100}
                   height={100}
-                  className="rounded-full"
+                  className="rounded-full w-[100px] h-[100px] max-w-full"
                 />
               </div>
             </div>
