@@ -222,7 +222,7 @@ export default function Calendar({ events }) {
   }
 
   return (
-    <div className="text-white mt-24 bg-[#111c44] rounded-lg w-full">
+    <div className="text-white mt-24 bg-[#111c44] rounded-lg w-full hidden lg:block">
       <div className="flex flex-grow w-full h-[calc(100vh-90px)] overflow-auto">
         <div className="flex flex-col flex-grow">
           <div className="flex items-center mt-4  border-b-2 pb-5">
@@ -260,9 +260,9 @@ export default function Calendar({ events }) {
                 </svg>
               </button>
             </div>
-            <h2 className="ml-2  text-xl font-bold leading-none">
+            <div className="ml-2  text-xl font-bold leading-none">
               {format(firstDayCurrentMonth, "MMMM yyyy")}
-            </h2>
+            </div>
           </div>
           <div className="grid grid-cols-7 mt-4">
             <div className="pl-1 text-sm">Sun</div>

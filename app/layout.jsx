@@ -11,10 +11,8 @@ function RootLayout({ children }) {
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body className="bg-[#051139]">
-        <>
-          {children}
-          <Toastify />
-        </>
+        {children}
+        <Toastify />
       </body>
     </html>
   );
