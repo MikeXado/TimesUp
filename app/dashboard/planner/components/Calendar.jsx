@@ -29,7 +29,6 @@ import {
 } from "../../../../utils/board";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import useSWR, { mutate } from "swr";
-import { useMutation } from "../../../../utils/fetcher";
 import { Spinner } from "flowbite-react";
 import { UserContext } from "../../contexts/UserProvider";
 
