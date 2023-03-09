@@ -9,6 +9,7 @@ import {
   MouseSensor,
   TouchSensor,
 } from "@dnd-kit/core";
+import { snapCenterToCursor } from "@dnd-kit/modifiers";
 import { arrayMove } from "@dnd-kit/sortable";
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 const Column = dynamic(() => import("./Columns"));
@@ -146,7 +147,6 @@ export default function Board({ tasks, boardId, initColumns }) {
         ],
       };
     });
-
     const task = data.current?.task;
     await editTask(
       {
@@ -222,6 +222,7 @@ export default function Board({ tasks, boardId, initColumns }) {
       id="kanban"
       collisionDetection={closestCenter}
       sensors={sensors}
+      modifiers={[snapCenterToCursor]}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
       onDragOver={handleDragOver}

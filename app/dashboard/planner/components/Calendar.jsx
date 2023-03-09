@@ -11,6 +11,7 @@ import {
   startOfMonth,
   isSameDay,
 } from "date-fns";
+import { snapCenterToCursor } from "@dnd-kit/modifiers";
 import {
   closestCenter,
   DndContext,
@@ -277,6 +278,7 @@ export default function Calendar({ events }) {
             sensors={sensors}
             autoScroll={false}
             collisionDetection={closestCenter}
+            modifiers={[snapCenterToCursor]}
             id="planner"
             onDragOver={handleDragOver}
             onDragStart={handleDragStart}
