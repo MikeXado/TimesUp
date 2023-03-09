@@ -22,7 +22,7 @@ export default function Column({ boardId, tasks, column }) {
         <AddNewTask boardId={boardId} status={column} />
       </div>
       <div className={"w-full h-[1px] my-4 bg-gray-200"} />
-      <SortableContext items={tasks?.map((el) => el.id)}>
+      <SortableContext items={tasks}>
         <Droppable dropableName={column}>
           {tasks?.map((task) => {
             return <Task key={task.id} task={task} />;
