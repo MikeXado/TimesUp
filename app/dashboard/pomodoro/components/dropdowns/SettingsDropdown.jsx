@@ -62,27 +62,28 @@ export default function SettingsDropdown() {
       <div
         ref={wrapperRef}
         className={
-          "z-10 absolute top-[-170px] md:left-0 shadow-lg border bg-white divide-y divide-gray-100 rounded-lg  w-44 dark:bg-gray-700 dark:divide-gray-600" +
+          "z-10 absolute top-[-170px] md:left-0 shadow-lg border-none bg-[#111c44] divide-y divide-gray-300 rounded-lg  w-44 " +
           (isOpen ? " " : " hidden")
         }
       >
-        <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
+        <div className="px-4 py-3 text-sm text-white ">
           <div>Choose an option</div>
         </div>
         <ul
-          className="py-2 text-sm text-gray-700 dark:text-gray-200"
+          className="py-2 text-sm text-white "
           aria-labelledby="dropdownUserAvatarButton"
         >
           <li className="flex w-full justify-center items-center">
             <Link
               href="/dashboard/pomodoro/statistics"
-              className="text-gray-900 bg-white w-full mx-1 hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700"
+              className="text-white bg-[#192555] w-full mx-1   font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center "
             >
               <svg
                 width="25px"
                 height="25px"
                 className="mr-3"
                 viewBox="0 0 24 24"
+                fill="white"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <line x1="2" x2="22" y1="20" y2="20" />
