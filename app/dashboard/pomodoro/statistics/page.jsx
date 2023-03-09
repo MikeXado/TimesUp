@@ -7,5 +7,9 @@ export default async function Statistics() {
   const currentUserUid = nextCookies.get("u_i").value;
   const pomodoros = await getPomodoros(currentUserUid);
 
-  return <StatisticTable pomodoros={pomodoros} />;
+  return (
+    <div className="mt-24 mx-3">
+      <StatisticTable pomodoros={pomodoros} />
+    </div>
+  );
 }
