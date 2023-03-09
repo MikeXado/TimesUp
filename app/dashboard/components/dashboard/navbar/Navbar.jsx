@@ -9,10 +9,11 @@ export default function Navbar({ currentUser }) {
   const params = usePathname();
   const segments = params.split("/");
   const path = segments[2];
+  console.log(segments);
   return (
     <nav
       className={
-        path === "chat"
+        path === "chat" && segments.length >= 4
           ? "hidden "
           : "" +
             "absolute top-0 left-0 w-full pl-1 z-5 bg-transparent lg:flex-row lg:flex-nowrap lg:justify-start items-center "
