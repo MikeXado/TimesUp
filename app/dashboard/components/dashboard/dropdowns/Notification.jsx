@@ -18,7 +18,7 @@ export default function Notification() {
     const channel = clientPusher.subscribe("messages");
 
     channel.bind("new-message", (data) => {
-      console.log("new message from: ", data.displayName);
+      console.log("new message from: ", data);
 
       setNewMessage((prev) => [...prev, data]);
     });

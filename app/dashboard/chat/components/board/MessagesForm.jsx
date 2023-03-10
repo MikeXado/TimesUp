@@ -6,6 +6,7 @@ import { UserContext } from "../../../contexts/UserProvider";
 export default function MessagesFrom({ id, setHeight, chat }) {
   const currentUser = useContext(UserContext);
   const [message, setMessage] = useState("");
+  const [isFetching, setIsFetching] = useState(false);
   const textareaRef = useRef();
   autosize(textareaRef.current);
 
@@ -18,6 +19,7 @@ export default function MessagesFrom({ id, setHeight, chat }) {
     };
     if (!message) return;
     const addMessageToFirebaseDb = async () => {
+      setIsFetching(true);
       await fetch("/api/addMessage", {
         method: "POST",
         headers: {
@@ -25,9 +27,10 @@ export default function MessagesFrom({ id, setHeight, chat }) {
         },
         body: JSON.stringify(messageObj),
       });
+      setIsFetching(false);
     };
-    setMessage("");
     addMessageToFirebaseDb();
+    setMessage("");
   };
 
   const handleInput = (e) => {
@@ -138,7 +141,9 @@ export default function MessagesFrom({ id, setHeight, chat }) {
         type="button"
         className="inline-flex items-center  justify-center rounded-r-lg px-4 mr-4 py-3 transition duration-500 ease-in-out text-white bg-[#6e6ae4] hover:bg-indigo-700 focus:outline-none"
       >
-        <span className="font-bold hidden lg:inline">Send</span>
+        <span className="font-bold hidden lg:inline">
+          {isFetching ? "..." : "Send"}
+        </span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
