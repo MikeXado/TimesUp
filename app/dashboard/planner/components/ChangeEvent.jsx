@@ -3,8 +3,10 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useMutation } from "../../../../utils/fetcher";
 import { UserContext } from "../../contexts/UserProvider";
+import { ChangeEventContext } from "./context/ChangeEventProvider";
 
-export default memo(function ChangeEvent({ isOpen, eventId, setIsOpen, day }) {
+export default memo(function ChangeEvent({ eventId, day }) {
+  const { isOpen, setIsOpen } = useContext(ChangeEventContext);
   const uid = useContext(UserContext);
   const changeEvent = useMutation("/api/changeEvent");
 

@@ -31,7 +31,7 @@
     "formidable": "^2.1.1",
     "formidable-serverless": "^1.1.1",
     "lodash": "^4.17.21",
-    "next": "13.2.3",
+    "next": "^13.2.4",
     "next-connect": "^0.13.0",
     "pusher": "^5.1.2",
     "pusher-js": "^8.0.1",
