@@ -41,7 +41,13 @@ export default function AddNewChat({ users }) {
         Send Message
       </button>
 
-      <Modal show={isOpen} size="lg" popup={true} onClose={onOpen}>
+      <Modal
+        show={isOpen}
+        size="lg"
+        popup={true}
+        className="h-full"
+        onClose={onOpen}
+      >
         <Modal.Header className="bg-[#111c44]" />
         <Modal.Body className="bg-[#111c44]">
           <div className="space-y-6 px-6 pb-4 sm:pb-6 lg:px-8 xl:pb-8">
