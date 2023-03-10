@@ -58,7 +58,7 @@ export default function Event({ event, day }) {
           </button>
         </div>
       </div>
-      <DetailPopup event={event} isOpen={isOpen} setIsOpen={isOpen} />
+      <DetailPopup event={event} isOpen={isOpen} setIsOpen={setIsOpen} />
       <ChangeEvent eventId={event.id} day={day} />
     </>
   );
