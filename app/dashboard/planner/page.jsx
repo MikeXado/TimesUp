@@ -2,6 +2,7 @@ import { getEvents } from "../../../lib/db";
 import Calendar from "./components/Calendar";
 import { cookies } from "next/headers";
 import MobileCalendar from "./components/mobile/MobileCalendar";
+import ChangeEventProvider from "./components/context/ChangeEventProvider";
 
 export default async function Planner() {
   const nextCookies = cookies();
@@ -12,8 +13,10 @@ export default async function Planner() {
 
   return (
     <div className="mx-3 mb-3 mt-24 overflow-hidden">
-      <Calendar events={events} />
-      <MobileCalendar events={events} />
+      <ChangeEventProvider>
+        <Calendar events={events} />
+        <MobileCalendar events={events} />
+      </ChangeEventProvider>
     </div>
   );
 }

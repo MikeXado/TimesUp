@@ -8,25 +8,11 @@ export default memo(function Detail({
   day,
   event,
 }) {
-  const [isChangeOpen, setIsChangeOpen] = useState(false);
-
   return (
     <>
-      {isChangeOpen ? (
-        <ChangeEvent
-          isOpen={isChangeOpen}
-          eventId={eventId}
-          setIsOpen={setIsChangeOpen}
-          day={day}
-        />
-      ) : (
-        <DetailPopup
-          setIsOpen={setIsOpen}
-          setChangeOpen={setIsChangeOpen}
-          isOpen={isOpen}
-          event={event}
-        />
-      )}
+      <ChangeEvent eventId={eventId} day={day} />
+
+      <DetailPopup setIsOpen={setIsOpen} isOpen={isOpen} event={event} />
     </>
   );
 });
