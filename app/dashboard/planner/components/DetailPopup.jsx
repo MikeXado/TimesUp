@@ -1,13 +1,10 @@
 import { format, parseISO } from "date-fns";
 
-import React from "react";
+import React, { useContext } from "react";
+import { ChangeEventContext } from "./context/ChangeEventProvider";
 
-export default function DetailPopup({
-  setIsOpen,
-  isOpen,
-  setChangeOpen,
-  event,
-}) {
+export default function DetailPopup({ setIsOpen, isOpen, event }) {
+  const { setIsOpen: setChangeOpen } = useContext(ChangeEventContext);
   const onOpen = () => {
     setIsOpen((prev) => !prev);
   };

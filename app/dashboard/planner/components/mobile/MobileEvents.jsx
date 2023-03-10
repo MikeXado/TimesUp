@@ -53,7 +53,7 @@ export default function MobileEvents({ selectedDay, events }) {
         filteredEvents?.map((el) => {
           return (
             <>
-              <MobileEvent key={el.id} event={el} />
+              <MobileEvent key={el.id} event={el} day={selectedDay} />
               <hr className="bg-gray-300 mt-10" />
             </>
           );
