@@ -46,49 +46,73 @@ export default memo(function PopUp({ setIsFetching, startTransition }) {
         Add Session
       </Button>
       <Modal show={isOpen} size="lg" popup={true} onClose={onOpen}>
-        <Modal.Header />
-        <Modal.Body>
+        <Modal.Header className="bg-[#192555]" />
+        <Modal.Body className="bg-[#192555]">
           <div className="space-y-6 px-6 pb-4 sm:pb-6 lg:px-8 xl:pb-8">
-            <h3 className="text-xl text-center font-medium text-gray-900 dark:text-white">
+            <h3 className="text-xl text-center font-medium text-white ">
               Add new session
             </h3>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-4">
-                <div className="mb-2 block">
-                  <Label htmlFor="title" value="Session name" />
+                <div className="mb-2 block ">
+                  <Label
+                    htmlFor="title"
+                    value="Session name"
+                    className="text-white"
+                  />
                 </div>
-                <TextInput
-                  {...register("title", { required: true })}
-                  id="title"
-                  placeholder="English"
-                  required={true}
-                />
-              </div>
-              <div className="mb-4">
-                <div className="mb-2 block">
-                  <Label htmlFor="description" value="Session description" />
-                </div>
-                <Textarea
+                <input
                   type="text"
-                  {...register("description", { required: true })}
+                  id="title"
+                  className="bg-[#111c44] text-white placeholder-gray-300 text-sm rounded-lg focus:ring-blue-900 border-none focus:border-blue-900 block w-full p-2.5"
+                  placeholder="English class"
+                  {...register("title", { required: true })}
+                  required
                 />
               </div>
               <div className="mb-4">
-                <div className=" font-semibold text-sm ">
+                <div className="mb-2 block">
+                  <Label
+                    htmlFor="description"
+                    value="Session description"
+                    className="text-white"
+                  />
+                </div>
+                <textarea
+                  id="description"
+                  rows="8"
+                  className="block p-2.5 w-full text-sm bg-[#111c44] text-white placeholder-gray-300  rounded-lg border-none focus:ring-blue-900  focus:border-blue-900 "
+                  placeholder="Write event description..."
+                  {...register("description")}
+                />
+              </div>
+              <div className="mb-4">
+                <div className=" font-semibold text-sm text-white mb-2">
                   Choose time of session
                 </div>
-                <input type="time" {...register("time", { required: true })} />
+                <input
+                  type="time"
+                  className="bg-[#111c44] text-white border-none rounded-lg"
+                  {...register("time", { required: true })}
+                />
               </div>
               <div className="mb-4">
-                <div className=" font-semibold text-sm ">
+                <div className=" font-semibold text-sm text-white mb-2">
                   Choose date of session
                 </div>
-                <input type="date" {...register("date", { required: true })} />
+                <input
+                  className="bg-[#111c44] text-white border-none rounded-lg"
+                  type="date"
+                  {...register("date", { required: true })}
+                />
               </div>
 
-              <Button className="mt-5 flex justify-center w-full" type="submit">
+              <button
+                type="submit"
+                className="text-white justify-center flex items-center bg-indigo-700  w-full focus:ring-4  font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-3"
+              >
                 Confirm
-              </Button>
+              </button>
             </form>
           </div>
         </Modal.Body>
