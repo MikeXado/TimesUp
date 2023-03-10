@@ -39,19 +39,19 @@ export default function StatisticTable({ pomodoros }) {
             {pomodoros.map((pomo) => {
               return (
                 <tr key={pomo.id}>
-                  <th className="border-t-0 px-6 align-middle  text-white text-sm whitespace-nowrap p-4 text-left">
+                  <th className=" px-6 align-middle  text-white text-sm whitespace-nowrap p-4 text-left">
                     {format(parseISO(pomo.date), "yyyy") +
                       "/" +
                       format(parseISO(pomo.date), "dd") +
                       "/" +
                       format(parseISO(pomo.date), "MMM")}
                   </th>
-                  <td className="border-t-0 px-6 align-middle   whitespace-nowrap p-4">
+                  <td className=" px-6 align-middle   whitespace-nowrap p-4">
                     <div className="font-semibold text-indigo-700 text-md">
                       {formatTimeLeft(pomo.pomo * 60) + " minutes"}
                     </div>
                   </td>
-                  <td className="border-t-0 px-6 align-middle text-gray-200 text-xs whitespace-nowrap p-4">
+                  <td className=" px-6 align-middle text-gray-200 text-xs whitespace-nowrap p-4">
                     {format(pomo.time, "hh:mm:ss")}
                   </td>
                   {/* <td>
