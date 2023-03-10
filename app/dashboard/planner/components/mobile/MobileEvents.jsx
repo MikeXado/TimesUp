@@ -1,9 +1,8 @@
 import { format, isSameDay, parseISO } from "date-fns";
 import { Spinner } from "flowbite-react";
-import { useSearchParams } from "next/navigation";
 import { useContext } from "react";
 import useSWR from "swr";
-import SuspenseAfterInitialRender from "../../../components/dashboard/suspense/SuspenseAfterInitialRender";
+
 import { UserContext } from "../../../contexts/UserProvider";
 import AddEvent from "../AddEvent";
 import MobileEvent from "./MobileEvent";
@@ -45,7 +44,17 @@ export default function MobileEvents({ selectedDay, events }) {
         <div className="flex justify-center items-center h-full w-full">
           <Spinner />
         </div>
-      ) : filteredEvents?.length === 0 ? (
+      ) : (
+        handlingNoEvents(filteredEvents, selectedDay)
+      )}
+    </div>
+  );
+}
+
+function handlingNoEvents(filteredEvents, selectedDay) {
+  return (
+    <>
+      {filteredEvents?.length === 0 ? (
         <div className="flex justify-center items-center mt-10 pb-10">
           No events yet
         </div>
@@ -59,6 +68,6 @@ export default function MobileEvents({ selectedDay, events }) {
           );
         })
       )}
-    </div>
+    </>
   );
 }
