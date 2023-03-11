@@ -29,7 +29,7 @@ export default function Messages({ id, chatMembers }) {
     mutate,
   } = useSWR("/api/getMessages", getMessages);
 
-  const messagesBoardRef = useRef();
+  const messagesBoardRef = useRef(null);
 
   useEffect(() => {
     const channel = clientPusher.subscribe("messages");
@@ -39,16 +39,10 @@ export default function Messages({ id, chatMembers }) {
 
       if (!messages) {
         mutate(getMessages);
-        messagesBoardRef?.current?.scrollIntoView({
-          block: "nearest",
-        });
       } else {
         mutate(getMessages, {
           optimisticData: [data, ...messages],
           rollbackOnError: true,
-        });
-        messagesBoardRef?.current?.scrollIntoView({
-          block: "nearest",
         });
       }
     });
@@ -62,7 +56,7 @@ export default function Messages({ id, chatMembers }) {
     messagesBoardRef?.current?.scrollIntoView({
       block: "nearest",
     });
-  }, []);
+  }, [messages]);
 
   if (isLoading) {
     return (

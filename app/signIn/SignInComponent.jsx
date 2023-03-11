@@ -33,15 +33,15 @@ export default function SignInComponents() {
   };
 
   return (
-    <div className="flex justify-center flex-col items-center w-full h-[100vh]">
-      <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-white md:text-5xl lg:text-6xl ">
+    <div className="flex justify-center flex-col items-center w-full md:h-screen md:mt-0 mt-10 pb-3 px-4">
+      <h1 className="mb-4  text-center font-extrabold leading-none tracking-tight text-white md:text-5xl lg:text-6xl sm:text-3xl text-2xl ">
         Welcome back! Sign In
       </h1>
 
-      <div className="w-[500px] bg-[#192555] p-20 rounded-lg mt-10">
+      <div className="w-[500px] max-w-full bg-[#192555] lg:p-20 p-10 rounded-lg mt-10">
         <HandleErrorBoundary authError={authError} />
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div>
+          <div className="w-full">
             <label
               htmlFor="input-group-1"
               className="block mb-2 text-sm font-medium text-white"
@@ -102,7 +102,7 @@ export default function SignInComponents() {
             {isLoading ? "Wait a sec.." : "Sign In"}
           </button>
         </form>
-        <div className="flex w-full justify-center mt-5 text-white">
+        <div className="flex w-full justify-center mt-5 md:flex-row flex-col items-center  text-white">
           <div>If not have an account?</div>
           <Link href="/signUp" className="underline">
             Sign Up
