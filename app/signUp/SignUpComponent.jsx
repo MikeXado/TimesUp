@@ -8,7 +8,7 @@ export default function SignUpComponent() {
   const [authError, setAuthError] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [fieldValid, setFieldValid] = useState("");
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit } = useForm();
   const router = useRouter();
   const handleSignButton = async (credential) => {
     setIsLoading(true);
@@ -23,7 +23,7 @@ export default function SignUpComponent() {
       router.push("/provideName");
     }
     setIsLoading(false);
-    const message = await res.json();
+    const { message } = await res.json();
     setAuthError(message);
   };
 
@@ -47,10 +47,14 @@ export default function SignUpComponent() {
               <label
                 htmlFor="input-group-1"
                 className={`block mb-2 text-sm font-medium ${
-                  authError?.message ? "text-red-600" : " text-white"
+                  authError?.code === "auth/email-already-in-use"
+                    ? "text-red-600"
+                    : " text-white"
                 }`}
               >
-                {authError?.message ? "Email already in use" : "Your Email"}
+                {authError?.code === "auth/email-already-in-use"
+                  ? "Email already in use"
+                  : "Your Email"}
               </label>
               <div className="relative mb-6">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
