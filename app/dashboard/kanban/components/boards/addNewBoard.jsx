@@ -48,9 +48,9 @@ export default function AddNewBoard() {
         }
       >
         <div className="relative w-full h-full max-w-md md:h-auto">
-          <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+          <div className="relative bg-[#192555] rounded-lg shadow ">
             <button
-              className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+              className="absolute top-3 right-2.5 text-white bg-transparent hover:bg-gray-200 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center "
               onClick={handleOpenModal}
             >
               <svg
@@ -69,8 +69,8 @@ export default function AddNewBoard() {
               <span className="sr-only">Close modal</span>
             </button>
 
-            <div className="px-6 py-4 border-b rounded-t dark:border-gray-600">
-              <h3 className="text-base font-semibold text-gray-900 lg:text-xl dark:text-white">
+            <div className="px-6 py-4  rounded-t ">
+              <h3 className="text-base font-semibold text-white lg:text-xl ">
                 Add New Board
               </h3>
             </div>
@@ -83,14 +83,14 @@ export default function AddNewBoard() {
                 <div className="mb-6">
                   <label
                     htmlFor="title"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    className="block mb-2 text-sm font-medium text-white"
                   >
                     Title
                   </label>
                   <input
                     type="text"
                     id="title"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="bg-[#111c44] text-white placeholder-gray-300 text-sm rounded-lg focus:ring-blue-900 border-none focus:border-blue-900 block w-full p-2.5"
                     placeholder="Dashboard making"
                     {...register("title", { required: true })}
                   />
@@ -99,14 +99,14 @@ export default function AddNewBoard() {
                 <div className="mb-6">
                   <label
                     htmlFor="description"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    className="block mb-2 text-sm font-medium text-white"
                   >
                     Description
                   </label>
                   <input
                     type="text"
                     id="description"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="bg-[#111c44] text-white placeholder-gray-300 text-sm rounded-lg focus:ring-blue-900 border-none focus:border-blue-900 block w-full p-2.5"
                     placeholder="A small tasks during dashboard developing"
                     {...register("description")}
                   />
