@@ -18,9 +18,6 @@ export default function UserDropdown({ currentUser }) {
   const openDropdownPopover = () => {
     setDropdownPopoverShow((prev) => !prev);
   };
-  const closeDropdownPopover = () => {
-    setDropdownPopoverShow(false);
-  };
 
   React.useEffect(() => {
     function handleClickOutside(event) {
@@ -60,7 +57,7 @@ export default function UserDropdown({ currentUser }) {
       <div
         ref={wrapperRef}
         className={
-          "z-10 absolute  top-[60px] lg:left-[-95px]  shadow-lg  bg-[#111c44] border-none divide-y divide-gray-500 rounded-lg  w-44 " +
+          "z-10 absolute  top-[60px]   lg:-left-[100px] right-0   shadow-lg  bg-[#111c44] border-none divide-y divide-gray-500 rounded-lg  w-44 " +
           (dropdownPopoverShow ? " " : " hidden")
         }
       >
