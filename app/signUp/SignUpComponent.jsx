@@ -36,12 +36,12 @@ export default function SignUpComponent() {
 
   return (
     <>
-      <div className="flex justify-center flex-col items-center w-full h-[100vh]">
-        <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-white md:text-5xl lg:text-6xl ">
+      <div className="flex justify-center flex-col items-center w-full md:h-screen md:mt-0 mt-10 px-4 pb-3">
+        <h1 className="mb-4  text-center font-extrabold leading-none tracking-tight text-white md:text-5xl lg:text-6xl sm:text-3xl text-2xl ">
           Welcome! Sign Up
         </h1>
 
-        <div className="w-[500px] bg-[#192555] p-20 rounded-lg mt-10">
+        <div className="w-[500px] max-w-full bg-[#192555] md:p-20 p-10 rounded-lg mt-10">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div>
               <label
@@ -107,7 +107,7 @@ export default function SignUpComponent() {
               {isLoading ? "Wait a sec..." : "Sign Up"}
             </button>
           </form>
-          <div className="flex w-full justify-center mt-5 text-white">
+          <div className="flex w-full justify-center mt-5 md:flex-row flex-col items-center  text-white">
             <div>Already have an account?</div>
             <Link href="/signIn" className="underline">
               Sign In
