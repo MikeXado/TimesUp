@@ -39,25 +39,7 @@ export default function SignInComponents() {
       </h1>
 
       <div className="w-[500px] bg-[#192555] p-20 rounded-lg mt-10">
-        {authError?.code === "auth/wrong-password" ? (
-          <div className="text-red-600 font-medium text-sm pl-2 pr-2 text-center mb-5">
-            Ops something went wrong! , please check your email or password and
-            try again
-          </div>
-        ) : authError?.code === "auth/user-not-found" ? (
-          <div className="text-red-600 font-medium text-sm pl-2 pr-2 text-center mb-5">
-            Ops something went wrong! , user with this email not found
-          </div>
-        ) : authError?.code === "auth/too-many-requests" ? (
-          <div className="text-red-600 font-medium text-sm pl-2 pr-2 text-center mb-5">
-            Access to this account has been temporarily disabled due to many
-            failed login attempts. You can immediately restore it by resetting
-            your password or you can try again later.
-          </div>
-        ) : (
-          <></>
-        )}
-
+        <HandleErrorBoundary authError={authError} />
         <form onSubmit={handleSubmit(onSubmit)}>
           <div>
             <label
@@ -127,6 +109,47 @@ export default function SignInComponents() {
           </Link>
         </div>
       </div>
+    </div>
+  );
+}
+
+function HandleErrorBoundary({ authError }) {
+  return (
+    <>
+      {authError?.code === "auth/wrong-password" ? (
+        <WrongPasswordError />
+      ) : (
+        <></>
+      )}
+      {authError?.code === "auth/user-not-found" ? <UserNotFound /> : <></>}
+      {authError?.code === "auth/too-many-requests" ? <ToManyRequest /> : <></>}
+    </>
+  );
+}
+
+function WrongPasswordError() {
+  return (
+    <div className="text-red-600 font-medium text-sm pl-2 pr-2 text-center mb-5">
+      Ops something went wrong! , please check your email or password and try
+      again
+    </div>
+  );
+}
+
+function UserNotFound() {
+  return (
+    <div className="text-red-600 font-medium text-sm pl-2 pr-2 text-center mb-5">
+      Ops something went wrong! , user with this email not found
+    </div>
+  );
+}
+
+function ToManyRequest() {
+  return (
+    <div className="text-red-600 font-medium text-sm pl-2 pr-2 text-center mb-5">
+      Access to this account has been temporarily disabled due to many failed
+      login attempts. You can immediately restore it by resetting your password
+      or you can try again later.
     </div>
   );
 }
