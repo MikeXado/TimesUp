@@ -35,33 +35,33 @@ export default function ProvideName() {
 
   return (
     <div className="flex justify-center flex-col items-center w-full h-[100vh]">
-      <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
+      <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-white md:text-5xl lg:text-6xl ">
         Let us know what is your name ?
       </h1>
 
-      <div className="w-[500px] bg-white p-20 rounded-lg mt-10">
+      <div className="w-[500px] bg-[#192555] p-20 rounded-lg mt-10">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div>
-            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            <label className="block mb-2 text-sm font-medium text-white">
               First Name
             </label>
             <div className="relative mb-6">
               <input
                 type="text"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-[#111c44] placeholder-gray-300  text-white text-sm rounded-lg focus:ring-blue-900 border-none focus:border-blue-900  block w-full p-2.5  "
                 placeholder="Gurin"
                 {...register("firstName", { required: true })}
               />
             </div>
           </div>
           <div>
-            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            <label className="block mb-2 text-sm font-medium text-white">
               Last Name
             </label>
             <div className="flex">
               <input
                 type="text"
-                className="rounded-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-[#111c44] placeholder-gray-300  text-white text-sm rounded-lg focus:ring-blue-900 border-none focus:border-blue-900  block w-full p-2.5  "
                 {...register("lastName", { required: true })}
                 placeholder="Mihail"
               />
@@ -70,14 +70,14 @@ export default function ProvideName() {
 
           <div className="flex justify-between items-center w-full ">
             <Link
-              className="border-solid border-[1.5px] border-blue-500 flex justify-center w-full mt-10  hover:bg-gradient-to-br  from-blue-500 via-blue-600 to-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-2 py-2.5 text-center mr-2 mb-2"
+              className="border-solid border-[1.5px] border-indigo-500 flex justify-center w-full mt-10  hover:bg-gradient-to-br  from-indigo-500 via-indigo-600 to-indigo-700 text-white focus:ring-4 focus:outline-none focus:ring-indigo-300  font-medium rounded-lg text-sm px-2 py-2.5 text-center mr-2 mb-2"
               href="/signUp"
             >
               Back
             </Link>
             <button
               type="submit"
-              className="text-white flex justify-center w-full mt-10 bg-gradient-to-r  from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-2 py-2.5 text-center mr-2 mb-2"
+              className="text-white flex justify-center w-full mt-10 bg-gradient-to-r  from-indigo-500 via-indigo-600 to-indigo-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-indigo-300 dark:focus:ring-indigo-800 font-medium rounded-lg text-sm px-2 py-2.5 text-center mr-2 mb-2"
             >
               {isLoading ? "Wait a sec..." : "Confirm"}
             </button>
