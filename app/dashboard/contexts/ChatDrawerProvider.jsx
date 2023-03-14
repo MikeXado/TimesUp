@@ -7,7 +7,9 @@ export default function ChatDrawerProvider({ children }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <ChatDrawerContext.Provider value={{ isOpen, setIsOpen }}>
+    <ChatDrawerContext.Provider
+      value={useMemo(() => ({ isOpen, setIsOpen }), [isOpen, setIsOpen])}
+    >
       {children}
     </ChatDrawerContext.Provider>
   );

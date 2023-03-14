@@ -1,8 +1,8 @@
 "use client";
 import { useState, useTransition } from "react";
 import { Spinner, Table } from "flowbite-react";
-import ChangeModal from "./ChangeModal";
-import PopUp from "./Modal";
+import ChangeSessions from "./ChangeSessions";
+import AddNewSessions from "./AddNewSessions";
 import { format, parseISO } from "date-fns";
 export default function TableSessions({ sessions }) {
   const [isPending, startTransition] = useTransition();
@@ -17,7 +17,7 @@ export default function TableSessions({ sessions }) {
           <Spinner />
         </div>
       ) : (
-        <div className="relative flex flex-col min-w-0 break-words bg-[#111c44] w-full mb-6 shadow-lg rounded">
+        <div className="flex flex-col min-w-0 break-words bg-[#111c44] w-full mb-6 shadow-lg rounded">
           <div className="rounded-t mb-0 px-4 py-3 border-0">
             <div className="flex flex-wrap items-center">
               <div className="relative w-full px-4 max-w-full flex-grow flex-1">
@@ -67,7 +67,8 @@ export default function TableSessions({ sessions }) {
                         {session.time}
                       </td>
                       <td>
-                        <ChangeModal
+                        <ChangeSessions
+                          session={session}
                           setIsFetching={setIsFetching}
                           startTransition={startTransition}
                         />
@@ -80,7 +81,10 @@ export default function TableSessions({ sessions }) {
           </div>
         </div>
       )}
-      <PopUp setIsFetching={setIsFetching} startTransition={startTransition} />
+      <AddNewSessions
+        setIsFetching={setIsFetching}
+        startTransition={startTransition}
+      />
     </>
   );
 }

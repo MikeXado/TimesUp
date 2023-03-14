@@ -1,9 +1,7 @@
 "use client";
 
-import Chat from "../../../chat/Chat";
 import useSWR from "swr";
 import { useContext } from "react";
-import { ChatDrawerContext } from "../../../contexts/ChatDrawerProvider";
 import { UserContext } from "../../../contexts/UserProvider";
 import { NavbarContext } from "../../../contexts/NavbarContext";
 import Board from "../../../kanban/components/sidebar/Board";

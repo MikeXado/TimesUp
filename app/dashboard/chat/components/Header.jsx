@@ -10,8 +10,8 @@ const UserDropdown = dynamic(() =>
 const OpenSidebar = dynamic(() =>
   import("../../components/dashboard/buttons/OpenSidebar")
 );
-const Notification = dynamic(() =>
-  import("../../components/dashboard/dropdowns/Notification")
+const Notifications = dynamic(() =>
+  import("../../components/dashboard/dropdowns/Notifications")
 );
 export default async function Header({ chat }) {
   const user = await getSpecificUser(chat);
@@ -102,7 +102,7 @@ export default async function Header({ chat }) {
         </Link>
       </div>
       <div className="flex items-center">
-        <Notification />
+        <Notifications />
         <OpenSidebar />
         <UserDropdown currentUser={currentUser} />
       </div>

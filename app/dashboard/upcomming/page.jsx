@@ -1,5 +1,5 @@
 import { getSessions } from "../../../lib/db";
-import TableSessions from "./Table";
+import TableSessions from "./components/TableSessions";
 import { cookies } from "next/headers";
 
 export default async function Sessions() {
@@ -10,7 +10,7 @@ export default async function Sessions() {
   const sessions = await getSessions(currentUserUid);
 
   return (
-    <div className="mt-24 px-5">
+    <div className="mt-24 px-5 h-screen">
       <TableSessions sessions={sessions} />
     </div>
   );

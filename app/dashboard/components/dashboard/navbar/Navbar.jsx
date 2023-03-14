@@ -4,12 +4,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import OpenSidebar from "../buttons/OpenSidebar";
 import UserDropdown from "../dropdowns/UserDropdown";
-import Notification from "../dropdowns/Notification";
+import Notifications from "../dropdowns/Notifications";
 export default function Navbar({ currentUser }) {
   const params = usePathname();
   const segments = params.split("/");
   const path = segments[2];
-  console.log(segments);
+
   return (
     <nav
       className={
@@ -40,7 +40,7 @@ export default function Navbar({ currentUser }) {
         {/* User */}
 
         <div className="flex w-full justify-end items-center">
-          <Notification />
+          <Notifications />
           <Link href="/dashboard/chat">
             <svg
               width="27"
