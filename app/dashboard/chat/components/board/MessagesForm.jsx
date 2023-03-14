@@ -3,7 +3,8 @@
 import { useContext, useRef, useState } from "react";
 import autosize from "autosize";
 import { UserContext } from "../../../contexts/UserProvider";
-export default function MessagesFrom({ id, setHeight, chat }) {
+import { mutate } from "swr";
+export default function MessagesFrom({ id, setHeight, chat, messages }) {
   const currentUser = useContext(UserContext);
   const [message, setMessage] = useState("");
   const [isFetching, setIsFetching] = useState(false);
@@ -18,24 +19,23 @@ export default function MessagesFrom({ id, setHeight, chat }) {
       currentUser: currentUser,
     };
     if (!message) return;
-    const addMessageToFirebaseDb = async () => {
-      setIsFetching(true);
-      await fetch("/api/addMessage", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(messageObj),
-      });
-      setIsFetching(false);
-    };
-    addMessageToFirebaseDb();
+    setIsFetching(true);
+    const res = await fetch("/api/addMessage", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(messageObj),
+    });
+    const data = await res.json();
+    mutate("/api/getMessages", [data, ...messages]);
+    setIsFetching(false);
     setMessage("");
   };
 
   const handleInput = (e) => {
-    setHeight(e.target.scrollHeight);
     setMessage(e.target.value);
+    setHeight(e.target.scrollHeight);
   };
 
   return (

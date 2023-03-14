@@ -8,10 +8,15 @@ import NoMessages from "./NoMessages";
 import useSWR from "swr";
 import { UserContext } from "../../../contexts/UserProvider";
 import { Spinner } from "flowbite-react";
+import { NotificationsContext } from "../../../contexts/NotificationsProvider";
+
 const Message = dynamic(() => import("./Message"));
-export default function Messages({ id, chatMembers }) {
+export default function Messages({ id, chatMembers, chatData }) {
+  const { addNotification } = useContext(NotificationsContext);
   const [height, setHeight] = useState(50);
+  const messagesBoardRef = useRef(null);
   const currentUserUid = useContext(UserContext);
+
   const getMessages = useCallback(async () => {
     const res = await fetch("/api/getMessages", {
       method: "POST",
@@ -27,30 +32,34 @@ export default function Messages({ id, chatMembers }) {
     data: messages,
     isLoading,
     mutate,
-  } = useSWR("/api/getMessages", getMessages);
+  } = useSWR("/api/getMessages", getMessages, {
+    fallbackData: chatData,
+    dedupingInterval: 1000,
+    revalidateOnMount: true,
+  });
 
-  const messagesBoardRef = useRef(null);
+  const handleNewMessage = useCallback(
+    (data) => {
+      if (messages?.find((message) => message.id === data.id)) return;
+
+      mutate([data, ...messages]);
+
+      addNotification({
+        ...data,
+        receiver: chatMembers.find((el) => el !== data.uid),
+      });
+    },
+    [addNotification, messages, mutate, chatMembers]
+  );
 
   useEffect(() => {
     const channel = clientPusher.subscribe("messages");
-
-    channel.bind("new-message", async (data) => {
-      if (messages?.find((message) => message.id === data.id)) return;
-
-      if (!messages) {
-        mutate(getMessages);
-      } else {
-        mutate(getMessages, {
-          optimisticData: [data, ...messages],
-          rollbackOnError: true,
-        });
-      }
-    });
+    channel.bind("new-message", handleNewMessage);
 
     return () => {
       clientPusher.unsubscribe("messages");
     };
-  }, [getMessages, messages, mutate]);
+  }, [handleNewMessage]);
 
   useEffect(() => {
     messagesBoardRef?.current?.scrollIntoView({
@@ -85,7 +94,12 @@ export default function Messages({ id, chatMembers }) {
           <span ref={messagesBoardRef}></span>
         </div>
       )}
-      <MessagesFrom id={id} setHeight={setHeight} chat={chatMembers} />
+      <MessagesFrom
+        id={id}
+        setHeight={setHeight}
+        chat={chatMembers}
+        messages={messages}
+      />
     </div>
   );
 }

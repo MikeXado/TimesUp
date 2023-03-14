@@ -22,10 +22,7 @@ export default function ChatDrawer({ chats }) {
     return chats;
   };
 
-  const { data } = useSWR("/api/getChats", boardsFetcher, {
-    fallbackData: { chats, currentUser: uid },
-    revalidateOnMount: true,
-  });
+  const { data } = useSWR("/api/getChats", boardsFetcher);
   return (
     <>
       <div

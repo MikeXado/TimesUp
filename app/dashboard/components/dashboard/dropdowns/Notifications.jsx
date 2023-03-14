@@ -1,33 +1,22 @@
 "use client";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { clientPusher } from "../../../../../pusher";
-export default function Notification() {
-  const [newMessage, setNewMessage] = useState([]);
+import { NotificationsContext } from "../../../contexts/NotificationsProvider";
+import { UserContext } from "../../../contexts/UserProvider";
+import Notification from "../notifications/Notification";
+export default function Notificatios() {
+  const uid = useContext(UserContext);
   const [isOpen, setIsOpen] = useState(false);
-
+  const { notifications } = useContext(NotificationsContext);
   const params = usePathname();
   const segments = params.split("/");
   const path = segments[2];
+  console.log(notifications);
 
   const handleIsOpen = () => {
     setIsOpen((prev) => !prev);
   };
-
-  useEffect(() => {
-    const channel = clientPusher.subscribe("messages");
-
-    channel.bind("new-message", (data) => {
-      console.log("new message from: ", data);
-
-      setNewMessage((prev) => [...prev, data]);
-    });
-
-    return () => {
-      clientPusher.unbind_all();
-      clientPusher.unsubscribe("messages");
-    };
-  }, [newMessage]);
 
   return (
     <div className="relative">
@@ -58,7 +47,13 @@ export default function Notification() {
         <div className="block px-4 py-2 font-medium text-center text-gray-700 rounded-t-lg bg-gray-50 dark:bg-gray-800 dark:text-white">
           Notifications
         </div>
-        <div className="divide-y divide-gray-100 "></div>
+        {notifications
+          .filter((el) => el.receiver === uid)
+          .map((notification) => {
+            return (
+              <Notification key={notification.id} notification={notification} />
+            );
+          })}
       </div>
     </div>
   );

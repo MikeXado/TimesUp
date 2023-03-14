@@ -16,7 +16,7 @@ export default async function Dashboard() {
   return (
     <div className="flex flex-wrap lg:mt-25 mt-24">
       <div className="w-full xl:w-[60%] mb-12 xl:mb-0 px-4">
-        <Upcomming sessions={sessions} />
+        {sessions && <Upcomming sessions={sessions} />}
       </div>
       <div className="w-full xl:w-[40%] lg:w-full mb-12 xl:mb-0 px-4">
         <Chat />

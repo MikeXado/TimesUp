@@ -14,7 +14,11 @@ export default async function handler(req, res) {
     id: uuidv4(),
   };
 
-  await addMessage(id, messages, members, currentUser);
-  serverPusher.trigger("messages", "new-message", messages);
-  res.status(200).json({ message: "added" });
+  try {
+    await serverPusher.trigger("messages", "new-message", messages);
+    await addMessage(id, messages, members, currentUser);
+    res.status(200).json(messages);
+  } catch (err) {
+    res.status(500).json({ message: err });
+  }
 }
