@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
-import { revalidate } from "../app/dashboard/components/dashboard/SwrConfig";
+import { revalidate } from "../app/dashboard/contexts/SwrConfig";
 
 export const useMutation = (key) => {
   return async function (data, keys) {
