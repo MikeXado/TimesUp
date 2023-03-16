@@ -120,6 +120,14 @@ interface EditSubtasksProps {
   setNewSubtasks: (newSubtasks: { title: string; done: boolean }[]) => void;
   newSubtasks: { title: string; done: boolean }[];
 }
+
+interface MessageType {
+  message: string;
+  displayName: string;
+  email: string;
+  uid: string;
+  id: string;
+}
 export type {
   UserData,
   ChatData,
@@ -137,4 +145,5 @@ export type {
   KanbanTaskType,
   SubtasksType,
   EditSubtasksProps,
+  MessageType,
 };
