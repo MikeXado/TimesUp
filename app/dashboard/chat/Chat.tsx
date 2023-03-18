@@ -16,12 +16,8 @@ export default function Chat({ chat, user }: { chat: ChatData; user: string }) {
   };
 
   const fetchSpecificUser = async () => {
-    const data = await fetch("/api/getSpecificUser", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(user),
+    const data = await fetch(`/api/v1/${user}/user-profile/data`, {
+      method: "GET",
     });
 
     const userInfo = await data.json();
@@ -29,7 +25,7 @@ export default function Chat({ chat, user }: { chat: ChatData; user: string }) {
   };
 
   const { data, isLoading } = useSWR<UserData, boolean>(
-    `/api/getSpecificUser/${user}`,
+    `/api/v1/${user}/user-profile/data`,
     fetchSpecificUser
   );
 

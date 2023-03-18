@@ -12,7 +12,7 @@ export default function UserDropdown({ currentUser }) {
   const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
   const wrapperRef = React.useRef<HTMLDivElement>(null);
   const onSubmit = async () => {
-    await fetch("/api/logOut");
+    await fetch("/api/v1/auth/logOut");
     router.push("/signIn");
   };
   const openDropdownPopover = () => {

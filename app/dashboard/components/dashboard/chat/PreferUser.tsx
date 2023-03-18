@@ -14,23 +14,19 @@ export default function PreferUser({ chat }: { chat: ChatData }) {
     router.push(`/dashboard/chat/${chat.id}`);
   };
 
-  const currentMember =
+  const currentMember: string =
     chat.members[0] !== currentUser ? chat.members[0] : chat.members[1];
 
   const fetchSpecificUser = async () => {
-    const data = await fetch("/api/getSpecificUser", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(currentMember),
+    const data = await fetch(`/api/v1/${currentMember}/user-profile/data`, {
+      method: "GET",
     });
 
     const user = await data.json();
     return user;
   };
   const { data, error, isLoading } = useSWR<UserData, Error>(
-    `/api/getSpecificUser/${currentMember}`,
+    `/api/v1/${currentMember}/user-profile/data`,
     fetchSpecificUser
   );
 

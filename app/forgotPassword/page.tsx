@@ -13,9 +13,8 @@ export default function SignUp() {
   const { register, handleSubmit } = useForm();
 
   const handleSignButton = async (credential: ForgotPasswordFormData) => {
-    const res = await fetch("/api/forgotPassword", {
+    const res = await fetch("/api/v1/auth/forgotPassword", {
       method: "POST",
-      cache: "no-cache",
       headers: {
         "Content-Type": "application/json",
       },

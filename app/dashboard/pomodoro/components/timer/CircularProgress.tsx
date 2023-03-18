@@ -68,7 +68,7 @@ export default function CircularProgress({
         clearInterval(interval);
         timesUp();
         const addPomodoro = async (): Promise<void> => {
-          await fetch("/api/addPomodoro", {
+          await fetch(`/api/v1/${currentUserUid}/pomodoros`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

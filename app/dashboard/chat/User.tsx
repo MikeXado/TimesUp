@@ -10,7 +10,7 @@ export default function User({ user }: { user: UserData }) {
   const currentUser = useContext(UserContext);
   const router = useRouter();
   const handleCreateChatDb = async () => {
-    const combinedUid = await fetch("/api/createChatDb", {
+    const data = await fetch(`/api/v1/${currentUser}/chats/rooms`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -22,9 +22,9 @@ export default function User({ user }: { user: UserData }) {
       }
     });
 
-    mutate("/api/getChats");
+    mutate(`/api/v1/${currentUser}/chats/rooms`);
 
-    return router.push(`/dashboard/chat/${combinedUid}`);
+    return router.push(`/dashboard/chat/${data.id}`);
   };
 
   return (

@@ -6,22 +6,24 @@ import { useContext } from "react";
 import { ChatData } from "../../../../../types";
 import { ChatDrawerContext } from "../../../contexts/ChatDrawerProvider";
 import { NavbarContext } from "../../../contexts/NavbarContext";
+import { UserContext } from "../../../contexts/UserProvider";
 export default function ChatDrawer() {
   const { isOpen, setIsOpen } = useContext(ChatDrawerContext);
   const { isOpen: navbarStatus } = useContext(NavbarContext);
-
+  const uid = useContext(UserContext);
   const handleOpenSidebar = () => {
     setIsOpen(false);
   };
   const boardsFetcher = async () => {
-    const data = await fetch("/api/getChats", {
+    const res = await fetch(`/api/v1/${uid}/chats/rooms`, {
       method: "GET",
     });
-    const chats = await data.json();
+    const chats = await res.json();
     return chats;
   };
 
-  const { data } = useSWR("/api/getChats", boardsFetcher);
+  const { data } = useSWR(`/api/v1/${uid}/chats/rooms`, boardsFetcher);
+
   return (
     <>
       <div
