@@ -1,7 +1,30 @@
 import { cookies } from "next/headers";
 
-import { getColumns, getTasks } from "../../../../lib/db";
 import { KanbanColumnsType, KanbanTaskType } from "../../../../types";
+
+const getColumns = async (uid, boardName) => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/${uid}/kanban/${boardName}/columns`,
+    {
+      method: "GET",
+      cache: "no-store",
+    }
+  );
+  const columns = await res.json();
+  return columns;
+};
+
+const getTasks = async (uid, boardName) => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/${uid}/kanban/${boardName}/tasks`,
+    {
+      method: "GET",
+      cache: "no-store",
+    }
+  );
+  const tasks = await res.json();
+  return tasks;
+};
 
 import Board from "./components/tasks/Board";
 export default async function Page({ params: { boardName } }) {

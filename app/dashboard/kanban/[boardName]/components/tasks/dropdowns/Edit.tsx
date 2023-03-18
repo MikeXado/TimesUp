@@ -19,8 +19,12 @@ export default React.memo(function EditTask({
   task: KanbanTaskType | undefined;
 }) {
   const { cache } = useSWRConfig();
-  const dbSubtasks = cache.get(`/api/getSubtasks/subtasks/${task?.id}`)?.data;
-  const editTask = useMutation("/api/editTask");
+  const dbSubtasks = cache.get(
+    `/api/v1/${task?.uid}/kanban/${task?.boardId}/${task?.id}/subtasks`
+  )?.data;
+  const editTask = useMutation(
+    `/api/v1/${task?.uid}/kanban/${task?.boardId}/${task?.id}`
+  );
   const [isOpen, setIsOpen] = useState(false);
   const { register, handleSubmit }: UseFormReturn<FieldValues> =
     useForm<FieldValues>();
@@ -71,7 +75,11 @@ export default React.memo(function EditTask({
         subtasks: newSubtasks,
         progress: task?.progress,
       },
-      ["/api/getTasks", `/api/getSubtasks/subtasks/${task?.id}`]
+      [
+        `/api/v1/${task?.uid}/kanban/${task?.boardId}/tasks`,
+        `/api/v1/${task?.uid}/kanban/${task?.boardId}/${task?.id}/subtasks`,
+      ],
+      "PUT"
     );
     setIsFetchingEdit(false);
     toast.success("Task edited successfully!");

@@ -14,7 +14,7 @@ interface AddEventType {
 
 export default memo(function AddEvent({ day }: { day: Date }) {
   const uid = useContext(UserContext);
-  const createEvent = useMutation("/api/addEvent");
+  const createEvent = useMutation(`/api/v1/${uid}/planner/events`);
   const [isFetching, setIsFetching] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const { register, handleSubmit } = useForm();
@@ -24,7 +24,11 @@ export default memo(function AddEvent({ day }: { day: Date }) {
 
   const handleSendEventToDb = async (data: AddEventType) => {
     setIsFetching(true);
-    await createEvent({ ...data, date: day, uid: uid }, ["/api/getEvents"]);
+    await createEvent(
+      { ...data, date: day, uid: uid },
+      [`/api/v1/${uid}/planner/events`],
+      "POST"
+    );
     setIsFetching(false);
     toast.success("Event added!");
     setIsOpen(false);

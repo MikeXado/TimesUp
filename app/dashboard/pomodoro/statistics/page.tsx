@@ -1,7 +1,18 @@
 import { cookies } from "next/headers";
-import { getPomodoros } from "../../../../lib/db";
 import { PomodoroType } from "../../../../types";
 import StatisticTable from "../components/statistic/StatisticTable";
+
+const getPomodoros = async (uid) => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/${uid}/pomodoros`,
+    {
+      method: "GET",
+      cache: "no-store",
+    }
+  );
+  const pomodoros = await res.json();
+  return pomodoros;
+};
 
 export default async function Statistics() {
   const nextCookies = cookies();

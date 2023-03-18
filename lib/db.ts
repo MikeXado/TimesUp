@@ -1,5 +1,4 @@
 import { uuidv4 } from "@firebase/util";
-import { User } from "firebase/auth";
 import {
   ChatData,
   EventsType,
@@ -33,7 +32,7 @@ export const addSession = async (
   description: string,
   data: string,
   time: string,
-  uid: string
+  uid: string | string[] | undefined
 ) => {
   const colRef = db.doc(`users/${uid}`).collection("sessions");
   const session = {
@@ -55,7 +54,7 @@ export const changeSession = async (
   description: string,
   data: string,
   time: string,
-  uid: string,
+  uid: string | string[] | undefined,
   id: string
 ) => {
   const colRef = db.doc(`users/${uid}`).collection("sessions").doc(`${id}`);
@@ -73,15 +72,18 @@ export const changeSession = async (
   return session;
 };
 
-export const deleteSession = async (data: { uid: string; id: string }) => {
+export const deleteSession = async (data: {
+  uid: string | string[] | undefined;
+  sessionId: string | string[] | undefined;
+}) => {
   const colRef = db
     .doc(`users/${data.uid}`)
     .collection("sessions")
-    .doc(`${data.id}`);
+    .doc(`${data.sessionId}`);
   return await colRef.delete();
 };
 
-export const getSessions = async (id: string) => {
+export const getSessions = async (id: string | string[] | undefined) => {
   const omit = (obj, ...props) => {
     const result = { ...obj };
     props.forEach(function (prop) {
@@ -121,7 +123,7 @@ export const getUsersDb = async () => {
   return users;
 };
 
-export const getSpecificUser = async (id: string) => {
+export const getSpecificUser = async (id: string | string[] | undefined) => {
   const colRef = await db.doc(`users/${id}`).get();
   const dcr = JSON.parse(cryptr.decrypt(colRef.data()?.ecr));
   return dcr;
@@ -142,7 +144,6 @@ export const createChatDb = async (user: createChatDbTypeUser) => {
       ? user.currentUser + user.uid
       : user.uid + user.currentUser;
 
-  console.log(user);
   const roomObj = {
     members: [user.currentUser, user.uid],
   };
@@ -153,14 +154,14 @@ export const createChatDb = async (user: createChatDbTypeUser) => {
   return combinedUid;
 };
 
-export const getChatDb = async (id: string) => {
+export const getChatDb = async (id: string | string[] | undefined) => {
   const colRef = await db.doc(`rooms/${id}`).get();
   // JSON.parse(cryptr.decrypt(colRef.data().ecr));
 
   return colRef.data();
 };
 
-export const getAllChats = async (id: string) => {
+export const getAllChats = async (id: string | string[] | undefined) => {
   const colRef = await db
     .collection("rooms")
     .where("members", "array-contains", id)
@@ -178,7 +179,10 @@ export const getAllChats = async (id: string) => {
   return chats;
 };
 
-export const getMessages = async (id: string, userId: string) => {
+export const getMessages = async (
+  id: string | string[] | undefined,
+  userId: string | string[] | undefined
+) => {
   const colRef = await db
     .doc(`rooms/${id}`)
     .collection("messages")
@@ -224,7 +228,7 @@ export const addEvent = async (data: FunctionsEventType) => {
   return await colRef.add({ ecr });
 };
 
-export const getEvents = async (id: string) => {
+export const getEvents = async (id: string | string[] | undefined) => {
   const colRef = await db.doc(`users/${id}`).collection("events").get();
   const events: EventsType[] = [];
   colRef.forEach((el) => {
@@ -250,7 +254,7 @@ export const addPomodoro = async (data: PomodoroType) => {
   return await db.doc(`users/${data.id}`).collection("pomodoros").add({ ecr });
 };
 
-export const getPomodoros = async (id: string) => {
+export const getPomodoros = async (id: string | string[] | undefined) => {
   const colRef = await db.doc(`users/${id}`).collection("pomodoros").get();
   let pomodoros: PomodoroType[] = [];
   colRef.forEach((el) => {
@@ -260,14 +264,19 @@ export const getPomodoros = async (id: string) => {
   return pomodoros;
 };
 
-export const addBoard = async (data: KanbanBoards) => {
+interface AddBoardType {
+  title: string;
+  description: string;
+  uid: string | string[] | undefined;
+}
+export const addBoard = async (data: AddBoardType) => {
   const ecr = cryptr.encrypt(JSON.stringify(data));
-  const colRef = db.doc(`users/${data.id}`).collection("boards");
+  const colRef = db.doc(`users/${data.uid}`).collection("boards");
   await colRef.add({ ecr });
 };
 
-export const getBoards = async (id: string) => {
-  const colRef = db.doc(`users/${id}`).collection("boards").get();
+export const getBoards = async (uid: string | string[] | undefined) => {
+  const colRef = db.doc(`users/${uid}`).collection("boards").get();
   let boards: KanbanBoards[] = [];
   (await colRef).forEach((el) => {
     const dcr = JSON.parse(cryptr.decrypt(el.data().ecr));
@@ -311,9 +320,9 @@ export const addNewTask = async (data: FunctionsKanbanTasksType) => {
 };
 
 export const getSubtasks = async (data: {
-  uid: string;
-  boardId: string;
-  taskId: string;
+  uid: string | string[] | undefined;
+  boardId: string | string[] | undefined;
+  taskId: string | string[] | undefined;
 }) => {
   const colRef = await db
     .doc(`users/${data.uid}`)
@@ -354,7 +363,10 @@ export const changeSubtask = async (data: ChangeSubtasksType) => {
     .set({ ecrSubtask });
 };
 
-export const getTasks = async (uid: string, boardName: string) => {
+export const getTasks = async (
+  uid: string | string[] | undefined,
+  boardName: string | string[] | undefined
+) => {
   const colRef = await db
     .doc(`users/${uid}`)
     .collection("boards")
@@ -371,9 +383,9 @@ export const getTasks = async (uid: string, boardName: string) => {
 };
 
 export const deleteTask = async (data: {
-  uid: string;
-  boardId: string;
-  taskId: string;
+  uid: string | string[] | undefined;
+  boardId: string | string[] | undefined;
+  taskId: string | string[] | undefined;
 }) => {
   return await db
     .doc(`users/${data.uid}`)
@@ -444,7 +456,10 @@ export const addColumn = async (data: AddColumnType) => {
     .add({ ecrColumn, timeStamp: new Date() });
 };
 
-export const getColumns = async (uid: string, boardName: string) => {
+export const getColumns = async (
+  uid: string | string[] | undefined,
+  boardName: string | string[] | undefined
+) => {
   const colRef = await db
     .doc(`users/${uid}`)
     .collection("boards")

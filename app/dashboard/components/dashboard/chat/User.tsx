@@ -13,7 +13,7 @@ export default function User({
   const router = useRouter();
   const handleAddPreferUser = async (): Promise<void> => {
     setIsFetching(true);
-    await fetch("/api/createChatDb", {
+    await fetch(`/api/v1/${currentUser}/chats/rooms`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
