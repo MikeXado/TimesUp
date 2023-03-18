@@ -1,8 +1,8 @@
 import dynamic from "next/dynamic";
 import { useRef, useEffect, useState, memo } from "react";
 import { toast } from "react-toastify";
+import { mutate } from "swr";
 import { KanbanTaskType } from "../../../../../../../types";
-import { useMutation } from "../../../../../../../utils/fetcher";
 
 const EditTask = dynamic(() => import("./Edit"));
 
@@ -11,8 +11,6 @@ export default memo(function More({
 }: {
   task: KanbanTaskType | undefined;
 }) {
-  const removeTask = useMutation("/api/deleteTask");
-
   const [isOpen, setIsOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -34,9 +32,12 @@ export default memo(function More({
 
   const deleteTask = async () => {
     setIsDeleting(true);
-    removeTask({ taskId: task?.id, boardId: task?.boardId, uid: task?.uid }, [
-      "/api/getTasks",
-    ]);
+    await fetch(`/api/v1/${task?.uid}/kanban/${task?.boardId}/${task?.id}`, {
+      method: "DELETE",
+    });
+
+    await mutate(`/api/v1/${task?.uid}/kanban/${task?.boardId}/tasks`);
+
     setIsDeleting(false);
     toast.success("Task deleted successfully");
   };

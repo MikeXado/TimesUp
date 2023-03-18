@@ -19,8 +19,8 @@ export default function CardSettings({
       photoUrl: image,
       uid: currentUserUid,
     };
-    await fetch("/api/changeProfile", {
-      method: "POST",
+    await fetch(`/api/v1/${currentUserUid}/user-profile/data`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
@@ -32,10 +32,13 @@ export default function CardSettings({
   const onSubmit = async (data) => {
     const newForm = new FormData();
     newForm.append("file", data.file[0]);
-    const res = await fetch("/api/uploadImage", {
-      method: "POST",
-      body: newForm,
-    });
+    const res = await fetch(
+      `/api/v1/${currentUserUid}/user-profile/user-icon`,
+      {
+        method: "POST",
+        body: newForm,
+      }
+    );
 
     const url = res.json();
     const image = await url;

@@ -22,11 +22,11 @@ export default memo(function ChangeEvent({
   day,
 }: {
   eventId: string;
-  day: Date;
+  day: Date | undefined;
 }) {
   const { isOpen, setIsOpen } = useContext(ChangeEventContext);
   const uid = useContext(UserContext);
-  const changeEvent = useMutation("/api/changeEvent");
+  const changeEvent = useMutation(`/api/v1/${uid}/planner/${eventId}`);
 
   const { register, handleSubmit }: UseFormReturn<FieldValues> =
     useForm<FieldValues>();
@@ -36,9 +36,11 @@ export default memo(function ChangeEvent({
 
   const handleSendEventToDb = async (data: ChangeEventType) => {
     setIsOpen(false);
-    await changeEvent({ ...data, id: eventId, uid: uid, date: day }, [
-      "/api/getEvents",
-    ]);
+    await changeEvent(
+      { ...data, id: eventId, uid: uid, date: day },
+      [`/api/v1/${uid}/planner/events`],
+      "PUT"
+    );
     toast.success("Event changed!");
   };
 

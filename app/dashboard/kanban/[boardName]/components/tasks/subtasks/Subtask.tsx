@@ -9,7 +9,9 @@ export default function Subtask({
   task: KanbanTaskType | undefined;
 }) {
   const [done, setDone] = useState(subtask.done);
-  const changeSubtasks = useMutation("/api/changeSubtask");
+  const changeSubtasks = useMutation(
+    `/api/v1/${task?.uid}/kanban/${task?.boardId}/${task?.id}/${subtask.id}`
+  );
   const handleChange = async (e: { target: { checked: any } }) => {
     let done = e.target.checked;
     setDone(done);
@@ -23,7 +25,8 @@ export default function Subtask({
         boardId: task?.boardId,
         uid: task?.uid,
       },
-      [`/api/getSubtasks/subtasks/${task?.id}`]
+      [`/api/v1/${task?.uid}/kanban/${task?.boardId}/${task?.id}/subtasks`],
+      "PUT"
     );
   };
   return (

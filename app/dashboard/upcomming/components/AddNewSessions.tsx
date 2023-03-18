@@ -1,9 +1,10 @@
 import React, { memo, useContext, useState } from "react";
 
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { UserContext } from "../../contexts/UserProvider";
 import { toast } from "react-toastify";
+import { Session } from "../../../../types";
 
 interface PropsTypes {
   setIsFetching: (isFetching: boolean) => void;
@@ -23,9 +24,9 @@ export default memo(function AddNewSessions({
     setIsOpen((prev) => !prev);
   };
 
-  const handleAddMessage = async (data, uid) => {
+  const handleAddMessage = async (data: Session, uid: string | null) => {
     setIsFetching(true);
-    const res = await fetch("/api/addUpcomming", {
+    const res = await fetch(`/api/v1/${uid}/sessions/upcoming`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -44,7 +45,7 @@ export default memo(function AddNewSessions({
     });
   };
 
-  const onSubmit = (data) => {
+  const onSubmit: SubmitHandler<Session> = (data) => {
     handleAddMessage(data, uid);
     onOpen();
   };

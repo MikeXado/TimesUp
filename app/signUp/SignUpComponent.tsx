@@ -22,15 +22,17 @@ export default function SignUpComponent(): JSX.Element {
     credential: SignUpFormData
   ): Promise<void> => {
     setIsLoading(true);
-    const res = await fetch("/api/signUp", {
+    const res = await fetch("/api/v1/auth/signUp", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(credential),
     });
+
     if (res.ok) {
-      router.push("/provideName");
+      const user: { message: string } = await res.json();
+      router.push(`/provideName/${user.message}`);
     }
     setIsLoading(false);
     const message = await res.json();

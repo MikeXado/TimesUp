@@ -24,31 +24,31 @@ export default function Messages({
   chatMembers,
   chatData,
 }: MessagesPropsTypes) {
+  const uid = useContext(UserContext);
   const { addNotification } = useContext(NotificationsContext);
   const [height, setHeight] = useState(50);
   const messagesBoardRef = useRef<HTMLSpanElement>(null);
-  const currentUserUid = useContext(UserContext);
 
   const getMessages = useCallback(async () => {
-    const res = await fetch("/api/getMessages", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id, currentUserUid }),
+    const res = await fetch(`/api/v1/${uid}/chats/${id}/messages`, {
+      method: "GET",
     });
     const m = res.json();
     return m;
-  }, [id, currentUserUid]);
+  }, [id, uid]);
   const {
     data: messages,
     isLoading,
     mutate,
-  } = useSWR<MessageType[]>("/api/getMessages", getMessages, {
-    fallbackData: chatData,
-    dedupingInterval: 1000,
-    revalidateOnMount: true,
-  });
+  } = useSWR<MessageType[]>(
+    `/api/v1/${uid}/chats/${id}/messages`,
+    getMessages,
+    {
+      fallbackData: chatData,
+      dedupingInterval: 1000,
+      revalidateOnMount: true,
+    }
+  );
 
   const handleNewMessage = useCallback(
     (data) => {

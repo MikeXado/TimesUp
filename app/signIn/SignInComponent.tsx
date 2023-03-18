@@ -20,7 +20,7 @@ export default function SignInComponents(): JSX.Element {
   const { register, handleSubmit } = useForm();
   const signIn = async (values: SignInFormData): Promise<void> => {
     setIsLoading(true);
-    const res = await fetch("/api/signIn", {
+    const res = await fetch("/api/v1/auth/signIn", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

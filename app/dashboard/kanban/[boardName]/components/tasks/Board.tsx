@@ -11,14 +11,7 @@ import {
 } from "@dnd-kit/core";
 import { snapCenterToCursor } from "@dnd-kit/modifiers";
 import { arrayMove } from "@dnd-kit/sortable";
-import {
-  HTMLAttributes,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 const Column = dynamic(() => import("./Columns"));
 const Task = dynamic(() => import("./Task"));
 import useSWR from "swr";
@@ -46,26 +39,17 @@ export default function Board({
 }: KanbanBoardType) {
   const uid = useContext(UserContext);
   const scrollDiv = useRef<HTMLDivElement>(null);
-  const editTask = useMutation("/api/editTask");
   const tasksFetcher = async (): Promise<KanbanTaskType[]> => {
-    const res = await fetch("/api/getTasks", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ uid, boardId }),
+    const res = await fetch(`/api/v1/${uid}/kanban/${boardId}/tasks`, {
+      method: "GET",
     });
     const tasks = await res.json();
     return tasks;
   };
 
   const columnsFetcher = async (): Promise<KanbanColumnsType[]> => {
-    const res = await fetch("/api/getColumns", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ uid, boardId }),
+    const res = await fetch(`/api/v1/${uid}/kanban/${boardId}/columns`, {
+      method: "GET",
     });
 
     const columns = await res.json();
@@ -73,7 +57,7 @@ export default function Board({
   };
 
   const { data, isLoading: tasksLoading } = useSWR<KanbanTaskType[], boolean>(
-    "/api/getTasks",
+    `/api/v1/${uid}/kanban/${boardId}/tasks`,
     tasksFetcher,
     {
       fallbackData: tasks,
@@ -84,7 +68,7 @@ export default function Board({
   const { data: columnsData, isLoading: columnsLoading } = useSWR<
     KanbanColumnsType[],
     boolean
-  >("/api/getColumns", columnsFetcher, {
+  >(`/api/v1/${uid}/kanban/${boardId}/columns`, columnsFetcher, {
     fallbackData: initColumns,
     revalidateOnMount: true,
   });
@@ -162,18 +146,22 @@ export default function Board({
         ],
       };
     });
+
     const task = data.current?.task;
-    await editTask(
-      {
+    await fetch(`/api/v1/${uid}/kanban/${boardId}/${task.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
         boardId: task.boardId,
         description: task.description,
         id: task.id,
         status: overId,
         title: task.title,
         uid: uid,
-      },
-      ["/api/getTasks"]
-    );
+      }),
+    });
   };
 
   async function handleDragEnd(event: { active: any; over: any }) {

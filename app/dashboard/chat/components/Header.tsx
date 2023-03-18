@@ -1,7 +1,6 @@
 import { cookies } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
-import { getSpecificUser } from "../../../../lib/db";
 import dynamic from "next/dynamic";
 import { UserData } from "../../../../types";
 
@@ -14,11 +13,24 @@ const OpenSidebar = dynamic(
 const Notifications = dynamic(
   () => import("../../components/dashboard/dropdowns/Notifications")
 );
+
+const getUser = async (uid) => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/${uid}/user-profile/data`,
+    {
+      method: "GET",
+      cache: "no-store",
+    }
+  );
+  const user = await res.json();
+  return user;
+};
+
 export default async function Header({ chat }: { chat: string }) {
-  const user: UserData = await getSpecificUser(chat);
+  const user: UserData = await getUser(chat);
   const nextCookies = cookies();
   const uid = nextCookies.get("u_i")?.value;
-  const currentUser: UserData = await getSpecificUser(uid);
+  const currentUser: UserData = await getUser(uid);
   return (
     <div className=" w-full flex justify-between items-center h-20  ">
       <div className="flex items-center">

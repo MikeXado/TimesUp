@@ -12,7 +12,7 @@ export default React.memo(function PreviewTask({
 }) {
   const { cache } = useSWRConfig();
   const data: SubtasksType[] = cache.get(
-    `/api/getSubtasks/subtasks/${task?.id}`
+    `/api/v1/${task?.uid}/kanban/${task?.boardId}/${task?.id}/subtasks`
   )?.data;
 
   return (

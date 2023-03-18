@@ -1,7 +1,7 @@
 import React, { memo, useContext, useState } from "react";
 
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { UserContext } from "../../contexts/UserProvider";
 import { toast } from "react-toastify";
 import { Session } from "../../../../types";
@@ -20,21 +20,28 @@ export default memo(function ChangeSessions({
   const uid = useContext(UserContext);
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      title: session.title,
+      description: session.description,
+      time: session.time,
+      date: session.date,
+    },
+  });
   const [isDeleting, setIsDeleting] = useState(false);
 
   const onOpen = () => {
     setIsOpen((prev) => !prev);
   };
 
-  const handleAddMessage = async (data, uid) => {
+  const handleAddMessage = async (data: Session) => {
     setIsFetching(true);
-    await fetch("/api/changeUpcomming", {
-      method: "POST",
+    await fetch(`/api/v1/${uid}/sessions/${session.id}`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ ...data, uid: uid }),
+      body: JSON.stringify({ ...data, uid }),
     }).then((res) => res.json());
 
     setIsFetching(false);
@@ -47,15 +54,8 @@ export default memo(function ChangeSessions({
   const deleteSession = async () => {
     setIsDeleting(true);
     setIsFetching(true);
-    const res = await fetch("/api/deleteUpcomming", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id: session.id,
-        uid: uid,
-      }),
+    const res = await fetch(`/api/v1/${uid}/sessions/${session.id}`, {
+      method: "DELETE",
     });
 
     if (!res.ok) {
@@ -70,7 +70,7 @@ export default memo(function ChangeSessions({
   };
 
   const onSubmit = (data) => {
-    handleAddMessage(data, uid);
+    handleAddMessage(data);
     onOpen();
   };
 
@@ -133,7 +133,6 @@ export default memo(function ChangeSessions({
                     id="title"
                     className="bg-[#111c44] text-white placeholder-gray-300 text-sm rounded-lg focus:ring-blue-900 border-none focus:border-blue-900 block w-full p-2.5"
                     placeholder="English class"
-                    value={session.title}
                     {...register("title", { required: true })}
                     required
                   />
@@ -149,7 +148,6 @@ export default memo(function ChangeSessions({
                     rows={8}
                     className="block p-2.5 w-full text-sm bg-[#111c44] text-white placeholder-gray-300  rounded-lg border-none focus:ring-blue-900  focus:border-blue-900 "
                     placeholder="Write event description..."
-                    value={session.description}
                     {...register("description")}
                   />
                 </div>
@@ -160,7 +158,6 @@ export default memo(function ChangeSessions({
                   <input
                     type="time"
                     className="bg-[#111c44] text-white border-none rounded-lg"
-                    value={session.time}
                     {...register("time", { required: true })}
                   />
                 </div>
@@ -171,7 +168,6 @@ export default memo(function ChangeSessions({
                   <input
                     className="bg-[#111c44] text-white border-none rounded-lg"
                     type="date"
-                    value={session.date}
                     {...register("date", { required: true })}
                   />
                 </div>

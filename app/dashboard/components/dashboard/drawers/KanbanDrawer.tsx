@@ -19,18 +19,17 @@ export default function KanbanDrawer({ boards }) {
   };
 
   const boardsFetcher = async () => {
-    const data = await fetch("/api/getBoards/boards", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(uid),
+    const data = await fetch(`/api/v1/${uid}/kanban/boards`, {
+      method: "GET",
     });
     const boards = await data.json();
     return boards;
   };
 
-  const { data, isLoading } = useSWR("/api/getBoards/boards", boardsFetcher);
+  const { data, isLoading } = useSWR(
+    `/api/v1/${uid}/kanban/boards`,
+    boardsFetcher
+  );
   return (
     <div
       className={

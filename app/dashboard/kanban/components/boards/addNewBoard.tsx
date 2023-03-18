@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { mutate } from "swr";
 import { UserContext } from "../../../contexts/UserProvider";
 export default function AddNewBoard() {
-  const id = useContext(UserContext);
+  const uid = useContext(UserContext);
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const { register, handleSubmit, reset }: UseFormReturn<FieldValues> =
@@ -22,15 +22,15 @@ export default function AddNewBoard() {
     description: string;
   }): Promise<void> => {
     setIsFetching(true);
-    await fetch("/api/addBoards", {
+    await fetch(`/api/v1/${uid}/kanban/boards`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ ...data, id: id }),
+      body: JSON.stringify({ ...data, uid: uid }),
     });
     setIsFetching(false);
-    mutate("/api/getBoards/boards");
+    mutate(`/api/v1/${uid}/kanban/boards`);
     toast.success("New board was created!");
     reset();
     setIsOpen(false);
