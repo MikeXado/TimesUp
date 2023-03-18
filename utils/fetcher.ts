@@ -3,9 +3,13 @@ import { useRef, useState } from "react";
 import { revalidate } from "../app/dashboard/contexts/SwrConfig";
 
 export const useMutation = (key: string) => {
-  return async function (data: any, keys: string[]): Promise<void> {
+  return async function (
+    data: any,
+    keys: string[],
+    method: string | undefined
+  ): Promise<void> {
     await fetch(key, {
-      method: "POST",
+      method: method,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });

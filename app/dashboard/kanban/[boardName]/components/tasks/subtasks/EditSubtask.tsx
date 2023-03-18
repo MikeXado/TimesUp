@@ -14,7 +14,9 @@ export default function EditSubtask({
   newSubtasks,
 }: EditSubtasksProps) {
   const [isFetching, setIsFetching] = useState(false);
-  const removeSubtask = useMutation("/api/deleteSubtask");
+  const removeSubtask = useMutation(
+    `/api/v1/${uid}/kanban/${boardId}/${taskId}/${subtask.id}`
+  );
   const deleteSubtask = async (subtask: SubtasksType) => {
     if (subtask.id) {
       setIsFetching(true);
@@ -26,7 +28,8 @@ export default function EditSubtask({
           boardId: boardId,
           taskId: taskId,
         },
-        [`/api/getSubtasks/subtasks/${taskId}`]
+        [`/api/v1/${uid}/kanban/${boardId}/${taskId}/subtasks`],
+        "DELETE"
       );
       setIsFetching(false);
     }

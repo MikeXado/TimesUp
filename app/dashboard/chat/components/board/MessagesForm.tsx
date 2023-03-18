@@ -31,7 +31,7 @@ export default function MessagesFrom({
     };
     if (!message) return;
     setIsFetching(true);
-    const res = await fetch("/api/addMessage", {
+    const res = await fetch(`/api/v1/${currentUser}/chats/${id}/messages`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -39,7 +39,7 @@ export default function MessagesFrom({
       body: JSON.stringify(messageObj),
     });
     const data = await res.json();
-    mutate("/api/getMessages", [data, ...messages]);
+    mutate(`/api/v1/${currentUser}/chats/${id}/messages`, [data, ...messages]);
     setIsFetching(false);
     setMessage("");
   };

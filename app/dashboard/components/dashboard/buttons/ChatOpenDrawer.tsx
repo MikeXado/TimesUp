@@ -5,7 +5,7 @@ import { ChatDrawerContext } from "../../../contexts/ChatDrawerProvider";
 export default function ChatOpenDrawer() {
   const { setIsOpen } = useContext(ChatDrawerContext);
   const handleOpenDropDown = () => {
-    setIsOpen((prev: boolean) => !prev);
+    setIsOpen(true);
   };
 
   return (

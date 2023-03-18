@@ -17,12 +17,8 @@ export default function MobileEvents({
 }) {
   const uid = useContext(UserContext);
   const eventsFetcher = async (): Promise<EventsType[]> => {
-    const res = await fetch("/api/getEvents", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(uid),
+    const res = await fetch(`/api/v1/${uid}/planner/events`, {
+      method: "GET",
     });
 
     const events = await res.json();
@@ -30,7 +26,7 @@ export default function MobileEvents({
   };
 
   const { data, isLoading } = useSWR<EventsType[], boolean>(
-    "/api/getEvents",
+    `/api/v1/${uid}/planner/events`,
     eventsFetcher,
     {
       fallbackData: events,

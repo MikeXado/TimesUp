@@ -11,23 +11,18 @@ export default function Progress({
 }) {
   const [progress, setProgress] = useState(0);
   const getSubtasks = async (): Promise<SubtasksType[]> => {
-    const data = await fetch(`/api/getSubtasks/subtasks`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        boardId: task?.boardId,
-        uid: task?.uid,
-        taskId: task?.id,
-      }),
-    });
+    const data = await fetch(
+      `/api/v1/${task?.uid}/kanban/${task?.boardId}/${task?.id}/subtasks`,
+      {
+        method: "GET",
+      }
+    );
     const subtasks = await data.json();
     return subtasks;
   };
 
   const { data: subtasks, isLoading } = useSWR(
-    `/api/getSubtasks/subtasks/${task?.id}`,
+    `/api/v1/${task?.uid}/kanban/${task?.boardId}/${task?.id}/subtasks`,
     getSubtasks
   );
 

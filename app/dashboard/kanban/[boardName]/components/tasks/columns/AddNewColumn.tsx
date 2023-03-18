@@ -19,7 +19,7 @@ export default React.memo(function AddNewColumn({
   columnsData: KanbanColumnsType[];
 }) {
   const uid = useContext(UserContext);
-  const createColumn = useMutation("/api/addColumn");
+  const createColumn = useMutation(`/api/v1/${uid}/kanban/${boardId}/columns`);
   const [isOpenInput, setIsOpenInput] = useState(false);
   const [alreadyExist, setAlreadyExist] = useState(false);
   const { register, handleSubmit, reset }: UseFormReturn<FieldValues> =
@@ -46,7 +46,8 @@ export default React.memo(function AddNewColumn({
         uid: uid,
         boardId: boardId,
       },
-      ["/api/getColumns"]
+      [`/api/v1/${uid}/kanban/${boardId}/columns`],
+      "POST"
     );
     setIsFetching(false);
     toast.success("New column was added!");

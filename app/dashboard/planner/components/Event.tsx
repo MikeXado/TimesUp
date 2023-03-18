@@ -9,7 +9,7 @@ export default function Event({
   day,
 }: {
   event: EventsType;
-  day: Date;
+  day: Date | undefined;
 }) {
   const { attributes, setNodeRef, listeners, transform } = useDraggable({
     id: event.id,

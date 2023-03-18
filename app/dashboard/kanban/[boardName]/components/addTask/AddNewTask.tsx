@@ -6,7 +6,7 @@ import { useMutation } from "../../../../../../utils/fetcher";
 import { UserContext } from "../../../../contexts/UserProvider";
 export default function AddNewTask({ boardId, status }) {
   const uid = useContext(UserContext);
-  const createTask = useMutation("/api/addNewTask");
+  const createTask = useMutation(`/api/v1/${uid}/kanban/${boardId}/tasks`);
   const [isOpen, setIsOpen] = useState(false);
   const { register, handleSubmit, reset }: UseFormReturn<FieldValues> =
     useForm<FieldValues>();
@@ -53,7 +53,8 @@ export default function AddNewTask({ boardId, status }) {
         subtasks: subtasks,
         progress: 0,
       },
-      ["/api/getTasks"]
+      [`/api/v1/${uid}/kanban/${boardId}/tasks`],
+      "POST"
     );
     setIsFetching(false);
     toast.success("Task was created!");

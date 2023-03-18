@@ -43,12 +43,8 @@ export default function Calendar({ events }: { events: EventsType[] }) {
   );
 
   const eventsFetcher = async () => {
-    const res = await fetch("/api/getEvents", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(uid),
+    const res = await fetch(`/api/v1/${uid}/planner/events`, {
+      method: "GET",
     });
 
     const events = await res.json();
@@ -56,7 +52,7 @@ export default function Calendar({ events }: { events: EventsType[] }) {
   };
 
   const { data, isLoading } = useSWR<EventsType[], Boolean>(
-    "/api/getEvents",
+    `/api/v1/${uid}/planner/events`,
     eventsFetcher,
     {
       fallbackData: events,
@@ -83,12 +79,12 @@ export default function Calendar({ events }: { events: EventsType[] }) {
 
   useEffect(() => {
     if (!data) {
-      mutate("/api/getEvents");
+      mutate(`/api/v1/${uid}/planner/events`);
     }
     setEventsSections(() => {
       return initializeEventsSections(data, newDays.current);
     });
-  }, [data]);
+  }, [data, uid]);
 
   const nextMonth = () => {
     let firstDayNextMonth = add(firstDayCurrentMonth, { months: 1 });
@@ -168,8 +164,8 @@ export default function Calendar({ events }: { events: EventsType[] }) {
     });
 
     const event = data.current;
-    await fetch("/api/changeEvent", {
-      method: "POST",
+    await fetch(`/api/v1/${uid}/planner/${event?.id}`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
