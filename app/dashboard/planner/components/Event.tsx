@@ -1,9 +1,10 @@
 import { useDraggable } from "@dnd-kit/core";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { CSS } from "@dnd-kit/utilities";
 import DetailPopup from "./DetailPopup";
 import ChangeEvent from "./ChangeEvent";
 import { EventsType } from "../../../../types";
+import { ChangeEventContext } from "./context/ChangeEventProvider";
 export default function Event({
   event,
   day,
@@ -17,6 +18,7 @@ export default function Event({
       ...event,
     },
   });
+  const { isOpen: ChangeEventOpen } = useContext(ChangeEventContext);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleIsOpen = () => {
@@ -66,7 +68,7 @@ export default function Event({
         </div>
       </div>
       <DetailPopup event={event} isOpen={isOpen} setIsOpen={setIsOpen} />
-      <ChangeEvent eventId={event.id} day={day} />
+      {ChangeEventOpen && <ChangeEvent eventId={event.id} day={day} />}
     </>
   );
 }

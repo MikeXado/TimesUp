@@ -230,7 +230,7 @@ export default function Board({
       onDragEnd={handleDragEnd}
       onDragOver={handleDragOver}
     >
-      <div className="overflow-y-hidden overflow-x-auto mb-2 ">
+      <div className="overflow-y-hidden overflow-x-auto mb-2">
         <div
           className={`pl-2 mb-2 flex-1 flex xl:h-[800px] lg:h-[730px] h-screen`}
           style={{
@@ -249,6 +249,7 @@ export default function Board({
           })}
 
           <AddNewColumn boardId={boardId} columnsData={columnsData} />
+
           <span ref={scrollDiv}></span>
         </div>
       </div>

@@ -21,7 +21,7 @@ export default function DetailPopup({
   };
 
   const handleChangeOpen = () => {
-    setChangeOpen(true);
+    setChangeOpen((prev) => !prev);
     setIsOpen(false);
   };
   return (

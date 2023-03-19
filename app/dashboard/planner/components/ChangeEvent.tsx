@@ -26,6 +26,7 @@ export default memo(function ChangeEvent({
 }) {
   const { isOpen, setIsOpen } = useContext(ChangeEventContext);
   const uid = useContext(UserContext);
+
   const changeEvent = useMutation(`/api/v1/${uid}/planner/${eventId}`);
 
   const { register, handleSubmit }: UseFormReturn<FieldValues> =

@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 
 import { KanbanColumnsType, KanbanTaskType } from "../../../../types";
+import KanbanSettings from "./components/settings/KanbanSettings";
 
 const getColumns = async (uid, boardName) => {
   const res = await fetch(
@@ -35,10 +36,12 @@ export default async function Page({ params: { boardName } }) {
   const columns: KanbanColumnsType[] = await getColumns(uid, boardName);
 
   return (
-    <div className="flex flex-wrap pt-20 ml-3">
-      <div className="bg-[#111c44] rounded-lg w-full xl:w-[99%] mb-5 xl:mb-0 px-4 ">
-        <Board tasks={tasks} boardId={boardName} initColumns={columns} />
+    <>
+      <div className="flex flex-wrap pt-20 ml-3">
+        <div className="bg-[#111c44] rounded-lg w-full xl:w-[99%] mb-5 xl:mb-0 px-4 ">
+          <Board tasks={tasks} boardId={boardName} initColumns={columns} />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
