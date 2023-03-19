@@ -11,6 +11,7 @@ import { Spinner } from "flowbite-react";
 import { toast } from "react-toastify";
 import { useMutation } from "../../../../../../../utils/fetcher";
 import { KanbanColumnsType } from "../../../../../../../types";
+import KanbanSettings from "../../settings/KanbanSettings";
 export default React.memo(function AddNewColumn({
   boardId,
   columnsData,
@@ -56,17 +57,18 @@ export default React.memo(function AddNewColumn({
   };
 
   return (
-    <div className="w-[400px] bg-[#192555] mt-3 mr-3  rounded-lg">
-      <div className="flex flex-col items-center justify-center w-full h-full">
+    <div className="w-[400px] bg-[#192555] mt-3  rounded-lg">
+      <div className="flex flex-col items-center  justify-center w-full h-full">
         <button
           onClick={handleOpen}
           className={
-            "bg-[#6e6ae4] text-white rounded-lg shadow-lg w-full py-3" +
+            "bg-[#6e6ae4] text-white shadow-lg w-full py-3" +
             (isOpenInput ? " hidden" : " ")
           }
         >
           Add new column
         </button>
+
         <div className={isOpenInput ? " " : " hidden"}>
           <form onSubmit={handleSubmit(sendData)}>
             <div>
@@ -94,6 +96,7 @@ export default React.memo(function AddNewColumn({
             </div>
           </form>
         </div>
+        <KanbanSettings boardId={boardId} />
       </div>
     </div>
   );

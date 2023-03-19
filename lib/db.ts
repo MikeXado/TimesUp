@@ -477,6 +477,20 @@ export const getColumns = async (
   return columns;
 };
 
+export const deleteColumn = async (
+  uid: string | string[] | undefined,
+  boardId: string | string[] | undefined,
+  columnId: string | string[] | undefined
+) => {
+  return await db
+    .doc(`users/${uid}`)
+    .collection("boards")
+    .doc(`${boardId}`)
+    .collection("columns")
+    .doc(`${columnId}`)
+    .delete();
+};
+
 // export const updateTaskProgress = async (data) => {
 //   const ecrTask = cryptr.encrypt(JSON.stringify(data));
 //   console.log(data);

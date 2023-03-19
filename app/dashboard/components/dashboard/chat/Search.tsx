@@ -14,10 +14,13 @@ const User = dynamic(() => import("./User"));
 const PreferUser = dynamic(() => import("./PreferUser"));
 interface SearchProps {
   filteredUsers: UserData[];
-  chats: ChatData[];
+  rooms: {
+    chats: ChatData[];
+    currentUser: string;
+  };
 }
 
-export default function Search({ filteredUsers, chats }: SearchProps) {
+export default function Search({ filteredUsers, rooms }: SearchProps) {
   const [isTyping, setIsTyping] = useState<boolean>(false);
   const [isPending, startTransition] = useTransition();
   const [isFetching, setIsFetching] = useState<boolean>(false);
@@ -113,7 +116,7 @@ export default function Search({ filteredUsers, chats }: SearchProps) {
         </div>
       ) : (
         <div className="pl-2 pr-2">
-          {chats.map((chat: ChatData) => {
+          {rooms.chats.map((chat: ChatData) => {
             return <PreferUser key={chat.id} chat={chat} />;
           })}
         </div>

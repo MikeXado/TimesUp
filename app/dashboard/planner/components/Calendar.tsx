@@ -63,6 +63,7 @@ export default function Calendar({ events }: { events: EventsType[] }) {
   let today = startOfToday();
   const [currentMonth, setCurrentMonth] = useState(format(today, "MMM-yyyy"));
   const [activeId, setActiveId] = useState(null);
+  const [hoverDay, setHoverDay] = useState(undefined);
 
   let firstDayCurrentMonth = parse(currentMonth, "MMM-yyyy", new Date());
   let days = eachDayOfInterval({
@@ -118,101 +119,107 @@ export default function Calendar({ events }: { events: EventsType[] }) {
   };
 
   const handleDragStart = ({ active }) => {
-    setActiveId(active.id);
+    const { id, data } = active;
+    setActiveId(id);
+    setHoverDay(data.current.date);
   };
 
   const handleDragOver = async ({ active, over }) => {
     const { id, data } = active;
     const { id: overId } = over;
 
-    const activeContainer = findEventsSectionContainer(eventsSections, id);
-    const overContainer = findEventsSectionContainer(eventsSections, overId);
+    if (overId) {
+      const activeContainer = findEventsSectionContainer(eventsSections, id);
+      const overContainer = findEventsSectionContainer(eventsSections, overId);
 
-    if (
-      !activeContainer ||
-      !overContainer ||
-      isSameDay(new Date(activeContainer), new Date(overContainer))
-      // isSameDay(new Date(activeContainer), new Date(overContainer))
-    ) {
-      return;
+      if (
+        !activeContainer ||
+        !overContainer ||
+        isSameDay(new Date(activeContainer), new Date(overContainer))
+        // isSameDay(new Date(activeContainer), new Date(overContainer))
+      ) {
+        return;
+      }
+
+      setEventsSections((eventSection) => {
+        const activeItems = eventSection[activeContainer];
+        const overItems = eventSection[overContainer];
+
+        // Find the indexes for the items
+        const activeIndex = activeItems.findIndex((item) => item.id === id);
+        const overIndex = overItems.findIndex((item) => item.id !== overId);
+
+        return {
+          ...eventSection,
+          [activeContainer]: [
+            ...eventSection[activeContainer].filter(
+              (item: { id: any }) => item.id !== id
+            ),
+          ],
+          [overContainer]: [
+            ...eventSection[overContainer].slice(0, overIndex),
+            eventSection[activeContainer][activeIndex],
+            ...eventSection[overContainer].slice(
+              overIndex,
+              eventSection[overContainer].length
+            ),
+          ],
+        };
+      });
+
+      const event = data.current;
+      await fetch(`/api/v1/${uid}/planner/${event?.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: event?.title,
+          description: event?.description,
+          startTime: event?.startTime,
+          endTime: event?.endTime,
+          id: event?.id,
+          date: overId,
+          uid: uid,
+        }),
+      });
     }
-
-    setEventsSections((eventSection) => {
-      const activeItems = eventSection[activeContainer];
-      const overItems = eventSection[overContainer];
-
-      // Find the indexes for the items
-      const activeIndex = activeItems.findIndex((item) => item.id === id);
-      const overIndex = overItems.findIndex((item) => item.id !== overId);
-
-      return {
-        ...eventSection,
-        [activeContainer]: [
-          ...eventSection[activeContainer].filter(
-            (item: { id: any }) => item.id !== id
-          ),
-        ],
-        [overContainer]: [
-          ...eventSection[overContainer].slice(0, overIndex),
-          eventSection[activeContainer][activeIndex],
-          ...eventSection[overContainer].slice(
-            overIndex,
-            eventSection[overContainer].length
-          ),
-        ],
-      };
-    });
-
-    const event = data.current;
-    await fetch(`/api/v1/${uid}/planner/${event?.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: event?.title,
-        description: event?.description,
-        startTime: event?.startTime,
-        endTime: event?.endTime,
-        id: event?.id,
-        date: overId,
-        uid: uid,
-      }),
-    });
   };
   const event = data.find((el) => el.id === activeId);
 
   const handleDragEnd = async (e: { active: any; over: any }) => {
     const { active, over } = e;
     const { id, data } = active;
-    const { id: overId } = over;
+    if (over) {
+      const { id: overId } = over;
 
-    const activeContainer = findEventsSectionContainer(eventsSections, id);
-    const overContainer = findEventsSectionContainer(eventsSections, overId);
-    if (
-      !activeContainer ||
-      !overContainer ||
-      !isSameDay(new Date(activeContainer), new Date(overContainer))
-    ) {
-      return;
-    }
-    //
-    const activeIndex = eventsSections[activeContainer].findIndex(
-      (task: EventsType) => task.id === id
-    );
-    const overIndex = eventsSections[overContainer].findIndex(
-      (task: EventsType) => task.id !== overId
-    );
+      const activeContainer = findEventsSectionContainer(eventsSections, id);
+      const overContainer = findEventsSectionContainer(eventsSections, overId);
+      if (
+        !activeContainer ||
+        !overContainer ||
+        !isSameDay(new Date(activeContainer), new Date(overContainer))
+      ) {
+        return;
+      }
+      //
+      const activeIndex = eventsSections[activeContainer].findIndex(
+        (task: EventsType) => task.id === id
+      );
+      const overIndex = eventsSections[overContainer].findIndex(
+        (task: EventsType) => task.id !== overId
+      );
 
-    if (activeIndex !== overIndex) {
-      setEventsSections((eventSection) => ({
-        ...eventSection,
-        [overContainer]: arrayMove(
-          eventSection[overContainer],
-          activeIndex,
-          overIndex
-        ),
-      }));
+      if (activeIndex !== overIndex) {
+        setEventsSections((eventSection) => ({
+          ...eventSection,
+          [overContainer]: arrayMove(
+            eventSection[overContainer],
+            activeIndex,
+            overIndex
+          ),
+        }));
+      }
     }
   };
 
@@ -299,7 +306,7 @@ export default function Calendar({ events }: { events: EventsType[] }) {
               })}
             </div>
             <DragOverlay>
-              {event ? <Event event={event} day={undefined} /> : null}
+              {event ? <Event event={event} day={hoverDay} /> : null}
             </DragOverlay>
           </DndContext>
         </div>

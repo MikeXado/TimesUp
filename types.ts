@@ -38,7 +38,7 @@ interface UserProps {
 
 interface ContextOpenType {
   isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface NotificationsContextType {
