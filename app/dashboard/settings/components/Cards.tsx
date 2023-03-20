@@ -30,6 +30,7 @@ export default function Cards({ currentUser }: { currentUser: UserData }) {
           handleSubmit={handleSubmit}
           currentUserUid={currentUser.uid}
           setValue={setValue}
+          watch={watch}
         />
       </div>
       <div className="w-full lg:w-4/12 px-4">

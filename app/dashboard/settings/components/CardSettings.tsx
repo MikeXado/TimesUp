@@ -9,6 +9,7 @@ export default function CardSettings({
   handleSubmit,
   currentUserUid,
   setValue,
+  watch,
 }) {
   const changeProfile = async (data: UserData, image: string) => {
     const newProfile = {
@@ -47,6 +48,8 @@ export default function CardSettings({
     changeProfile(data, image);
   };
 
+  const file = watch("file");
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
@@ -66,7 +69,10 @@ export default function CardSettings({
             <h6 className="text-white text-sm mt-3 mb-6 font-bold uppercase">
               Upload image
             </h6>
-            <PhotoInput register={register} />
+            <div className="flex items-center mb-10">
+              <PhotoInput register={register} />
+              <div className="text-white ml-4">{file && file[0].name}</div>
+            </div>
             <h6 className="text-white text-sm mt-3 mb-6 font-bold uppercase">
               User Information
             </h6>
