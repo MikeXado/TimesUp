@@ -22,10 +22,14 @@ export default function SettingsColumnsData({ boardId }) {
     columnsFetcher
   );
 
-  const handleDeleteColumn = async (columnId: string) => {
+  const handleDeleteColumn = async (columnId: string, columnName: string) => {
     setIsFetching(true);
     await fetch(`/api/v1/${uid}/kanban/${boardId}/column/${columnId}`, {
       method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(columnName),
     });
 
     mutate(`/api/v1/${uid}/kanban/${boardId}/columns`);
@@ -46,7 +50,7 @@ export default function SettingsColumnsData({ boardId }) {
               </h6>
 
               <button
-                onClick={() => handleDeleteColumn(el.id)}
+                onClick={() => handleDeleteColumn(el.id, el.column)}
                 type="button"
                 className="bg-transparent border border-[#6e6ae4] p-2 rounded-lg absolute right-[26px] top-[5.5px]"
               >

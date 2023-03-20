@@ -3,37 +3,14 @@ import { cookies } from "next/headers";
 import Messages from "../components/board/Messages";
 import Header from "../components/Header";
 import { ChatData, MessageType } from "../../../../types";
-
-const getChatDb = async (id, uid) => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/${uid}/chats/${id}`,
-    {
-      method: "GET",
-      cache: "no-store",
-    }
-  );
-  const chatData = await res.json();
-  return chatData;
-};
-
-const getMessages = async (uid, currentUserUid) => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/${currentUserUid}/chats/${uid}/messages`,
-    {
-      method: "GET",
-      cache: "no-store",
-    }
-  );
-  const messages = await res.json();
-  return messages;
-};
+import { getChatDb, getMessages } from "../../../../lib/db";
 
 export default async function PrivateChat({ params: { uid } }) {
   const nextCookies = cookies();
 
   const currentUserUid = nextCookies.get("u_i")?.value;
 
-  const chat = await getChatDb(uid, currentUserUid);
+  const chat = await getChatDb(uid);
 
   const data: MessageType[] = await getMessages(uid, currentUserUid);
 

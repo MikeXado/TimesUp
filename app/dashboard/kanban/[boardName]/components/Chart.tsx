@@ -1,54 +1,27 @@
 "use client";
 
 import { useContext } from "react";
-import useSWR from "swr";
-import { KanbanColumnsType, KanbanTaskType } from "../../../../../types";
 import { UserContext } from "../../../contexts/UserProvider";
-import Status from "./progress/Status";
 import TasksProgress from "./progress/TasksProgress";
-
-export default function Progress({ boardId, initTasks, initColumns }) {
+import useSWR from "swr";
+import { KanbanTaskType } from "../../../../../types";
+import { Spinner } from "flowbite-react";
+export default function Chart({ selectedBoard }) {
   const uid = useContext(UserContext);
-  const tasksFetcher = async () => {
-    const res = await fetch("/api/getTasks", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ uid, boardId }),
+  const getTasks = async () => {
+    const res = await fetch(`/api/v1/${uid}/kanban/${selectedBoard}/tasks`, {
+      method: "GET",
     });
     const tasks = await res.json();
     return tasks;
   };
 
-  const columnsFetcher = async () => {
-    const res = await fetch("/api/getColumns", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ uid, boardId }),
-    });
-
-    const columns = await res.json();
-    return columns;
-  };
-
-  const { data } = useSWR<KanbanTaskType[]>("/api/getTasks", tasksFetcher, {
-    fallbackData: initTasks,
-    revalidateOnMount: true,
-  });
-
-  const { data: columnsData } = useSWR<KanbanColumnsType[]>(
-    "/api/getColumns",
-    columnsFetcher,
-    {
-      fallbackData: initColumns,
-      revalidateOnMount: true,
-    }
+  const { data: tasks, isLoading } = useSWR<KanbanTaskType[]>(
+    `/api/v1/${uid}/kanban/${selectedBoard}/tasks`,
+    getTasks
   );
 
-  const groupedTasks = data.reduce((group, task) => {
+  const groupedTasks = tasks?.reduce((group, task) => {
     const { status } = task;
     if (!group[status]) {
       group[status] = group[status] ?? [];
@@ -58,14 +31,16 @@ export default function Progress({ boardId, initTasks, initColumns }) {
   }, {});
 
   const chartData = {
-    labels: data.map((el) => el.status),
+    labels: tasks?.map((el) => el.status),
     datasets: [
       {
         label: "tasks",
-        data: Object.keys(groupedTasks).map((el) => {
-          let statusTasksLenth = groupedTasks[el].length;
-          return statusTasksLenth;
-        }),
+        data:
+          groupedTasks &&
+          Object.keys(groupedTasks).map((el) => {
+            let statusTasksLenth = groupedTasks[el].length;
+            return statusTasksLenth;
+          }),
         backgroundColor: [
           "#4dc9f6",
           "#f67019",
@@ -81,26 +56,22 @@ export default function Progress({ boardId, initTasks, initColumns }) {
     ],
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-start w-full py-10">
+        <Spinner />
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col justify-center w-full">
-      {data.length === 0 || columnsData.length === 0 ? (
-        <div className="flex justify-center">No tasks yet</div>
+      {tasks?.length === 0 ? (
+        <div className="flex justify-center text-white text-lg font-semibold">
+          No tasks yet
+        </div>
       ) : (
-        <>
-          <TasksProgress chartData={chartData} />
-
-          <div className="xl:overflow-y-auto xl:max-h-[calc(100vh-330px)]  mt-3 grid grid-cols-2 gap-2 justify-center w-full">
-            {columnsData.map((el) => {
-              return (
-                <Status
-                  key={el.id}
-                  column={el.column}
-                  tasks={groupedTasks[el.column]?.length}
-                />
-              );
-            })}
-          </div>
-        </>
+        <TasksProgress chartData={chartData} />
       )}
     </div>
   );
