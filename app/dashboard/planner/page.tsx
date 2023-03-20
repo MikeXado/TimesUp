@@ -3,18 +3,7 @@ import { cookies } from "next/headers";
 import MobileCalendar from "./components/mobile/MobileCalendar";
 import ChangeEventProvider from "./components/context/ChangeEventProvider";
 import { EventsType } from "../../../types";
-
-const getEvents = async (currentUserUid: string | undefined) => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/${currentUserUid}/planner/events`,
-    {
-      method: "GET",
-      cache: "no-store",
-    }
-  );
-  const sessions = await res.json();
-  return sessions;
-};
+import { getEvents } from "../../../lib/db";
 
 export default async function Planner() {
   const nextCookies = cookies();

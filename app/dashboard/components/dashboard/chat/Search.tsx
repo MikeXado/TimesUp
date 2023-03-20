@@ -16,7 +16,7 @@ interface SearchProps {
   filteredUsers: UserData[];
   rooms: {
     chats: ChatData[];
-    currentUser: string;
+    currentUser: string | undefined;
   };
 }
 

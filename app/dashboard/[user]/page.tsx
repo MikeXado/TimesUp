@@ -1,20 +1,9 @@
 import Image from "next/image";
+import { getSpecificUser } from "../../../lib/db";
 import { UserData } from "../../../types";
 
-const getUser = async (uid) => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/${uid}/user-profile/data`,
-    {
-      method: "GET",
-      cache: "no-store",
-    }
-  );
-  const user = await res.json();
-  return user;
-};
-
 export default async function UserInfo({ params: { user } }) {
-  const specificUser: UserData = await getUser(user);
+  const specificUser: UserData = await getSpecificUser(user);
 
   return (
     <div className="mx-4 mt-32 mb-6">
