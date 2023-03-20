@@ -2,7 +2,7 @@ import React from "react";
 
 export default function PhotoInput({ register }) {
   return (
-    <div className="flex items-center  w-full mb-10">
+    <>
       <label
         htmlFor="dropzone-file"
         className="flex flex-col items-center justify-center w-[70px] h-[70px]  border-2 border-[#6e6ae4] rounded-full cursor-pointer bg-[#192555] "
@@ -27,6 +27,6 @@ export default function PhotoInput({ register }) {
           {...register("file")}
         />
       </label>
-    </div>
+    </>
   );
 }
