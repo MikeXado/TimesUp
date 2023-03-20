@@ -3,6 +3,7 @@
 import "../styles/globals.css";
 import dynamic from "next/dynamic";
 import { ReactNode } from "react";
+import NoInternetConnection from "./NoInternetConnection";
 const Toastify = dynamic(() => import("./Toastify"));
 function RootLayout({ children }: { children: ReactNode }) {
   return (
@@ -14,8 +15,10 @@ function RootLayout({ children }: { children: ReactNode }) {
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body className={"bg-[#051139]"}>
-        {children}
-        <Toastify />
+        <NoInternetConnection>
+          {children}
+          <Toastify />
+        </NoInternetConnection>
       </body>
     </html>
   );
