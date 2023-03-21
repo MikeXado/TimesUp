@@ -93,7 +93,7 @@ export default function Messages({
         <NoMessages height={height} />
       ) : (
         <div
-          className={`flex flex-col p-3 overflow-y-auto bg-[#051139] mt-1`}
+          className={`flex flex-col-reverse p-3 overflow-y-auto bg-[#051139] mt-1`}
           style={{
             height: `calc(100vh - ${
               height < 50 ? 50 : height > 200 ? 200 : height

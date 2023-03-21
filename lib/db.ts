@@ -13,7 +13,6 @@ import {
 } from "../types";
 import { db } from "./firebase";
 const Cryptr = require("cryptr");
-
 const cryptr = new Cryptr(process.env.KEY);
 
 export const addCurrentUser = async (user: UserData) => {
@@ -240,7 +239,7 @@ export const getMessages = async (
       .doc(`rooms/${id}`)
       .collection("messages")
       .where("members", "array-contains", userId)
-      .orderBy("timeStamp")
+      .orderBy("timeStamp", "desc")
       .get();
     let messages: MessageType[] = [];
     colRef.forEach((el) => {

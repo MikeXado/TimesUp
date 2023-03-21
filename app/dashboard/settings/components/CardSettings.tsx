@@ -48,7 +48,7 @@ export default function CardSettings({
     changeProfile(data, image);
   };
 
-  const file = watch("file");
+  const inputFile = watch("file");
 
   return (
     <>
@@ -71,7 +71,11 @@ export default function CardSettings({
             </h6>
             <div className="flex items-center mb-10">
               <PhotoInput register={register} />
-              <div className="text-white ml-4">{file && file[0].name}</div>
+              <div className="text-white ml-4">
+                {inputFile && inputFile[0] && inputFile[0].name
+                  ? inputFile[0].name
+                  : "Choose an image"}
+              </div>
             </div>
             <h6 className="text-white text-sm mt-3 mb-6 font-bold uppercase">
               User Information
