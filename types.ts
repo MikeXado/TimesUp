@@ -1,5 +1,5 @@
 interface UserData {
-  displayName: string;
+  displayName: string | null;
   city: string | null;
   country: string | null;
   email: string;

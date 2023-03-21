@@ -15,12 +15,13 @@ export default async function handler(
 ) {
   const { firstName, lastName }: { firstName: string; lastName: string } =
     req.body;
+
   try {
     await updateUser(`${firstName} ${lastName}`);
 
     let currentUserData: CurrentUserData = {
       email: auth.currentUser?.email ?? "",
-      displayName: auth.currentUser?.displayName ?? null,
+      displayName: auth.currentUser?.displayName ?? "",
       uid: auth.currentUser?.uid ?? "",
     };
 

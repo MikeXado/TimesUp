@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { createUserDb } from "../../../../lib/db";
 import { signUp } from "../../../../lib/firebase";
 
 type RequestBody = {
@@ -14,6 +15,11 @@ export default async function handler(
 
   try {
     const register = await signUp(email, password);
+    const userData = {
+      email: register.user.email,
+      uid: register.user.uid,
+    };
+    await createUserDb(userData);
     const currentUser = register.user.uid;
     res.status(200).json({ message: currentUser });
   } catch (err) {

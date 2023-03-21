@@ -11,9 +11,7 @@ interface SignUpFormData {
 }
 
 export default function SignUpComponent(): JSX.Element {
-  const [authError, setAuthError] = useState<{
-    message: string;
-  }>();
+  const [authError, setAuthError] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [fieldValid, setFieldValid] = useState("");
   const { register, handleSubmit } = useForm();
@@ -29,13 +27,11 @@ export default function SignUpComponent(): JSX.Element {
       },
       body: JSON.stringify(credential),
     });
-
+    const { message } = await res.json();
     if (res.ok) {
-      const user: { message: string } = await res.json();
-      router.push(`/provideName/${user.message}`);
+      router.push(`/provideName/${message}`);
     }
     setIsLoading(false);
-    const message = await res.json();
     setAuthError(message);
   };
 
@@ -59,12 +55,12 @@ export default function SignUpComponent(): JSX.Element {
               <label
                 htmlFor="input-group-1"
                 className={`block mb-2 text-sm font-medium ${
-                  authError?.message === "auth/email-already-in-use"
+                  authError === "auth/email-already-in-use"
                     ? "text-red-600"
                     : " text-white"
                 }`}
               >
-                {authError?.message === "auth/email-already-in-use"
+                {authError === "auth/email-already-in-use"
                   ? "Email already in use"
                   : "Your Email"}
               </label>
