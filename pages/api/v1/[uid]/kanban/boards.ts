@@ -5,6 +5,14 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  const { uid } = req.query;
+  const currentUserUid = req.cookies.u_i;
+
+  if (currentUserUid !== uid) {
+    res.status(401).send("Unauthorized");
+    return;
+  }
+
   if (req.method === "POST") {
     const data = req.body;
 
@@ -16,7 +24,6 @@ export default async function handler(
     }
   } else if (req.method === "GET") {
     try {
-      const { uid } = req.query;
       const boards = await getBoards(uid);
       res.status(200).json(boards);
     } catch (err) {

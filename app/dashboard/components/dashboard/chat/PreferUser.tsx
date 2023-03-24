@@ -18,15 +18,18 @@ export default function PreferUser({ chat }: { chat: ChatData }) {
     chat.members[0] !== currentUser ? chat.members[0] : chat.members[1];
 
   const fetchSpecificUser = async () => {
-    const data = await fetch(`/api/v1/${currentMember}/user-profile/data`, {
-      method: "GET",
-    });
+    const data = await fetch(
+      `/api/v1/${currentUser}/user-profile/${currentMember}`,
+      {
+        method: "GET",
+      }
+    );
 
     const user = await data.json();
     return user;
   };
   const { data, error, isLoading } = useSWR<UserData, Error>(
-    `/api/v1/${currentMember}/user-profile/data`,
+    `/api/v1/${currentUser}/user-profile/${currentMember}`,
     fetchSpecificUser
   );
 

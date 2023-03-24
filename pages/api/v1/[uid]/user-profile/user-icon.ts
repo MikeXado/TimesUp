@@ -16,6 +16,14 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  const { uid } = req.query;
+  const currentUserUid = req.cookies.u_i;
+
+  if (currentUserUid !== uid) {
+    res.status(401).send("Unauthorized");
+    return;
+  }
+
   const data = await new Promise<FormData>(function (resolve, reject) {
     const form = new formidable.IncomingForm({ keepExtensions: true });
     form.parse(req, function (err: any, fields: any, files: any) {

@@ -5,7 +5,14 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { roomId } = req.query;
+  const { uid, roomId } = req.query;
+  const currentUserUid = req.cookies.u_i;
+
+  if (currentUserUid !== uid) {
+    res.status(401).send("Unauthorized");
+    return;
+  }
+
   if (req.method === "GET") {
     try {
       const chat = await getChatDb(roomId);

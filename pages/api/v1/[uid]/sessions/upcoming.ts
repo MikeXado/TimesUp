@@ -10,10 +10,17 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { title, description, time, date, id, uid } = req.body;
+  const { uid } = req.query;
+  const currentUserUid = req.cookies.u_i;
+
+  if (currentUserUid !== uid) {
+    res.status(401).send("Unauthorized");
+    return;
+  }
 
   if (req.method === "POST") {
     try {
+      const { title, description, time, date, id, uid } = req.body;
       await addSession(title, description, date, time, uid);
       res.status(200).send({ message: "Session added" });
     } catch (err) {
@@ -21,7 +28,6 @@ export default async function handler(
     }
   } else if (req.method === "GET") {
     try {
-      const { uid } = req.query;
       const sessions = await getSessions(uid);
       res.status(200).json(sessions);
     } catch (err) {

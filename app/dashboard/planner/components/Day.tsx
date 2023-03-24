@@ -5,6 +5,7 @@ import { SortableContext } from "@dnd-kit/sortable";
 import Event from "./Event";
 import AddEvent from "./AddEvent";
 import { EventsType } from "../../../../types";
+
 export default function Day({
   day,
   dayIdx,

@@ -20,9 +20,7 @@ export default function Sidebar() {
           (isOpen ? " translate-x-0" : " -translate-x-full")
         }
       >
-        <h5 className="text-base font-semibold text-white ppercase ">
-          Control
-        </h5>
+        <h5 className="text-2xl font-semibold text-white ppercase ">TimesUp</h5>
         <button
           onClick={handleOpenSidebar}
           type="button"

@@ -5,8 +5,14 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  const { boardId, uid, taskId } = req.query;
+  const currentUserUid = req.cookies.u_i;
+
+  if (currentUserUid !== uid) {
+    res.status(401).send("Unauthorized");
+    return;
+  }
   if (req.method === "GET") {
-    const { uid, boardId, taskId } = req.query;
     try {
       const subtasks = await getSubtasks({ uid, boardId, taskId });
 

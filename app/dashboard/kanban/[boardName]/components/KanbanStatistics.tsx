@@ -10,7 +10,7 @@ export default function KanbanStatistics({ boards }) {
 
   const selectedBoard = watch("board");
   return (
-    <div className="bg-[#111c44] rounded-lg px-3 py-3">
+    <div className="bg-[#111c44] h-full rounded-lg px-3 py-3">
       <form>
         <label
           htmlFor="boards"

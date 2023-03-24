@@ -12,8 +12,8 @@ import {
   UserData,
 } from "../types";
 import { db } from "./firebase";
-const Cryptr = require("cryptr");
-const cryptr = new Cryptr(process.env.KEY);
+import Cryptr from "cryptr";
+const cryptr = new Cryptr(`${process.env.KEY}`);
 
 export const addCurrentUser = async (user: UserData) => {
   try {
@@ -79,7 +79,7 @@ export const changeSession = async (
       timeStamp: new Date(),
     };
     const ecr = cryptr.encrypt(JSON.stringify(session));
-    await colRef.set({ ecr });
+    await colRef.set({ ecr }, { merge: true });
 
     return session;
   } catch (err) {
