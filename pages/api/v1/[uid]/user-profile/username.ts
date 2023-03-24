@@ -13,14 +13,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { uid } = req.query;
-  const currentUserUid = req.cookies.u_i;
-
-  if (currentUserUid !== uid) {
-    res.status(401).send("Unauthorized");
-    return;
-  }
-
   const { firstName, lastName }: { firstName: string; lastName: string } =
     req.body;
 
