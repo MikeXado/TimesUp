@@ -1,4 +1,4 @@
-# Time Management Project
+# Times UP
 
 This open-source project is designed to help individuals and teams manage their time more efficiently and effectively. It includes several features, including a Kanban page, a Pomodoro timer, a chat function, and a planner.
 
