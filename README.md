@@ -33,7 +33,7 @@ Our planner helps you organize your tasks and create schedules. You can add task
 To get started using our project localy, follow these steps:
 
 1. Clone the repository.
-2. Install the necessary dependencies.
+2. Install the necessary dependencies.```npm intall```
 3. Set up all needed env variables
 ```javaScript
 API_KEY=<your key>
@@ -52,7 +52,7 @@ NEXT_PUBLIC_PUSHER_KEY=<your key>
 NEXT_PUBLIC_PUSHER_APP_ID=<your key>
 PUSHER_SECRET=<your key>
 ```
-3. Run the application.
+3. Run the application. ```npm run dev```
 
 ## Contributing
 
