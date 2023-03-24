@@ -1,6 +1,6 @@
 # Times UP
 
-This open-source project is designed to help individuals and teams manage their time more efficiently and effectively. It includes several features, including a Kanban page, a Pomodoro timer, a chat function, and a planner.
+This open-source project is designed to help individuals manage their time more efficiently and effectively. It includes several features, including a Kanban page, a Pomodoro timer, a chat function, and a planner.
 
 ## Kanban Page
 
@@ -12,7 +12,7 @@ Our Pomodoro timer helps you timebox your work sessions into 25-minute intervals
 
 ## Chat
 
-Our chat feature enables team members to communicate and collaborate on tasks. You can create channels for specific topics or teams and share files and links to help with your work.
+Our chat feature enables team members to communicate and collaborate on tasks.
 
 ## Planner
 
