@@ -28,13 +28,7 @@ To get started using our time management project, follow these steps:
 
 ## Contributing
 
-We welcome contributions to our time management project! If you'd like to contribute, follow these steps:
-
-1. Fork the repository.
-2. Create a new branch.
-3. Make changes and commit them.
-4. Push the changes to your forked repository.
-5. Create a pull request.
+We welcome contributions to our time management project! If you'd like to contribute, feel free to check our [CONTRIBUTING](CONTRIBUTING.md)
 
 ## License
 
