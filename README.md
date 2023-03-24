@@ -30,6 +30,9 @@ To get started using our time management project, follow these steps:
 
 We welcome contributions to our time management project! If you'd like to contribute, feel free to check our [CONTRIBUTING](CONTRIBUTING.md)
 
+## Authors
+1.Gurin Mihail | [LinkedIn](https://www.linkedin.com/in/mihai-gurin-6b24a120b/)
+
 ## License
 
 This time management project is licensed under the MIT License.
