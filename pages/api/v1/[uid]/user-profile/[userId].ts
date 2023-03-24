@@ -6,9 +6,17 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  const { uid, userId } = req.query;
+  const currentUserUid = req.cookies.u_i;
+
+  if (currentUserUid !== uid) {
+    res.status(401).send("Unauthorized");
+    return;
+  }
+
   if (req.method === "PUT") {
-    const userInfo = req.body;
     try {
+      const userInfo = req.body;
       await updateSpecificUser(userInfo);
       res.status(200).json({ message: "User updated successfully" });
     } catch (err) {
@@ -17,9 +25,8 @@ export default async function handler(
         .json({ message: "Error on updating user", err: err.message });
     }
   } else if (req.method === "GET") {
-    const { uid } = req.query;
     try {
-      const user: UserData = await getSpecificUser(uid);
+      const user: UserData = await getSpecificUser(userId);
 
       res.status(200).json(user);
     } catch (err) {

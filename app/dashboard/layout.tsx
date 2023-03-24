@@ -26,10 +26,10 @@ export default async function Layout({ children }) {
 
   const uid = nextCookies.get("u_i")?.value;
 
-  const currentUser: Object = await getSpecificUser(uid);
+  const currentUser = await getSpecificUser(uid);
 
   const boards: KanbanBoards[] = await getBoards(uid);
-  4;
+
   return (
     <>
       <UserProvider uid={uid}>

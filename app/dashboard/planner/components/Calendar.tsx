@@ -95,12 +95,15 @@ export default function Calendar({ events }: { events: EventsType[] }) {
       "MMM-yyyy",
       new Date()
     );
-    let newDaysI = eachDayOfInterval({
+    let newMonthDaysInterval = eachDayOfInterval({
       start: startOfMonth(newFirstDayCurrentMonth),
       end: endOfMonth(newFirstDayCurrentMonth),
     });
-    const newEventsSections = initializeEventsSections(data, newDaysI);
-    setEventsSections(newEventsSections);
+    const newMonthEventsSections = initializeEventsSections(
+      data,
+      newMonthDaysInterval
+    );
+    setEventsSections(newMonthEventsSections);
   };
   const prevMonth = () => {
     let firstDayNextMonth = add(firstDayCurrentMonth, { months: -1 });
@@ -110,12 +113,15 @@ export default function Calendar({ events }: { events: EventsType[] }) {
       "MMM-yyyy",
       new Date()
     );
-    let newDaysI = eachDayOfInterval({
+    let prevMonthDaysInterval = eachDayOfInterval({
       start: startOfMonth(newFirstDayCurrentMonth),
       end: endOfMonth(newFirstDayCurrentMonth),
     });
-    const newEventsSections = initializeEventsSections(data, newDaysI);
-    setEventsSections(newEventsSections);
+    const prevMonthEventsSections = initializeEventsSections(
+      data,
+      prevMonthDaysInterval
+    );
+    setEventsSections(prevMonthEventsSections);
   };
 
   const handleDragStart = ({ active }) => {

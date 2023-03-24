@@ -59,8 +59,6 @@ export default memo(function AddEvent({ day }: { day: Date }) {
           "fixed z-40 h-full p-4 overflow-y-auto bg-[#192555]  w-[500px] max-w-full  transition-transform right-0 top-0 " +
           (isOpen ? " translate-x-0" : " translate-x-full")
         }
-        tabIndex={-1}
-        aria-labelledby="drawer-form-label"
       >
         <h5
           id="drawer-label"

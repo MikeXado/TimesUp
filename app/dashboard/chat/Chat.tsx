@@ -3,9 +3,12 @@
 import { Spinner } from "flowbite-react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
+import { useContext } from "react";
 import useSWR from "swr";
 import { ChatData, UserData } from "../../../types";
+import { UserContext } from "../contexts/UserProvider";
 export default function Chat({ chat, user }: { chat: ChatData; user: string }) {
+  const currentUserUid = useContext(UserContext);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -16,7 +19,7 @@ export default function Chat({ chat, user }: { chat: ChatData; user: string }) {
   };
 
   const fetchSpecificUser = async () => {
-    const data = await fetch(`/api/v1/${user}/user-profile/data`, {
+    const data = await fetch(`/api/v1/${currentUserUid}/user-profile/${user}`, {
       method: "GET",
     });
 
@@ -25,7 +28,7 @@ export default function Chat({ chat, user }: { chat: ChatData; user: string }) {
   };
 
   const { data, isLoading } = useSWR<UserData, boolean>(
-    `/api/v1/${user}/user-profile/data`,
+    `/api/v1/${currentUserUid}/user-profile/${user}`,
     fetchSpecificUser
   );
 

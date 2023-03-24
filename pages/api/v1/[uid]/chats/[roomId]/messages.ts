@@ -12,6 +12,13 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const { uid, roomId } = req.query;
+  const currentUserUid = req.cookies.u_i;
+
+  if (currentUserUid !== uid) {
+    res.status(401).send("Unauthorized");
+    return;
+  }
+
   if (req.method === "GET") {
     try {
       const messages = await getMessages(roomId, uid);

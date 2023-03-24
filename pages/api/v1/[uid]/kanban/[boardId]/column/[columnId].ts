@@ -9,8 +9,15 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  const { boardId, uid, columnId } = req.query;
+  const currentUserUid = req.cookies.u_i;
+
+  if (currentUserUid !== uid) {
+    res.status(401).send("Unauthorized");
+    return;
+  }
+
   if (req.method === "DELETE") {
-    const { uid, columnId, boardId } = req.query;
     const column = req.body;
     try {
       const tasks = await getTasks(uid, boardId);

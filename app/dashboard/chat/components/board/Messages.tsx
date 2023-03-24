@@ -27,7 +27,6 @@ export default function Messages({
   const uid = useContext(UserContext);
   const { addNotification } = useContext(NotificationsContext);
   const [height, setHeight] = useState(50);
-  const messagesBoardRef = useRef<HTMLSpanElement>(null);
 
   const getMessages = useCallback(async () => {
     const res = await fetch(`/api/v1/${uid}/chats/${id}/messages`, {
@@ -73,12 +72,6 @@ export default function Messages({
     };
   }, [handleNewMessage]);
 
-  useEffect(() => {
-    messagesBoardRef?.current?.scrollIntoView({
-      block: "nearest",
-    });
-  }, [messages]);
-
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -103,7 +96,6 @@ export default function Messages({
           {messages?.map((message) => {
             return <Message key={message.id} message={message} />;
           })}
-          <span ref={messagesBoardRef}></span>
         </div>
       )}
       <MessagesFrom

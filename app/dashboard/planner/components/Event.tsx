@@ -1,10 +1,12 @@
 import { useDraggable } from "@dnd-kit/core";
 import { useContext, useState } from "react";
 import { CSS } from "@dnd-kit/utilities";
-import DetailPopup from "./DetailPopup";
-import ChangeEvent from "./ChangeEvent";
 import { EventsType } from "../../../../types";
 import { ChangeEventContext } from "./context/ChangeEventProvider";
+import dynamic from "next/dynamic";
+
+const DetailPopup = dynamic(() => import("./DetailPopup"));
+const ChangeEvent = dynamic(() => import("./ChangeEvent"));
 export default function Event({
   event,
   day,

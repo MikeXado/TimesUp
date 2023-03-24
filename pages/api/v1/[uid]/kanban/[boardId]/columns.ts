@@ -6,9 +6,16 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  const { boardId, uid } = req.query;
+  const currentUserUid = req.cookies.u_i;
+
+  if (currentUserUid !== uid) {
+    res.status(401).send("Unauthorized");
+    return;
+  }
+
   if (req.method === "POST") {
     const data = req.body;
-
     try {
       await addColumn(data);
       res.status(200).json({ message: "success" });
@@ -16,8 +23,6 @@ export default async function handler(
       res.status(500).json({ message: err.message });
     }
   } else if (req.method === "GET") {
-    const { uid, boardId } = req.query;
-
     try {
       const columns: KanbanColumnsType[] = await getColumns(uid, boardId);
       res.status(200).json(columns);

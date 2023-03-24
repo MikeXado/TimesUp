@@ -6,12 +6,17 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method === "GET") {
-    const { boardId, uid } = req.query;
+  const { boardId, uid } = req.query;
+  const currentUserUid = req.cookies.u_i;
 
+  if (currentUserUid !== uid) {
+    res.status(401).send("Unauthorized");
+    return;
+  }
+
+  if (req.method === "GET") {
     try {
       const data: KanbanTaskType[] = await getTasks(uid, boardId);
-
       res.status(200).json(data);
     } catch (err) {
       res.status(500).json({ message: err.message });
@@ -24,5 +29,7 @@ export default async function handler(
     } catch (err) {
       res.status(500).json({ message: err.message });
     }
+  } else {
+    res.status(405).send("Method not allowed");
   }
 }

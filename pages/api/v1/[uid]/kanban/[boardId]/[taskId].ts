@@ -5,9 +5,16 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  const { boardId, uid, taskId } = req.query;
+  const currentUserUid = req.cookies.u_i;
+
+  if (currentUserUid !== uid) {
+    res.status(401).send("Unauthorized");
+    return;
+  }
+
   if (req.method === "PUT") {
     const data = req.body;
-
     try {
       await editTask(data);
       res.status(200).json({ message: "success" });
@@ -15,7 +22,6 @@ export default async function handler(
       res.status(500).json({ message: err.message });
     }
   } else if (req.method === "DELETE") {
-    const { uid, boardId, taskId } = req.query;
     try {
       await deleteTask({ uid, boardId, taskId });
       res.status(200).json({ message: "task deleted" });
