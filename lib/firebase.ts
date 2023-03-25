@@ -7,8 +7,6 @@ import {
   signOut,
   updateProfile,
   sendPasswordResetEmail,
-  signInWithPopup,
-  AuthProvider,
 } from "firebase/auth";
 import { getAuth as getAdminAuth } from "firebase-admin/auth";
 import { getFirestore } from "firebase-admin/firestore";
@@ -48,11 +46,7 @@ async function signUp(email: string, password: string) {
   return createUserWithEmailAndPassword(auth, email, password);
 }
 
-export function signInGoogle(provider: AuthProvider) {
-  return signInWithPopup(auth, provider);
-}
-
-async function signIn(email: string, password: string) {
+async function signIn(email, password) {
   return signInWithEmailAndPassword(auth, email, password);
 }
 
@@ -63,14 +57,6 @@ async function getSessionToken(idToken: string) {
   }
   const twoWeeks = 60 * 60 * 24 * 14 * 1000;
   return getAdminAuth().createSessionCookie(idToken, { expiresIn: twoWeeks });
-}
-
-async function updateUser(displayName: string) {
-  if (auth.currentUser !== null) {
-    return await updateProfile(auth.currentUser, {
-      displayName: displayName,
-    });
-  }
 }
 
 async function logOutFirebase() {
@@ -91,7 +77,6 @@ export {
   signUp,
   getSessionToken,
   logOutFirebase,
-  updateUser,
   db,
   resetPassword,
   storage,

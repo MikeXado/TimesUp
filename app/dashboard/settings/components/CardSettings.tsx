@@ -20,7 +20,7 @@ export default function CardSettings({
       photoUrl: image,
       uid: currentUserUid,
     };
-    await fetch(`/api/v1/${currentUserUid}/user-profile/data`, {
+    await fetch(`/api/v1/${currentUserUid}/user-profile/${currentUserUid}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
