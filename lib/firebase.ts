@@ -7,8 +7,6 @@ import {
   signOut,
   updateProfile,
   sendPasswordResetEmail,
-  signInWithPopup,
-  AuthProvider,
 } from "firebase/auth";
 import { getAuth as getAdminAuth } from "firebase-admin/auth";
 import { getFirestore } from "firebase-admin/firestore";
@@ -48,11 +46,7 @@ async function signUp(email: string, password: string) {
   return createUserWithEmailAndPassword(auth, email, password);
 }
 
-export function signInGoogle(provider: AuthProvider) {
-  return signInWithPopup(auth, provider);
-}
-
-async function signIn(email: string, password: string) {
+async function signIn(email, password) {
   return signInWithEmailAndPassword(auth, email, password);
 }
 
