@@ -1,25 +1,21 @@
 import React, { memo, useContext, useState } from "react";
 
 import { useRouter } from "next/navigation";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { UserContext } from "../../contexts/UserProvider";
 import { toast } from "react-toastify";
 import { Session } from "../../../../types";
-
+import { mutate } from "swr";
 interface PropsTypes {
-  setIsFetching: (isFetching: boolean) => void;
-  startTransition: (callback: () => void) => void;
   session: Session;
 }
 
-export default memo(function ChangeSessions({
-  setIsFetching,
-  startTransition,
-  session,
-}: PropsTypes) {
+export default memo(function ChangeSessions({ session }: PropsTypes) {
   const uid = useContext(UserContext);
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const { register, handleSubmit } = useForm({
     defaultValues: {
       title: session.title,
@@ -28,7 +24,6 @@ export default memo(function ChangeSessions({
       date: session.date,
     },
   });
-  const [isDeleting, setIsDeleting] = useState(false);
 
   const onOpen = () => {
     setIsOpen((prev) => !prev);
@@ -43,17 +38,13 @@ export default memo(function ChangeSessions({
       },
       body: JSON.stringify({ ...data, uid }),
     }).then((res) => res.json());
-
     setIsFetching(false);
+    mutate(`/api/v1/${uid}/sessions/upcoming`);
     toast.success("Session updated!");
-    startTransition(() => {
-      router.refresh();
-    });
   };
 
   const deleteSession = async () => {
     setIsDeleting(true);
-    setIsFetching(true);
     const res = await fetch(`/api/v1/${uid}/sessions/${session.id}`, {
       method: "DELETE",
     });
@@ -62,14 +53,11 @@ export default memo(function ChangeSessions({
       toast.error("Something went wrong , try again later!");
     }
     setIsDeleting(false);
-    setIsFetching(false);
+    mutate(`/api/v1/${uid}/sessions/upcoming`);
     toast.success("Session deleted");
-    startTransition(() => {
-      router.refresh();
-    });
   };
 
-  const onSubmit = (data) => {
+  const onSubmit: SubmitHandler<Session> = (data) => {
     handleAddMessage(data);
     onOpen();
   };
@@ -185,7 +173,7 @@ export default memo(function ChangeSessions({
                     type="submit"
                     className="text-white  bg-indigo-600 hover:bg-indigo-700  w-full  font-medium rounded-lg text-sm  py-2.5 ml-2"
                   >
-                    Confirm
+                    {isFetching ? "Changing..." : "Confirm"}
                   </button>
                 </div>
               </form>
