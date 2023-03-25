@@ -22,6 +22,8 @@ export default async function handler(
       await updateSpecificUser(userInfo);
       adminAuth.updateUser(`${currentUserUid}`, {
         email: userInfo.email,
+        photoURL: userInfo.photoUrl,
+        displayName: userInfo.displayName,
       });
       res.status(200).json({ message: "User updated successfully" });
     } catch (err) {
