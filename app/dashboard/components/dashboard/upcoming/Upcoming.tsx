@@ -3,8 +3,29 @@
 import Link from "next/link";
 import { format, parseISO } from "date-fns";
 import { Session } from "../../../../../types";
+import { useContext } from "react";
+import { UserContext } from "../../../contexts/UserProvider";
+import useSWR from "swr";
 
 export default function Upcoming({ sessions }): JSX.Element {
+  const uid = useContext(UserContext);
+  const getSessions = async () => {
+    const res = await fetch(`/api/v1/${uid}/sessions/upcoming`, {
+      method: "GET",
+    });
+    const sessions = await res.json();
+    return sessions;
+  };
+
+  const { data, isLoading } = useSWR<Session[], boolean>(
+    `/api/v1/${uid}/sessions/upcoming`,
+    getSessions,
+    {
+      fallbackData: sessions,
+      revalidateOnMount: true,
+    }
+  );
+
   return (
     <div className="flex flex-col min-w-0 h-full break-words bg-[#111c44] w-full mb-6 shadow-lg rounded">
       <div className="rounded-t mb-0 px-4 py-3 border-0">
@@ -22,7 +43,7 @@ export default function Upcoming({ sessions }): JSX.Element {
           </div>
         </div>
       </div>
-      {sessions.length === 0 ? (
+      {data?.length === 0 ? (
         <div className="flex justify-center items-center text-white w-full h-full">
           No sessions yet
         </div>

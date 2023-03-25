@@ -1,23 +1,15 @@
 import React, { memo, useContext, useState } from "react";
 
-import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { UserContext } from "../../contexts/UserProvider";
 import { toast } from "react-toastify";
 import { Session } from "../../../../types";
+import { mutate } from "swr";
 
-interface PropsTypes {
-  setIsFetching: (isFetching: boolean) => void;
-  startTransition: (callback: () => void) => void;
-}
-
-export default memo(function AddNewSessions({
-  setIsFetching,
-  startTransition,
-}: PropsTypes) {
+export default memo(function AddNewSessions() {
   const uid = useContext(UserContext);
-  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
   const { register, handleSubmit } = useForm();
 
   const onOpen = () => {
@@ -39,10 +31,8 @@ export default memo(function AddNewSessions({
     }
 
     setIsFetching(false);
+    mutate(`/api/v1/${uid}/sessions/upcoming`);
     toast.success("New session added!");
-    startTransition(() => {
-      router.refresh();
-    });
   };
 
   const onSubmit: SubmitHandler<Session> = (data) => {
@@ -155,7 +145,7 @@ export default memo(function AddNewSessions({
                   type="submit"
                   className="text-white justify-center flex items-center bg-indigo-700  w-full focus:ring-4  font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-3"
                 >
-                  Confirm
+                  {isFetching ? "Adding..." : "Confirm"}
                 </button>
               </form>
             </div>
