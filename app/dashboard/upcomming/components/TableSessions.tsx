@@ -1,15 +1,30 @@
 "use client";
-import { useState, useTransition } from "react";
+import { useContext } from "react";
 import { Spinner } from "flowbite-react";
 import ChangeSessions from "./ChangeSessions";
 import AddNewSessions from "./AddNewSessions";
 import { format, parseISO } from "date-fns";
 import { Session } from "../../../../types";
+import { UserContext } from "../../contexts/UserProvider";
+import useSWR from "swr";
 export default function TableSessions({ sessions }: { sessions: Session[] }) {
-  const [isPending, startTransition] = useTransition();
-  const [isFetching, setIsFetching] = useState<boolean>(false);
+  const uid = useContext(UserContext);
+  const getSessions = async () => {
+    const res = await fetch(`/api/v1/${uid}/sessions/upcoming`, {
+      method: "GET",
+    });
+    const sessions = await res.json();
+    return sessions;
+  };
 
-  const isLoading = isFetching || isPending;
+  const { data, isLoading } = useSWR(
+    `/api/v1/${uid}/sessions/upcoming`,
+    getSessions,
+    {
+      fallbackData: sessions,
+      revalidateOnMount: true,
+    }
+  );
 
   return (
     <>
@@ -46,7 +61,7 @@ export default function TableSessions({ sessions }: { sessions: Session[] }) {
                 </tr>
               </thead>
               <tbody>
-                {sessions?.map((session: Session) => {
+                {data?.map((session: Session) => {
                   return (
                     <tr key={session.id}>
                       <th className="text-white px-6 align-middle  text-sm whitespace-nowrap p-4 text-left">
@@ -68,11 +83,7 @@ export default function TableSessions({ sessions }: { sessions: Session[] }) {
                         {session.time}
                       </td>
                       <td>
-                        <ChangeSessions
-                          session={session}
-                          setIsFetching={setIsFetching}
-                          startTransition={startTransition}
-                        />
+                        <ChangeSessions session={session} />
                       </td>
                     </tr>
                   );
@@ -82,10 +93,7 @@ export default function TableSessions({ sessions }: { sessions: Session[] }) {
           </div>
         </div>
       )}
-      <AddNewSessions
-        setIsFetching={setIsFetching}
-        startTransition={startTransition}
-      />
+      <AddNewSessions />
     </>
   );
 }
