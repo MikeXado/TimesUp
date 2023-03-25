@@ -128,7 +128,11 @@ export const getSessions = async (id: string | string[] | undefined) => {
   }
 };
 
-export const createUserDb = async (currentUser: { uid: string }) => {
+export const createUserDb = async (currentUser: {
+  uid: string | undefined;
+  email: string | undefined;
+  displayName: string | undefined;
+}) => {
   try {
     let currentUserUid = currentUser.uid;
     const ecr = cryptr.encrypt(JSON.stringify(currentUser));

@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { createUserDb } from "../../../../../lib/db";
-import { updateUser } from "../../../../../lib/firebase";
-import { auth } from "../../../../../lib/firebase";
+import { adminAuth } from "../../../../../lib/firebase";
 
 interface CurrentUserData {
   email: string;
@@ -15,17 +14,19 @@ export default async function handler(
 ) {
   const { firstName, lastName }: { firstName: string; lastName: string } =
     req.body;
-
+  const { uid } = req.query;
   try {
-    await updateUser(`${firstName} ${lastName}`);
+    await adminAuth.updateUser(`${uid}`, {
+      displayName: `${firstName} ${lastName}`,
+    });
 
-    let currentUserData: CurrentUserData = {
-      email: auth.currentUser?.email ?? "",
-      displayName: auth.currentUser?.displayName ?? "",
-      uid: auth.currentUser?.uid ?? "",
-    };
+    const currentUser = await adminAuth.getUser(`${uid}`);
 
-    await createUserDb(currentUserData);
+    await createUserDb({
+      email: currentUser.email,
+      displayName: currentUser.displayName,
+      uid: currentUser.uid,
+    });
 
     res.status(200).json({
       message: "User updated successfully",

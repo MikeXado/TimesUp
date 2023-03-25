@@ -59,14 +59,6 @@ async function getSessionToken(idToken: string) {
   return getAdminAuth().createSessionCookie(idToken, { expiresIn: twoWeeks });
 }
 
-async function updateUser(displayName: string) {
-  if (auth.currentUser !== null) {
-    return await updateProfile(auth.currentUser, {
-      displayName: displayName,
-    });
-  }
-}
-
 async function logOutFirebase() {
   await signOut(auth);
 }
@@ -85,7 +77,6 @@ export {
   signUp,
   getSessionToken,
   logOutFirebase,
-  updateUser,
   db,
   resetPassword,
   storage,
