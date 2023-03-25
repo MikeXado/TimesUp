@@ -1,5 +1,7 @@
+import { updateEmail } from "firebase/auth";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSpecificUser, updateSpecificUser } from "../../../../../lib/db";
+import { adminAuth } from "../../../../../lib/firebase";
 import { UserData } from "../../../../../types";
 
 export default async function handler(
@@ -18,6 +20,11 @@ export default async function handler(
     try {
       const userInfo = req.body;
       await updateSpecificUser(userInfo);
+      adminAuth.updateUser(`${currentUserUid}`, {
+        email: userInfo.email,
+        photoURL: userInfo.photoUrl,
+        displayName: userInfo.displayName,
+      });
       res.status(200).json({ message: "User updated successfully" });
     } catch (err) {
       res
