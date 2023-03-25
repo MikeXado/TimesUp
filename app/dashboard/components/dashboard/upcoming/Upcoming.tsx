@@ -65,7 +65,7 @@ export default function Upcoming({ sessions }): JSX.Element {
               </tr>
             </thead>
             <tbody>
-              {sessions?.slice(-5).map((session: Session) => {
+              {data?.slice(-5).map((session: Session) => {
                 return (
                   <tr key={session.id}>
                     <th className="border-t-0 px-6 align-middle text-[#cbcdd7] border-l-0 border-r-0 text-sm whitespace-nowrap p-4 text-left">
