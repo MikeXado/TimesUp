@@ -1,10 +1,11 @@
 "use client";
 
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import autosize from "autosize";
 import { UserContext } from "../../../contexts/UserProvider";
 import { mutate } from "swr";
 import { MessageType } from "../../../../../types";
+import EmojiePicker from "./EmojiePicker";
 export default function MessagesFrom({
   id,
   setHeight,
@@ -20,6 +21,7 @@ export default function MessagesFrom({
   const [message, setMessage] = useState("");
   const [isFetching, setIsFetching] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [isOpenEmojiePicker, setIsOpenEmojiePicker] = useState(false);
   autosize(textareaRef.current);
 
   const addMessage = async () => {
@@ -42,11 +44,16 @@ export default function MessagesFrom({
     mutate(`/api/v1/${currentUser}/chats/${id}/messages`, [data, ...messages]);
     setIsFetching(false);
     setMessage("");
+    setIsOpenEmojiePicker(false);
   };
 
   const handleInput = (e) => {
     setMessage(e.target.value);
     setHeight(e.target.scrollHeight);
+  };
+
+  const handleOpen = () => {
+    setIsOpenEmojiePicker((prev) => !prev);
   };
 
   return (
@@ -81,69 +88,32 @@ export default function MessagesFrom({
           className="w-full bg-[#111c44] border-none m-[2px] focus:rind-[#6e6ae4] focus:border-[#6e6ae4] resize-none lg:pr-32 h-12 max-h-[200px]  text-white placeholder-white pl-10 lg:pl-12  rounded-l-md"
         />
         <div className="absolute right-0 items-center inset-y-0 hidden sm:flex">
-          <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-full h-8 w-8 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="white"
-              className="h-6 w-6 text-white"
+          <div className="relative">
+            <button
+              onClick={handleOpen}
+              type="button"
+              className={
+                "inline-flex items-center mr-4 justify-center rounded-full h-8 w-8 transition duration-500 ease-in-out text-gray-500 hover:bg-indigo-600 focus:outline-none" +
+                (isOpenEmojiePicker ? " bg-indigo-600" : " ")
+              }
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
-              ></path>
-            </svg>
-          </button>
-          <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-full h-8 w-8 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="white"
-              className="h-6 w-6 text-white"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
-              ></path>
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
-              ></path>
-            </svg>
-          </button>
-          <button
-            type="button"
-            className="inline-flex items-center mr-4 justify-center rounded-full h-8 w-8 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="white"
-              className="h-6 w-6 text-white"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              ></path>
-            </svg>
-          </button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="white"
+                className="h-6 w-6 text-white"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
+              </svg>
+            </button>
+            {isOpenEmojiePicker && <EmojiePicker setMessage={setMessage} />}
+          </div>
         </div>
       </div>
       <button
