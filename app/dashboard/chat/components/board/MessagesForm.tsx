@@ -6,6 +6,8 @@ import { UserContext } from "../../../contexts/UserProvider";
 import { mutate } from "swr";
 import { MessageType } from "../../../../../types";
 import EmojiePicker from "./EmojiePicker";
+import VoiceMessage from "./VoiceMessage";
+import VoicePlayer from "./VoicePlayer";
 export default function MessagesFrom({
   id,
   setHeight,
@@ -18,9 +20,10 @@ export default function MessagesFrom({
   messages: MessageType[];
 }) {
   const currentUser = useContext(UserContext);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState<{ value: string; type: string }>();
   const [isFetching, setIsFetching] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [recording, setRecording] = useState(false);
   const [isOpenEmojiePicker, setIsOpenEmojiePicker] = useState(false);
   autosize(textareaRef.current);
 
@@ -43,12 +46,15 @@ export default function MessagesFrom({
     const data = await res.json();
     mutate(`/api/v1/${currentUser}/chats/${id}/messages`, [data, ...messages]);
     setIsFetching(false);
-    setMessage("");
+    setMessage({
+      value: "",
+      type: "",
+    });
     setIsOpenEmojiePicker(false);
   };
 
   const handleInput = (e) => {
-    setMessage(e.target.value);
+    setMessage({ value: e.target.value, type: "text" });
     setHeight(e.target.scrollHeight);
   };
 
@@ -56,38 +62,12 @@ export default function MessagesFrom({
     setIsOpenEmojiePicker((prev) => !prev);
   };
 
+  console.log(message);
+
   return (
     <div className="bg-[#051139] px-0 pt-2 flex items-center justify-center w-full  sm:mb-0">
       <div className="relative flex w-full">
-        <span className="absolute items-center inset-y-0 flex ">
-          <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-full h-8 w-8 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="white"
-              className="h-6 w-6 text-gray-600"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
-              ></path>
-            </svg>
-          </button>
-        </span>
-        <textarea
-          onChange={handleInput}
-          value={message}
-          ref={textareaRef}
-          placeholder="Message"
-          className="w-full bg-[#111c44] border-none m-[2px] focus:rind-[#6e6ae4] focus:border-[#6e6ae4] resize-none lg:pr-32 h-12 max-h-[200px]  text-white placeholder-white pl-10 lg:pl-12  rounded-l-md"
-        />
-        <div className="absolute right-0 items-center inset-y-0 hidden sm:flex">
+        <div className="absolute left-2 items-center inset-y-0 hidden sm:flex">
           <div className="relative">
             <button
               onClick={handleOpen}
@@ -115,6 +95,28 @@ export default function MessagesFrom({
             {isOpenEmojiePicker && <EmojiePicker setMessage={setMessage} />}
           </div>
         </div>
+        <textarea
+          onChange={handleInput}
+          value={message?.type === "text" ? message?.value : ""}
+          ref={textareaRef}
+          disabled={recording}
+          placeholder={recording ? "" : "Message"}
+          className={
+            "w-full bg-[#111c44] border-none m-[2px] focus:rind-[#6e6ae4] focus:border-[#6e6ae4] resize-none lg:pr-32 h-12 max-h-[200px]  text-white placeholder-white pl-10 lg:pl-12  rounded-l-md" +
+            (recording && " placeholder-opacity-50")
+          }
+        />
+        {message?.type === "audio" && (
+          <div className={"absolute items-center inset-y-0 right-[200px]"}>
+            <VoicePlayer audioUrl={message?.value} />
+          </div>
+        )}
+
+        <VoiceMessage
+          setMessage={setMessage}
+          recording={recording}
+          setRecording={setRecording}
+        />
       </div>
       <button
         onClick={addMessage}
