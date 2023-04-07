@@ -23,7 +23,6 @@ if (!firebase.getApps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 const auth = getAuth();
-
 const config = {
   credential: admin.cert({
     projectId: process.env["FIREBASE_ADMIN_PROJECT_ID"],
@@ -40,6 +39,7 @@ if (!admin.getApps().length) {
 }
 const storage = getStorage().bucket(process.env.STORAGE_BUCKET);
 const adminAuth = getAdminAuth();
+
 const db = getFirestore();
 
 async function signUp(email: string, password: string) {
@@ -55,6 +55,7 @@ async function getSessionToken(idToken: string) {
   if (new Date().getTime() / 1000 - decodedToken.auth_time > 5 * 60) {
     throw new Error("Recent sign in required");
   }
+
   const twoWeeks = 60 * 60 * 24 * 14 * 1000;
   return getAdminAuth().createSessionCookie(idToken, { expiresIn: twoWeeks });
 }

@@ -1,54 +1,70 @@
 "use client";
 
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import autosize from "autosize";
 import { UserContext } from "../../../contexts/UserProvider";
 import { mutate } from "swr";
 import { MessageType } from "../../../../../types";
 import EmojiePicker from "./EmojiePicker";
+import VoiceMessage from "./VoiceMessage";
+import VoicePlayer from "./VoicePlayer";
+import CleanMessageButton from "./CleanMessageButton";
+
+interface MessageState {
+  type: "audio" | "text" | "";
+  value: string | Blob;
+}
+
 export default function MessagesFrom({
   id,
   setHeight,
   chat,
-  messages,
 }: {
   id: string;
   setHeight: (height: number) => void;
   chat: string[];
-  messages: MessageType[];
 }) {
   const currentUser = useContext(UserContext);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState<MessageState>();
   const [isFetching, setIsFetching] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [recording, setRecording] = useState(false);
   const [isOpenEmojiePicker, setIsOpenEmojiePicker] = useState(false);
+
   autosize(textareaRef.current);
 
   const addMessage = async () => {
+    if (!message?.value) return;
+
     let messageObj = {
       id: id,
       message: message,
       members: chat,
       currentUser: currentUser,
     };
-    if (!message) return;
+
     setIsFetching(true);
-    const res = await fetch(`/api/v1/${currentUser}/chats/${id}/messages`, {
+    const formData = new FormData();
+    formData.append("audio", message.value);
+    formData.append("messageData", JSON.stringify(messageObj));
+
+    await fetch(`/api/v1/${currentUser}/chats/${id}/messages`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(messageObj),
+      body: formData,
     });
-    const data = await res.json();
-    mutate(`/api/v1/${currentUser}/chats/${id}/messages`, [data, ...messages]);
     setIsFetching(false);
-    setMessage("");
+    setMessage({
+      value: "",
+      type: "",
+    });
     setIsOpenEmojiePicker(false);
   };
 
   const handleInput = (e) => {
-    setMessage(e.target.value);
+    setMessage({
+      value: e.target.value,
+      type: "text",
+    });
     setHeight(e.target.scrollHeight);
   };
 
@@ -59,35 +75,7 @@ export default function MessagesFrom({
   return (
     <div className="bg-[#051139] px-0 pt-2 flex items-center justify-center w-full  sm:mb-0">
       <div className="relative flex w-full">
-        <span className="absolute items-center inset-y-0 flex ">
-          <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-full h-8 w-8 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="white"
-              className="h-6 w-6 text-gray-600"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
-              ></path>
-            </svg>
-          </button>
-        </span>
-        <textarea
-          onChange={handleInput}
-          value={message}
-          ref={textareaRef}
-          placeholder="Message"
-          className="w-full bg-[#111c44] border-none m-[2px] focus:rind-[#6e6ae4] focus:border-[#6e6ae4] resize-none lg:pr-32 h-12 max-h-[200px]  text-white placeholder-white pl-10 lg:pl-12  rounded-l-md"
-        />
-        <div className="absolute right-0 items-center inset-y-0 hidden sm:flex">
+        <div className="absolute left-2 items-center inset-y-0 hidden sm:flex">
           <div className="relative">
             <button
               onClick={handleOpen}
@@ -115,6 +103,35 @@ export default function MessagesFrom({
             {isOpenEmojiePicker && <EmojiePicker setMessage={setMessage} />}
           </div>
         </div>
+        <textarea
+          onChange={handleInput}
+          value={message?.type === "text" ? `${message.value}` : ""}
+          ref={textareaRef}
+          disabled={recording || message?.type === "audio"}
+          placeholder={recording || message?.type === "audio" ? "" : "Message"}
+          className={
+            "w-full bg-[#111c44] border-none m-[2px] focus:rind-[#6e6ae4] focus:border-[#6e6ae4] resize-none lg:pr-32 h-12 max-h-[200px]  text-white placeholder-white pl-10 lg:pl-12  rounded-l-md" +
+            (recording && " placeholder-opacity-50")
+          }
+        />
+        {!recording && message?.type === "audio" && (
+          <div className="absolute right-14 items-center inset-y-0 hidden sm:flex">
+            <VoicePlayer
+              audioUrl={URL.createObjectURL(
+                new Blob([message.value], { type: "audio/webm" })
+              )}
+            />
+          </div>
+        )}
+        {message?.type !== "audio" ? (
+          <VoiceMessage
+            setMessage={setMessage}
+            recording={recording}
+            setRecording={setRecording}
+          />
+        ) : (
+          <CleanMessageButton setMessage={setMessage} />
+        )}
       </div>
       <button
         onClick={addMessage}

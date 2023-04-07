@@ -33,6 +33,7 @@ export default function CardSettings({
   const onSubmit = async (data) => {
     const newForm = new FormData();
     newForm.append("file", data.file[0]);
+    console.log(newForm);
     const res = await fetch(
       `/api/v1/${currentUserUid}/user-profile/user-icon`,
       {

@@ -7,12 +7,19 @@ export default function EmojiePicker({ setMessage }) {
     return emojies;
   };
 
-  const { data, isLoading } = useSWR("/api/emojies", getEmojies);
+  const { data } = useSWR("/api/emojies", getEmojies);
   return (
-    <div className="-top-[450px] -left-[300px]   absolute">
+    <div className="-top-[450px] left-[300px] absolute">
       <Picker
-        data={data && data}
-        onEmojiSelect={(emojie) => setMessage((prev) => prev + emojie.native)}
+        data={data}
+        onEmojiSelect={(emojie) =>
+          setMessage((prev) => {
+            return {
+              value: prev.value + emojie.native,
+              type: "text",
+            };
+          })
+        }
       />{" "}
     </div>
   );

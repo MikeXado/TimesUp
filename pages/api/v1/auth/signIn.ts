@@ -16,8 +16,11 @@ export default async function handler(
 
   try {
     const { user } = await signIn(email, password);
+
     const token = await user.getIdToken();
+
     const tokenId = await getSessionToken(token);
+
     const options = {
       path: "/",
       maxAge: 60 * 60 * 24 * 30,
