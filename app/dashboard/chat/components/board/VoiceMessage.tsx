@@ -1,11 +1,18 @@
+
 import React, { useContext, useState } from "react";
 import { UserContext } from "../../../contexts/UserProvider";
 
+
+
 function VoiceMessage({ setMessage, recording, setRecording }) {
+  const [audioUrl, setAudioUrl] = useState("");
   const [stream, setStream] = useState<MediaStream | null>(null);
+  const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
+
   const constraints: MediaStreamConstraints = { audio: true };
 
   const startRecording = () => {
+   
     navigator.mediaDevices
       .getUserMedia(constraints)
       .then((stream: MediaStream) => {
@@ -24,13 +31,14 @@ function VoiceMessage({ setMessage, recording, setRecording }) {
         mediaRecorder.addEventListener("stop", () => {
           setRecording(false);
           const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
+
           setMessage({
-            value: audioBlob,
             type: "audio",
-          });
+            value: audioBlob,
         });
       })
-      .catch((error) => {
+    })
+    .catch((error: Error) => {
         console.log(error);
       });
   };
