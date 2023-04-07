@@ -11,7 +11,7 @@ import {
   SubtasksType,
   UserData,
 } from "../types";
-import { db } from "./firebase";
+import { db, storage } from "./firebase";
 import Cryptr from "cryptr";
 const cryptr = new Cryptr(`${process.env.KEY}`);
 
@@ -239,21 +239,31 @@ export const getMessages = async (
   userId: string | string[] | undefined
 ) => {
   try {
+    
     const colRef = await db
       .doc(`rooms/${id}`)
       .collection("messages")
       .where("members", "array-contains", userId)
       .orderBy("timeStamp", "desc")
       .get();
-    let messages: MessageType[] = [];
-    colRef.forEach((el) => {
-      const dcr = JSON.parse(cryptr.decrypt(el.data().ecr));
 
-      messages.push({
-        ...dcr,
-      });
+   const promises = colRef.docs.map(async (el) => {
+      const dcr = JSON.parse(cryptr.decrypt(el.data().ecr));
+      if(dcr.message.type === "audio") {
+       const file = storage.file(dcr.message.value)
+        const [contents] = await file.download()
+       const stringContents = contents.toString()
+       const decryptAudio = cryptr.decrypt(stringContents)
+       dcr.message.value = decryptAudio
+      }
+
+     return dcr
     });
-    return messages;
+   
+    const results = await Promise.all(promises)
+ 
+
+    return results;
   } catch (err) {
     throw new Error(err);
   }

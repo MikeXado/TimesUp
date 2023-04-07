@@ -1,7 +1,19 @@
-import React, { useRef } from "react";
+import React from "react";
+
 
 function VoicePlayer({ audioUrl }) {
-  return <audio src={audioUrl} controls />;
+
+
+  return (
+    <>
+      <audio
+        src={audioUrl}
+     
+        controls
+      />
+     
+    </>
+  );
 }
 
 export default VoicePlayer;

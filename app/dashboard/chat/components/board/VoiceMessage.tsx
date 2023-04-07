@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { UserContext } from "../../../contexts/UserProvider";
 
 function VoiceMessage({ setMessage, recording, setRecording }) {
-  const [audioUrl, setAudioUrl] = useState("");
   const [stream, setStream] = useState<MediaStream | null>(null);
-  const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
   const constraints: MediaStreamConstraints = { audio: true };
 
   const startRecording = () => {
@@ -25,11 +24,8 @@ function VoiceMessage({ setMessage, recording, setRecording }) {
         mediaRecorder.addEventListener("stop", () => {
           setRecording(false);
           const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
-          const audioUrl = URL.createObjectURL(audioBlob);
-          setAudioUrl(audioUrl);
-          setAudioBlob(audioBlob);
           setMessage({
-            value: audioUrl,
+            value: audioBlob,
             type: "audio",
           });
         });

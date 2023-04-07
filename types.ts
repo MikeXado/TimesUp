@@ -122,7 +122,10 @@ interface EditSubtasksProps {
 }
 
 interface MessageType {
-  message: string;
+  message: {
+    value: string | Buffer;
+    type: "audio" | "text" | "";
+  };
   displayName: string;
   email: string;
   uid: string;

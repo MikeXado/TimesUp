@@ -1,7 +1,7 @@
 "use client";
 
 const MessagesFrom = dynamic(() => import("./MessagesForm"));
-import { useState, useRef, useEffect, useContext, useCallback } from "react";
+import { useState, useEffect, useContext, useCallback } from "react";
 import { clientPusher } from "../../../../../pusher";
 import dynamic from "next/dynamic";
 import NoMessages from "./NoMessages";
@@ -9,7 +9,8 @@ import useSWR from "swr";
 import { UserContext } from "../../../contexts/UserProvider";
 import { Spinner } from "flowbite-react";
 import { NotificationsContext } from "../../../contexts/NotificationsProvider";
-import { ChatData, MessageType } from "../../../../../types";
+import { MessageType } from "../../../../../types";
+import { forEach } from "lodash";
 
 const Message = dynamic(() => import("./Message"));
 
@@ -31,8 +32,9 @@ export default function Messages({
   const getMessages = useCallback(async () => {
     const res = await fetch(`/api/v1/${uid}/chats/${id}/messages`, {
       method: "GET",
+      
     });
-    const m = res.json();
+    const m = await res.json();
     return m;
   }, [id, uid]);
   const {
@@ -93,17 +95,12 @@ export default function Messages({
             }px - 118px)`,
           }}
         >
-          {messages?.map((message) => {
-            return <Message key={message.id} message={message} />;
+          {messages?.map((data) => {
+            return <Message key={data.id} data={data} />;
           })}
         </div>
       )}
-      <MessagesFrom
-        id={id}
-        setHeight={setHeight}
-        chat={chatMembers}
-        messages={messages}
-      />
+      <MessagesFrom id={id} setHeight={setHeight} chat={chatMembers} />
     </div>
   );
 }
