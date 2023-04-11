@@ -234,7 +234,8 @@ export default function Board({
         <div
           className={`pl-2 mb-2 flex-1 flex xl:h-[800px] lg:h-[730px] h-screen`}
           style={{
-            width: `${400 + columnsData?.length * 400}px`,
+            width: window && window.innerWidth < 768 ? `${300 + columnsData?.length * 300}px` : `${400 + columnsData?.length * 400}px`,
+            
           }}
         >
           {Object.keys(boardSections).map((column) => {

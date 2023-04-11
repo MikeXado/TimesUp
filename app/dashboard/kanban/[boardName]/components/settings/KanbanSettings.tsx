@@ -13,7 +13,7 @@ export default function KanbanSettings({ boardId }) {
 
   return (
     <>
-      <button className="mt-10" onClick={onOpen}>
+      <button className="mt-20" onClick={onOpen}>
         <svg
           width="50px"
           height="50px"

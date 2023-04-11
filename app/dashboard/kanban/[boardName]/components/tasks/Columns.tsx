@@ -13,7 +13,7 @@ interface ColumnTypeProps {
 }
 export default function Column({ boardId, tasks, column }: ColumnTypeProps) {
   return (
-    <div className="h-full w-[400px] mt-3 mr-2 px-4 overflow-y-auto rounded-lg pb-[200px]">
+    <div className="h-full w-[300px] md:w-[400px] mt-3 mr-2 px-4 overflow-y-auto rounded-lg pb-[200px]">
       <div className="flex justify-between items-center">
         <div className="font-semibold text-md pt-3 uppercase text-white">
           {column}
