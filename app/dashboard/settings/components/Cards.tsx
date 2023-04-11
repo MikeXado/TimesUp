@@ -9,6 +9,7 @@ export default function Cards({ currentUser }: { currentUser: UserData }) {
     watch,
     handleSubmit,
     setValue,
+    formState:{errors}
   }: UseFormReturn<FieldValues> = useForm<FieldValues>({
     defaultValues: {
       displayName: currentUser.displayName,
@@ -31,6 +32,7 @@ export default function Cards({ currentUser }: { currentUser: UserData }) {
           currentUserUid={currentUser.uid}
           setValue={setValue}
           watch={watch}
+          errors={errors}
         />
       </div>
       <div className="w-full lg:w-4/12 px-4">

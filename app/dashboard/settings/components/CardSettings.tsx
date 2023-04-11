@@ -3,6 +3,7 @@
 import PhotoInput from "./PhotoInput";
 import { toast } from "react-toastify";
 import { UserData } from "../../../../types";
+import { useState } from "react";
 
 export default function CardSettings({
   register,
@@ -10,7 +11,9 @@ export default function CardSettings({
   currentUserUid,
   setValue,
   watch,
+  errors,
 }) {
+
   const changeProfile = async (data: UserData, image: string) => {
     const newProfile = {
       displayName: data.displayName,
@@ -33,13 +36,14 @@ export default function CardSettings({
   const onSubmit = async (data) => {
     const newForm = new FormData();
     newForm.append("file", data.file[0]);
-    console.log(newForm);
+  
     const res = await fetch(
       `/api/v1/${currentUserUid}/user-profile/user-icon`,
       {
         method: "POST",
         body: newForm,
       }
+     
     );
 
     const url = res.json();
@@ -47,10 +51,14 @@ export default function CardSettings({
 
     setValue("photoUrl", image);
     changeProfile(data, image);
+
   };
 
   const inputFile = watch("file");
+  
 
+
+ 
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
@@ -71,7 +79,7 @@ export default function CardSettings({
               Upload image
             </h6>
             <div className="flex items-center mb-10">
-              <PhotoInput register={register} />
+              <PhotoInput register={register} inputFile={inputFile} />
               <div className="text-white ml-4">
                 {inputFile && inputFile[0] && inputFile[0].name
                   ? inputFile[0].name

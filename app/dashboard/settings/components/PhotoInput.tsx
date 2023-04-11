@@ -1,12 +1,27 @@
-import React from "react";
+import Image from "next/image";
+import React, {useState , useEffect} from "react";
 
-export default function PhotoInput({ register }) {
+export default function PhotoInput({ register , inputFile }) {
+  const [previewUrl , setPreviewUrl] = useState("")
+  
+  useEffect(() => {
+    const file = inputFile && inputFile[0]
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+     reader.onloadend = () => {
+      setPreviewUrl(`${reader.result}`);
+     }
+    }
+  } , [inputFile])
+
   return (
     <>
       <label
         htmlFor="dropzone-file"
         className="flex flex-col items-center justify-center w-[70px] h-[70px]  border-2 border-[#6e6ae4] rounded-full cursor-pointer bg-[#192555] "
       >
+        {previewUrl.length > 0 ? <Image src={previewUrl} height={70} width={70}  className="w-[70px] h-[70px] rounded-full" alt="user-image" />  : 
         <div className="flex flex-col items-center justify-center pt-5 pb-6">
           <svg
             width="40px"
@@ -20,11 +35,15 @@ export default function PhotoInput({ register }) {
             />
           </svg>
         </div>
+}
         <input
+
           id="dropzone-file"
           type="file"
           className="hidden"
           {...register("file")}
+          accept="image/png, image/jpeg"
+          
         />
       </label>
     </>
