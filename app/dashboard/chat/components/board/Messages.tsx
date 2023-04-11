@@ -10,7 +10,7 @@ import { UserContext } from "../../../contexts/UserProvider";
 import { Spinner } from "flowbite-react";
 import { NotificationsContext } from "../../../contexts/NotificationsProvider";
 import { MessageType } from "../../../../../types";
-import { forEach } from "lodash";
+
 
 const Message = dynamic(() => import("./Message"));
 
@@ -54,7 +54,7 @@ export default function Messages({
   const handleNewMessage = useCallback(
     (data) => {
       if (messages?.find((message) => message.id === data.id)) return;
-
+      console.log(data);
       mutate([data, ...messages]);
 
       addNotification({
