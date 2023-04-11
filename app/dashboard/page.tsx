@@ -30,7 +30,7 @@ export default async function Dashboard() {
         {/* @ts-expect-error Async Server Component */}
         <Chat />
       </div>
-      <div className="w-full xl:w-[40%] lg:w-full mb-10 xl:mb-4 px-4">
+      <div className="w-full xl:w-[40%] lg:w-full pb-5 xl:pb-0 mb-10 xl:mb-4 px-4">
         <KanbanStatistics boards={boards} />
       </div>
     </div>
