@@ -100,7 +100,7 @@ export default function MessagesFrom({
                 ></path>
               </svg>
             </button>
-            {isOpenEmojiePicker && <EmojiePicker setMessage={setMessage} />}
+            {isOpenEmojiePicker && <EmojiePicker setMessage={setMessage} closeEmojiePicker={setIsOpenEmojiePicker} />}
           </div>
         </div>
         <textarea
