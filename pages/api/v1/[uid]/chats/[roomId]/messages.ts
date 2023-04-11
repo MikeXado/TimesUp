@@ -102,10 +102,9 @@ export default async function handler(
         };
       }
       
-
-   
-      serverPusher.trigger("messages", "new-message", sendingMessage);
+    
       await addMessage(id, sendingMessage, members, currentUser);
+      serverPusher.trigger("messages", "new-message", sendingMessage);
       res.status(200).json({ message: "success" });
     } catch (err) {
       res.status(500).json({ message: err.message });

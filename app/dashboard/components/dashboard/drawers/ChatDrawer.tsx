@@ -9,7 +9,7 @@ import { NavbarContext } from "../../../contexts/NavbarContext";
 import { UserContext } from "../../../contexts/UserProvider";
 export default function ChatDrawer() {
   const { isOpen, setIsOpen } = useContext(ChatDrawerContext);
-  const { isOpen: navbarStatus } = useContext(NavbarContext);
+  const { isOpen: navbarStatus , setIsOpen: navbarOpen } = useContext(NavbarContext);
   const uid = useContext(UserContext);
   const handleOpenSidebar = () => {
     setIsOpen(false);
@@ -59,6 +59,8 @@ export default function ChatDrawer() {
             {data?.chats?.map((chat: ChatData) => {
               return (
                 <Chat
+                setIsOpen={setIsOpen}
+                navbarOpen={navbarOpen}
                   key={chat.id}
                   chat={chat}
                   user={

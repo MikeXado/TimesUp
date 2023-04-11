@@ -12,7 +12,7 @@ import { KanbanBoards } from "../../../../../types";
 export default function KanbanDrawer({ boards }) {
   const uid = useContext(UserContext);
   const { isOpen, setIsOpen } = useContext(KanbanDrawerContext);
-  const { isOpen: navbarStatus } = useContext(NavbarContext);
+  const { isOpen: navbarStatus , setIsOpen: navbarOpen } = useContext(NavbarContext);
 
   const handleOpenSidebar = () => {
     setIsOpen(false);
@@ -67,7 +67,7 @@ export default function KanbanDrawer({ boards }) {
             </div>
           ) : (
             (data || boards).map((board: KanbanBoards) => {
-              return <Board key={board.id} board={board} />;
+              return <Board navbarOpen={navbarOpen} setIsOpen={setIsOpen} key={board.id} board={board} />;
             })
           )}
         </ul>

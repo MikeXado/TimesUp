@@ -7,7 +7,8 @@ import { useContext } from "react";
 import useSWR from "swr";
 import { ChatData, UserData } from "../../../types";
 import { UserContext } from "../contexts/UserProvider";
-export default function Chat({ chat, user }: { chat: ChatData; user: string }) {
+export default function Chat({ chat, user , setIsOpen , navbarOpen }: { chat: ChatData; user: string;   setIsOpen: (prev: boolean) => void; 
+  navbarOpen: (prev: boolean) => void;  }) {
   const currentUserUid = useContext(UserContext);
   const router = useRouter();
   const pathname = usePathname();
@@ -16,6 +17,10 @@ export default function Chat({ chat, user }: { chat: ChatData; user: string }) {
 
   const getChatId = () => {
     router.push(`/dashboard/chat/${chat.id}`);
+    setIsOpen(false);
+    if(window && window.innerHeight < 1024) {
+      navbarOpen(false)
+    }
   };
 
   const fetchSpecificUser = async () => {
