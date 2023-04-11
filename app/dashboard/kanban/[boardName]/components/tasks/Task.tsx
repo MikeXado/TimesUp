@@ -56,7 +56,9 @@ export default function Task({ task }: { task?: KanbanTaskType }) {
           <div className={"text-md text-[#cbcdd7] " + inter.className}>
             {task?.description}
           </div>
+    
           <Progress task={memoTasks} />
+
         </div>
       </li>
       {isOpen && <PreviewTask task={memoTasks} handleClick={handleClick} />}

@@ -57,7 +57,7 @@ export default React.memo(function AddNewColumn({
   };
 
   return (
-    <div className="w-[400px] bg-[#192555] mt-3  rounded-lg">
+    <div className="w-[300px] md:w-[400px] bg-[#192555] mt-3  rounded-lg">
       <div className="flex flex-col items-center  justify-center w-full h-full">
         <button
           onClick={handleOpen}
@@ -80,15 +80,15 @@ export default React.memo(function AddNewColumn({
               >
                 {alreadyExist ? "Column already exists!!" : "Enter column name"}
               </label>
-              <div className="relative w-full mt-3 flex justify-center items-center">
+              <div className="relative w-full mt-3">
                 <input
-                  className="w-[300px] py-2 pr-[60px]  bg-[#111c44] text-white placeholder-white border-none "
+                  className="w-[270px] md:[300px] py-2 pr-[60px] bg-[#111c44] text-white placeholder-white border-none "
                   placeholder="Enter a column name"
                   {...register("column")}
                 />
                 <button
                   type="submit"
-                  className="absolute right-0 bg-[#6e6ae4] text-white py-2 px-3"
+                  className="absolute left-1/2 -translate-x-1/2 -bottom-14  rounded-lg w-32 bg-[#6e6ae4] text-white py-2 px-3"
                 >
                   {isFetching ? <Spinner /> : "Add"}
                 </button>
@@ -96,7 +96,7 @@ export default React.memo(function AddNewColumn({
             </div>
           </form>
         </div>
-        <KanbanSettings boardId={boardId} />
+        <KanbanSettings  boardId={boardId} />
       </div>
     </div>
   );
