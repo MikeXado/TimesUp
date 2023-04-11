@@ -30,28 +30,28 @@ export default function Chart({ selectedBoard }) {
     return group;
   }, {});
 
+  console.log(groupedTasks)
+
   const chartData = {
-    labels: tasks?.map((el) => el.status),
+    labels:groupedTasks && Object.keys(groupedTasks), 
     datasets: [
       {
         label: "tasks",
         data:
-          groupedTasks &&
-          Object.keys(groupedTasks).map((el) => {
-            let statusTasksLenth = groupedTasks[el].length;
-            return statusTasksLenth;
-          }),
+          // groupedTasks &&
+          // Object.keys(groupedTasks).map((el) => {
+          //   let statusTasksLenth = groupedTasks[el].length;
+          //   console.log(statusTasksLenth)
+          //   return statusTasksLenth;
+          groupedTasks &&  Object.values(groupedTasks).map((tasks: KanbanTaskType[]) => tasks.length),
+         
+      
         backgroundColor: [
-          "#4dc9f6",
-          "#f67019",
-          "#f53794",
-          "#537bc4",
-          "#acc236",
-          "#166a8f",
-          "#00a950",
-          "#58595b",
-          "#8549ba",
+          "rgba(63, 49, 216, 0.2)"
+         
+     
         ],
+        
       },
     ],
   };
