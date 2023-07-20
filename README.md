@@ -23,23 +23,9 @@ To get started using our project localy, follow these steps:
 
 1. Clone the repository.
 2. Install the necessary dependencies.`npm install`
-3. Set up all needed env variables
+3. Set up all needed env variables([.env.example](https://github.com/MikeXado/TimesUp/blob/main/.env.example))
+4. Run the application. `npm run dev`
 
-```javaScript
-API_KEY=<your key>
-AUTH_DOMAIN=<your key>
-PROJECT_ID=<your key>
-STORAGE_BUCKET=<your key>
-MESSAGING_SENDER_ID=<your key>
-APP_ID=<your key>
-FIREBASE_ADMIN_TYPE=<your key>
-FIREBASE_ADMIN_PROJECT_ID=<your key>
-FIREBASE_ADMIN_PRIVATE_KEY=<your key>
-FIREBASE_ADMIN_CLIENT_EMAIL=<your key>
-FIREBASE_ADMIN_CLIENT_ID=<your key>
-```
-
-3. Run the application. `npm run dev`
 
 ## Contributing
 
