@@ -6,14 +6,13 @@ This open-source project is designed to help individuals manage their time more 
 
 ## Kanban Page
 
-Our Kanban page allows you to visualize your tasks and their progress. You can drag and drop tasks between different columns to indicate their status. The columns typically include "To Do," "In Progress," and "Done."
+Our Kanban page allows you to visualize your tasks and their progress. The columns typically include "To Do," "In Progress," and "Done."
 
 ![Kanban](https://github.com/MikeXado/TimesUp/blob/main/readme-images/task.png)
 
 ## Events
 
-Our planner helps you organize your tasks and create schedules. You can add tasks to different categories and set deadlines and reminders to help you stay on track.
-
+Our planner helps you organize your tasks and create schedules.
 ![Planner](https://github.com/MikeXado/TimesUp/blob/main/readme-images/events.png)
 ![Planner](https://github.com/MikeXado/TimesUp/blob/main/readme-images/projects.png)
 
