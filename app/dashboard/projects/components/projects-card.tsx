@@ -53,7 +53,7 @@ function ProjectCard({ project }: { project: ProjectTypeWithId }) {
       <div className="flex items-center space-x-4 mt-5">
         <Progress
           value={progress}
-          thumbColor="bg-green-600"
+          thumbcolor="bg-green-600"
           className={cn("h-[10px] bg-gray-300")}
         />
         <span className="font-medium text-lg">
