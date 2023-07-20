@@ -127,11 +127,7 @@ function TaskDetailSheet({
             </div>
           </div>
           <div className="flex items-center space-x-4">
-            <Progress
-              value={progress}
-              thumbcolor="bg-green-600"
-              className={cn("h-[10px] bg-gray-300")}
-            />
+            <Progress value={progress} className={cn("h-[10px] bg-gray-300")} />
           </div>
         </div>
 

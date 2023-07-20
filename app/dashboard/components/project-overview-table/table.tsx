@@ -80,7 +80,6 @@ function ProjectsOverviewTable({
                   <div className="flex items-center space-x-4">
                     <Progress
                       value={progress}
-                      thumbcolor="bg-green-600"
                       className={cn("h-[8px] bg-gray-300")}
                     />
                     <span className="font-medium text-lg">
