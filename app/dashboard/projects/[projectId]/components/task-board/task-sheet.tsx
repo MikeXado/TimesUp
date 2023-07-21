@@ -8,10 +8,10 @@ import {
 } from "@/components/ui/sheet";
 import TaskCard from "./task-card";
 import TaskDropdown from "./task-dropdown";
-import { cn } from "@/lib/utils";
+import calculateDaysLeft, { cn } from "@/lib/utils";
 import { Tags } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
-import calculateDaysLeft from "@/lib/functions/calculate-days-left";
+
 import { parseISO } from "date-fns";
 import { Checkbox } from "@/components/ui/checkbox";
 import getSubtasksFetcher from "@/lib/functions/get-subtasks-fetch";
