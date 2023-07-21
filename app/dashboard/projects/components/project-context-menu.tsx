@@ -24,13 +24,7 @@ interface ProjectTypeWithId extends ProjectType {
   total_tasks: number;
 }
 
-function ProjectContext({
-  uid,
-  project,
-}: {
-  uid: string;
-  project: ProjectTypeWithId;
-}) {
+function ProjectContext({ project }: { project: ProjectTypeWithId }) {
   const [isLoading, setIsLoading] = useState(false);
 
   return (
@@ -41,13 +35,13 @@ function ProjectContext({
       <ContextMenuContent>
         <ContextMenuLabel>Project</ContextMenuLabel>
         <ContextMenuSeparator />
-        <EditProjectSheet uid={uid} project={project} />
+        <EditProjectSheet project={project} />
         <ContextMenuItem
           disabled={isLoading}
           onClick={(e) => {
             e.preventDefault();
             setIsLoading(true);
-            deleteProjectFetch(uid, project.id);
+            deleteProjectFetch(project.id);
             setIsLoading(false);
           }}
           className={cn("cursor-pointer focus:bg-red-500 focus:text-white")}

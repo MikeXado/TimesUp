@@ -1,15 +1,19 @@
+import { getUser } from "@/viewmodels/firebase/auth";
 import getEvents from "@/viewmodels/firebase/db/get-events";
+import { parse } from "cookie";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method === "POST") {
+  if (req.method === "GET") {
     try {
-      const uid = req.body;
+      const cookies = parse(req.headers.cookie || "");
+      const token = cookies["session-token"];
+      const data = await getUser(token);
 
-      const response = await getEvents(uid);
+      const response = await getEvents(data.uid);
 
       res.status(200).json({ message: response });
     } catch (err) {

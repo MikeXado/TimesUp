@@ -12,8 +12,7 @@ const updateSubtasksFetcher = async (
   subtaskId: string,
   taskId: string,
   taskStatus: string,
-  projectId: string,
-  uid: string
+  projectId: string
 ) => {
   const res = await fetch("/api/v1/project/tasks/subtasks/update", {
     method: "POST",
@@ -21,7 +20,6 @@ const updateSubtasksFetcher = async (
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      uid,
       projectId,
       taskId: taskId,
       subtaskId,

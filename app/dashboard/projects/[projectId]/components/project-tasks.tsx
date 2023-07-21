@@ -6,8 +6,6 @@ import { Plus } from "lucide-react";
 import React from "react";
 import useSWR from "swr";
 import TaskBoard from "./TaskBoard";
-import { getTasksFetcher } from "@/lib/functions/get-tasks";
-import Spinner from "@/components/ui/spinner";
 import dynamic from "next/dynamic";
 const AddTaskSheet = dynamic(
   () => import("@/app/dashboard/components/project/add-task-sheet")
@@ -19,21 +17,17 @@ interface ProjectTypeWithId extends ProjectType {
 
 function ProjectTasks({
   project,
-  uid,
+
   id,
 }: {
   project: ProjectTypeWithId;
-  uid: string;
+
   id: string;
 }) {
-  const { data } = useSWR(
-    "/api/v1/project/get",
-    (url) => getProject(url, id, uid),
-    {
-      fallbackData: project,
-      revalidateOnMount: true,
-    }
-  );
+  const { data } = useSWR("/api/v1/project/get", (url) => getProject(url, id), {
+    fallbackData: project,
+    revalidateOnMount: true,
+  });
 
   return (
     <div className="mt-10">
@@ -42,7 +36,6 @@ function ProjectTasks({
 
         <AddTaskSheet
           id={id}
-          uid={uid}
           trigger={
             <div className="flex items-center sm:mt-0 mt-5 rounded-xl space-x-2 px-2 py-2 bg-green-200 text-green-800 text-md font-bold transition-all duration-300 ease-in-out hover:bg-green-300 ">
               <Plus />
@@ -52,7 +45,7 @@ function ProjectTasks({
         />
       </div>
 
-      <TaskBoard projectId={id} uid={uid} />
+      <TaskBoard projectId={id} />
     </div>
   );
 }

@@ -1,4 +1,6 @@
+import { getUser } from "@/viewmodels/firebase/auth";
 import editEvent from "@/viewmodels/firebase/db/edit-event";
+import { parse } from "cookie";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -6,7 +8,11 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    const { uid, eventId, data } = req.body;
+    const { eventId, data } = req.body;
+    const cookies = parse(req.headers.cookie || "");
+    const token = cookies["session-token"];
+    const { uid } = await getUser(token);
+
     const response = await editEvent(uid, eventId, data);
 
     if (response.success) {

@@ -16,16 +16,10 @@ interface ProjectTypeWithId extends ProjectType {
   total_tasks: number;
 }
 
-function ProjectsCards({
-  projects,
-  uid,
-}: {
-  projects: ProjectTypeWithId[];
-  uid: string;
-}) {
+function ProjectsCards({ projects }: { projects: ProjectTypeWithId[] }) {
   const { data } = useSWR<ProjectTypeWithId[]>(
     "/api/v1/projects",
-    () => getProjectsFetcher(uid),
+    getProjectsFetcher,
     {
       fallbackData: projects,
       revalidateOnMount: true,
@@ -88,11 +82,7 @@ function ProjectsCards({
                 <ul className="grid sm:grid-cols-project_fluid_card  grid-cols-1 sm:justify-items-center  w-full gap-y-10 sm:gap-x-5 ">
                   {groupedByStatusProjects[type].map((project) => {
                     return (
-                      <ProjectContext
-                        key={project.id}
-                        uid={uid}
-                        project={project}
-                      />
+                      <ProjectContext key={project.id} project={project} />
                     );
                   })}
                 </ul>

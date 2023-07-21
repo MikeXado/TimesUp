@@ -2,7 +2,7 @@ import { toast } from "@/components/ui/use-toast";
 
 const getSubtasksFetcher = async (
   url: string,
-  uid: string,
+
   projectId: string,
   taskId: string
 ) => {
@@ -11,7 +11,7 @@ const getSubtasksFetcher = async (
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ uid, projectId, taskId }),
+    body: JSON.stringify({ projectId, taskId }),
   });
   if (res.ok) {
     const data = await res.json();

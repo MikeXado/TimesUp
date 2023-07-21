@@ -1,4 +1,6 @@
+import { getUser } from "@/viewmodels/firebase/auth";
 import deleteEvent from "@/viewmodels/firebase/db/delete-event";
+import { parse } from "cookie";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -6,8 +8,12 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    const { uid, eventId } = req.body;
-    const response = await deleteEvent(uid, eventId);
+    const { eventId } = req.body;
+    const cookies = parse(req.headers.cookie || "");
+    const token = cookies["session-token"];
+    const data = await getUser(token);
+
+    const response = await deleteEvent(data.uid, eventId);
 
     if (response.success) {
       res.status(200).json({ message: response.description });

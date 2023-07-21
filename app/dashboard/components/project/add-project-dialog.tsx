@@ -40,13 +40,7 @@ import {
 } from "@/components/ui/select";
 import projectIconFetch from "@/lib/functions/project-icon-fetch";
 
-function AddProjectSheet({
-  uid,
-  trigger,
-}: {
-  uid: string;
-  trigger: ReactNode;
-}) {
+function AddProjectSheet({ trigger }: { trigger: ReactNode }) {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [startDate, setStartDate] = useState<Date | undefined>();
@@ -100,7 +94,7 @@ function AddProjectSheet({
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ uid, sendData }),
+      body: JSON.stringify({ sendData }),
     });
 
     const messageData = await res.json();

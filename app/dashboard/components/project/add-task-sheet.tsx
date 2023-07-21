@@ -43,11 +43,11 @@ interface IFormValues {
 
 function AddTaskSheet({
   trigger,
-  uid,
+
   id,
 }: {
   trigger: React.ReactNode;
-  uid: string;
+
   id: string;
 }) {
   const [subtasks, setSubtasks] = useState<SubtaskType[]>([]);
@@ -81,7 +81,6 @@ function AddTaskSheet({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        uid,
         id,
         taskData,
         subtasks,
@@ -110,7 +109,6 @@ function AddTaskSheet({
 
   const date = watch("_createdAt");
 
-  console.log(watch("status"));
   return (
     <div className="relative">
       <Sheet>

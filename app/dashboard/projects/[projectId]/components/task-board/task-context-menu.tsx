@@ -17,12 +17,12 @@ import { cn } from "@/lib/utils";
 import deleteTask from "@/lib/functions/delete-task-fetch";
 function TaskContextMenu({
   trigger,
-  uid,
+
   projectId,
   task,
 }: {
   trigger: React.ReactNode;
-  uid: string;
+
   projectId: string;
   task: TaskTypeWithId;
 }) {
@@ -33,7 +33,6 @@ function TaskContextMenu({
       <ContextMenuTrigger>{trigger}</ContextMenuTrigger>
       <ContextMenuContent>
         <EditTaskDialog
-          uid={uid}
           projectId={projectId}
           taskId={task.id}
           task={task}
@@ -55,7 +54,7 @@ function TaskContextMenu({
           onClick={(e) => {
             e.preventDefault();
             setIsLoading(true);
-            deleteTask(uid, projectId, task.id, task.status);
+            deleteTask(projectId, task.id, task.status);
             setIsLoading(false);
           }}
           className={cn("cursor-pointer focus:bg-red-500 focus:text-white")}

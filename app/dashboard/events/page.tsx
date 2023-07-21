@@ -13,8 +13,8 @@ async function EventsPage() {
   const events = await getEvents(data.uid);
   return (
     <div className="mt-10">
-      <EventsPageHeader uid={data.uid} />
-      <EventsCards events={events} uid={data.uid} />
+      <EventsPageHeader />
+      <EventsCards events={events} />
     </div>
   );
 }

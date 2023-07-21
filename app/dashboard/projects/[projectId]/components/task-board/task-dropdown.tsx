@@ -23,12 +23,10 @@ interface TaskTypeWithId extends TaskType {
 }
 
 function TaskDropdown({
-  uid,
   projectId,
   taskId,
   task,
 }: {
-  uid: string;
   projectId: string;
   taskId: string;
   task: TaskTypeWithId;
@@ -48,7 +46,6 @@ function TaskDropdown({
         <DropdownMenuSeparator />
 
         <EditTaskDialog
-          uid={uid}
           task={task}
           projectId={projectId}
           taskId={taskId}
@@ -71,7 +68,7 @@ function TaskDropdown({
           onClick={(e) => {
             e.preventDefault();
             setIsLoading(true);
-            deleteTask(uid, projectId, taskId, task.status);
+            deleteTask(projectId, taskId, task.status);
             setIsLoading(false);
           }}
           className={cn("cursor-pointer focus:bg-red-500 focus:text-white")}

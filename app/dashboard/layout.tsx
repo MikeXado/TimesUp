@@ -16,7 +16,7 @@ async function DashboardLayout({ children }: { children: React.ReactNode }) {
         <Navbar user={data} projects={projects} />
       </header>
       <div className="bg-white w-full rounded-t-2xl -mt-3 sm:flex min-h-screen max-h-full ">
-        <Sidebar uid={data.uid} />
+        <Sidebar />
 
         <div className="p-5 sm:flex-1 ">
           <div className="">

@@ -1,12 +1,8 @@
 import { toast } from "@/components/ui/use-toast";
 
-const getEventsFetcher = async (uid: string) => {
+const getEventsFetcher = async () => {
   const res = await fetch("/api/v1/events", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(uid),
+    method: "GET",
   });
   if (res.ok) {
     const data = await res.json();

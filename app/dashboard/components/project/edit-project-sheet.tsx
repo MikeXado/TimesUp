@@ -51,16 +51,7 @@ interface ProjectTypeWithId extends ProjectType {
   total_tasks: number;
 }
 
-function EditProjectSheet({
-  uid,
-
-  project,
-}: {
-  uid: string;
-
-  project: ProjectTypeWithId;
-}) {
-  console.log(project);
+function EditProjectSheet({ project }: { project: ProjectTypeWithId }) {
   const [previewUrl, setPreviewUrl] = useState<string | null>(
     project.icon ? project.icon : null
   );
@@ -117,7 +108,6 @@ function EditProjectSheet({
     }
 
     const requestBody = {
-      uid,
       projectId: project.id,
       form: { ...form },
       icon: newFilename,

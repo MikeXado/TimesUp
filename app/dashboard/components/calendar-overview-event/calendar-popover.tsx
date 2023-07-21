@@ -9,7 +9,6 @@ import { Calendar } from "@/components/ui/calendar";
 import { CalendarCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { SelectSingleEventHandler } from "react-day-picker";
 function CalendarPopover() {
   const router = useRouter();
   const pathname = usePathname();

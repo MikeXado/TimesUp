@@ -1,7 +1,6 @@
 import { toast } from "@/components/ui/use-toast";
 
 export const getTasksFetcher = async (
-  uid: string,
   id: string,
   startAfter: string | null,
   status: string | null
@@ -11,7 +10,7 @@ export const getTasksFetcher = async (
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ uid, id, startAfter, status }),
+    body: JSON.stringify({ id, startAfter, status }),
   });
 
   if (res.ok) {

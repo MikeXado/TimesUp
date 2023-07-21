@@ -10,9 +10,7 @@ async function Project({ params }: { params: { projectId: string } }) {
   const data = await getUser(tkn!);
 
   const project = await getProjectById(data.uid, params.projectId);
-  return (
-    <ProjectTasks project={project} id={params.projectId} uid={data.uid} />
-  );
+  return <ProjectTasks project={project} id={params.projectId} />;
 }
 
 export default Project;

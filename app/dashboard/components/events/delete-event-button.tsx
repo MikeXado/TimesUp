@@ -16,11 +16,10 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 function DeleteEventButton({
   eventId,
-  uid,
+
   setIsOpen,
 }: {
   eventId: string;
-  uid: string;
   setIsOpen: (prev: boolean) => void;
 }) {
   const [isDeleting, setIsDeleting] = useState(false);
@@ -32,7 +31,7 @@ function DeleteEventButton({
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ uid, eventId }),
+      body: JSON.stringify({ eventId }),
     });
 
     const messageData = await res.json();

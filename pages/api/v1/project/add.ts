@@ -1,4 +1,6 @@
+import { getUser } from "@/viewmodels/firebase/auth";
 import { addProject } from "@/viewmodels/firebase/db/add-project";
+import { parse } from "cookie";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -6,7 +8,12 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    const { uid, sendData } = req.body;
+    const { sendData } = req.body;
+
+    const cookies = parse(req.headers.cookie || "");
+    const token = cookies["session-token"];
+    const { uid } = await getUser(token);
+
     const response = await addProject(uid, sendData);
 
     if (response.success) {

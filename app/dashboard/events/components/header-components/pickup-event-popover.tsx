@@ -10,8 +10,6 @@ import { ChevronDown } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { DateStateContext } from "../../context/DateStateProvider";
 import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
-import { ContextDatePickType } from "@/types";
 
 function PickupEventsPopover() {
   const { date, setDate } = useContext(DateStateContext);
