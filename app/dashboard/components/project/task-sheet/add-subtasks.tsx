@@ -14,12 +14,11 @@ interface SubtasksTypeWithId extends SubtaskType {
 function AddSubtasks({
   subtasks,
   setSubtasks,
-  uid,
+
   projectId,
   taskId,
   subtaskId,
 }: {
-  uid?: string;
   projectId?: string;
   taskId?: string;
   subtaskId?: string;
@@ -49,7 +48,7 @@ function AddSubtasks({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ uid, projectId, taskId, subtaskId }),
+        body: JSON.stringify({ projectId, taskId, subtaskId }),
       });
       const data = await res.json();
       if (res.ok) {

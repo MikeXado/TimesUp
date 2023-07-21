@@ -18,23 +18,21 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Button } from "@/components/ui/button";
 
 interface EventsTypeWithId extends EventType {
   id: string;
 }
 
-function EventsCards({
-  events,
-  uid,
-}: {
-  events: EventsTypeWithId[];
-  uid: string;
-}) {
+function EventsCards({ events }: { events: EventsTypeWithId[] }) {
   const { date: selectedDates } = useContext(DateStateContext);
 
-  const { data } = useSWR<EventsTypeWithId[]>("/api/v1/events", () =>
-    getEventsFetcher(uid)
+  const { data } = useSWR<EventsTypeWithId[]>(
+    "/api/v1/events",
+    getEventsFetcher,
+    {
+      fallbackData: events,
+      revalidateOnMount: true,
+    }
   );
   const [selectedEvents, setSelectedEvents] = useState(data);
 
@@ -102,14 +100,14 @@ function EventsCards({
                   <ul className="space-y-5">
                     {groupedByDateEvents &&
                       groupedByDateEvents[date].slice(0, 3).map((el) => {
-                        return <EventCard uid={uid} key={el.id} event={el} />;
+                        return <EventCard key={el.id} event={el} />;
                       })}
                   </ul>
                   <CollapsibleContent>
                     <ul className="space-y-5">
                       {groupedByDateEvents &&
                         groupedByDateEvents[date].slice(3).map((el) => {
-                          return <EventCard uid={uid} key={el.id} event={el} />;
+                          return <EventCard key={el.id} event={el} />;
                         })}
                     </ul>
                   </CollapsibleContent>

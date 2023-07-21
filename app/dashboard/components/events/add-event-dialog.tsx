@@ -60,10 +60,9 @@ interface AddEventSheetProps {
       | null
       | undefined;
   };
-  uid: string;
 }
 
-function AddEventDialog({ trigger, classNames, uid }: AddEventSheetProps) {
+function AddEventDialog({ trigger, classNames }: AddEventSheetProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { register, handleSubmit, watch, control, reset } = useForm<FormType>({
@@ -90,7 +89,7 @@ function AddEventDialog({ trigger, classNames, uid }: AddEventSheetProps) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ uid, data }),
+      body: JSON.stringify({ data }),
     });
 
     const messageData = await res.json();

@@ -5,7 +5,7 @@ import PickupEventsPopover from "./header-components/pickup-event-popover";
 import { Plus } from "lucide-react";
 import AddEventDialog from "../../components/events/add-event-dialog";
 
-function EventsPageHeader({ uid }: { uid: string }) {
+function EventsPageHeader() {
   return (
     <div className="md:flex md:justify-between md:items-center">
       <div className="flex items-center sm:space-x-2 space-x-1">
@@ -13,7 +13,6 @@ function EventsPageHeader({ uid }: { uid: string }) {
         <PickupEventsPopover />
       </div>
       <AddEventDialog
-        uid={uid}
         trigger={
           <>
             <Plus /> <span>New Event</span>

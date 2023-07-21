@@ -52,7 +52,6 @@ interface IFormValues {
 }
 
 function EditTaskDialog({
-  uid,
   projectId,
   taskId,
   task,
@@ -60,7 +59,6 @@ function EditTaskDialog({
   isOpen,
   setIsOpen,
 }: {
-  uid: string;
   projectId: string;
   taskId: string;
   trigger: React.ReactNode;
@@ -70,7 +68,7 @@ function EditTaskDialog({
 }) {
   const { data } = useSWR<SubtaskTypeWithId[]>(
     "/api/v1/project/tasks/subtasks/get",
-    (url) => getSubtasksFetcher(url, uid, projectId, taskId)
+    (url) => getSubtasksFetcher(url, projectId, taskId)
   );
 
   const [subtasks, setSubtasks] = useState<SubtaskTypeWithId[]>([]);
@@ -115,7 +113,6 @@ function EditTaskDialog({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        uid,
         projectId,
         taskId,
         taskData,
@@ -224,7 +221,6 @@ function EditTaskDialog({
           </div>
 
           <AddSubtasks
-            uid={uid}
             projectId={projectId}
             taskId={taskId}
             subtasks={subtasks}

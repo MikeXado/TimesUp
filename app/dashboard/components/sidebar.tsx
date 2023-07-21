@@ -21,9 +21,10 @@ interface ProjectTypeWithId extends ProjectType {
   id: string;
 }
 
-function Sidebar({ uid }: { uid: string }) {
-  const { data } = useSWR<ProjectTypeWithId[]>("/api/v1/projects", () =>
-    getProjectsFetcher(uid)
+function Sidebar() {
+  const { data } = useSWR<ProjectTypeWithId[]>(
+    "/api/v1/projects",
+    getProjectsFetcher
   );
   const params = useParams();
   const currentProject = params?.projectId;
@@ -50,7 +51,6 @@ function Sidebar({ uid }: { uid: string }) {
       </ul>
 
       <AddProjectDialog
-        uid={uid}
         trigger={
           <DialogTrigger
             className={cn(

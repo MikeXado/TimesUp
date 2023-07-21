@@ -17,11 +17,11 @@ interface EventTypeWithId extends EventType {
   id: string;
 }
 
-function QuickEvents({ uid }: { uid: string }) {
+function QuickEvents() {
   const searchParams = useSearchParams();
   const { data: calendarData } = useSWR<EventTypeWithId[]>(
     "/api/v1/events",
-    () => getEventsFetcher(uid)
+    getEventsFetcher
   );
 
   const date = searchParams?.get("date");
@@ -50,7 +50,6 @@ function QuickEvents({ uid }: { uid: string }) {
               triggerVariant: "secondary",
               triggerButtonClassName: "text-gray-500",
             }}
-            uid={uid}
           />
         </div>
       </div>

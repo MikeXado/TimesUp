@@ -1,4 +1,6 @@
+import { getUser } from "@/viewmodels/firebase/auth";
 import deleteProject from "@/viewmodels/firebase/db/delete-project";
+import { parse } from "cookie";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -6,7 +8,11 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    const { uid, id } = req.body;
+    const { id } = req.body;
+
+    const cookies = parse(req.headers.cookie || "");
+    const token = cookies["session-token"];
+    const { uid } = await getUser(token);
 
     const response = await deleteProject(uid, id);
     if (response.success) {

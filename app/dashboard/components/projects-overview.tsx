@@ -18,12 +18,12 @@ interface ProjectTypeWithId extends ProjectType {
 function ProjectsOverview({
   projectsLength,
   groupedProjects,
-  uid,
+
   projects,
 }: {
   projectsLength: number;
   groupedProjects: { [status: string]: ProjectTypeWithId[] };
-  uid: string;
+
   projects: ProjectTypeWithId[];
 }) {
   const router = useRouter();
@@ -90,20 +90,11 @@ function ProjectsOverview({
                 />
 
                 <ul className="lg:hidden grid sm:grid-cols-project_fluid_card  grid-cols-1 sm:justify-items-center  w-full gap-y-10 sm:gap-x-5 ">
-                  {groupedProjects[type]
-                    .slice(0, 5)
-                    .sort((a, b) =>
-                      compareAsc(parseISO(a.start), parseISO(b.start))
-                    )
-                    .map((project) => {
-                      return (
-                        <ProjectContext
-                          key={project.id}
-                          uid={uid}
-                          project={project}
-                        />
-                      );
-                    })}
+                  {groupedProjects[type].slice(0, 5).map((project) => {
+                    return (
+                      <ProjectContext key={project.id} project={project} />
+                    );
+                  })}
                 </ul>
               </TabsContent>
             );

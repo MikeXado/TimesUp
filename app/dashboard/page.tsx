@@ -38,7 +38,6 @@ async function Dashboard() {
       <div className="col-span-12 ">
         <ProjectsOverview
           projects={projects}
-          uid={data.uid}
           projectsLength={projects.length}
           groupedProjects={groupedByStatusProjects}
         />
@@ -49,7 +48,7 @@ async function Dashboard() {
           (projects.length === 0 ? "col-span-12" : " xl:col-span-8 col-span-12")
         }
       >
-        <QuickEvents uid={data.uid} />
+        <QuickEvents />
       </div>
       {projects.length !== 0 && (
         <div className="xl:col-span-4 col-span-12 ">

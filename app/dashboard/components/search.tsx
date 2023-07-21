@@ -25,17 +25,11 @@ interface ProjectWithIdType extends ProjectType {
   id: string;
 }
 
-function SearchComponent({
-  projects,
-  uid,
-}: {
-  projects: ProjectWithIdType[];
-  uid: string;
-}) {
+function SearchComponent({ projects }: { projects: ProjectWithIdType[] }) {
   const router = useRouter();
   const { data, isLoading } = useSWR<ProjectWithIdType[]>(
     "/api/v1/projects/get",
-    () => getProjectsFetcher(uid),
+    getProjectsFetcher,
     {
       fallbackData: projects,
       revalidateOnMount: true,

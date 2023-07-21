@@ -1,13 +1,13 @@
 import { toast } from "@/components/ui/use-toast";
 import { mutate } from "swr";
 
-const deleteProjectFetch = async (uid: string, id: string) => {
+const deleteProjectFetch = async (id: string) => {
   const res = await fetch("/api/v1/project/delete", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ uid, id }),
+    body: JSON.stringify({ id }),
   });
 
   if (res.ok) {

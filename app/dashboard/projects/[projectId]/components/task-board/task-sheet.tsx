@@ -32,16 +32,14 @@ interface SubtaskTypeWithId extends SubtaskType {
 function TaskDetailSheet({
   task,
   projectId,
-  uid,
 }: {
   task: TaskTypeWithId;
   projectId: string;
-  uid: string;
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const { data: subtasks, mutate } = useSWR<SubtaskTypeWithId[]>(
     "/api/v1/project/tasks/subtasks/get",
-    (url: string) => getSubtasksFetcher(url, uid, projectId, task.id)
+    (url: string) => getSubtasksFetcher(url, projectId, task.id)
   );
 
   const progress =
@@ -52,7 +50,6 @@ function TaskDetailSheet({
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <TaskContextMenu
-        uid={uid}
         projectId={projectId}
         task={task}
         trigger={
@@ -86,12 +83,7 @@ function TaskDetailSheet({
                 {task.priority}
               </span>
             </div>
-            <TaskDropdown
-              projectId={projectId}
-              uid={uid}
-              taskId={task.id}
-              task={task}
-            />
+            <TaskDropdown projectId={projectId} taskId={task.id} task={task} />
           </SheetTitle>
         </SheetHeader>
         <div className="flex space-x-2 mt-10">
@@ -147,8 +139,7 @@ function TaskDetailSheet({
                         subtask.id,
                         task.id,
                         task.status,
-                        projectId,
-                        uid
+                        projectId
                       );
                     }}
                     checked={subtask.done}

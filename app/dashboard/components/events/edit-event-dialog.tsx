@@ -66,16 +66,11 @@ interface AddEventSheetProps {
       | null
       | undefined;
   };
-  uid: string;
+
   event: EventTypeWithId;
 }
 
-function EditEventDialog({
-  event,
-  trigger,
-  classNames,
-  uid,
-}: AddEventSheetProps) {
+function EditEventDialog({ event, trigger, classNames }: AddEventSheetProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { register, handleSubmit, watch, control, reset } = useForm<FormType>({
@@ -102,7 +97,7 @@ function EditEventDialog({
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ uid, eventId: event.id, data }),
+      body: JSON.stringify({ eventId: event.id, data }),
     });
 
     const messageData = await res.json();
@@ -199,11 +194,7 @@ function EditEventDialog({
               {isLoading ? "Editing..." : "Edit Event"}
             </Button>
 
-            <DeleteEventButton
-              uid={uid}
-              eventId={event.id}
-              setIsOpen={setIsOpen}
-            />
+            <DeleteEventButton eventId={event.id} setIsOpen={setIsOpen} />
           </div>
         </form>
       </DialogContent>

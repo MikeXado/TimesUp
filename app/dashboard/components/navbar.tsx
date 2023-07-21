@@ -13,9 +13,6 @@ import React, { useState } from "react";
 import Search from "./search";
 import { UserNav } from "./user-nav";
 import { ProjectType, UserType } from "@/types";
-import getProjects from "@/viewmodels/firebase/db/get-projects";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import MobileLinks from "./mobile-links";
 import { usePathname } from "next/navigation";
 interface ProjectWithIdType extends ProjectType {
@@ -105,7 +102,7 @@ function Navbar({
         <MobileLinks />
       </div>
       <div className="flex items-center xl:space-x-5 space-x-2  ">
-        <Search uid={user.uid} projects={projects} />
+        <Search projects={projects} />
         <UserNav user={user} />
       </div>
     </nav>

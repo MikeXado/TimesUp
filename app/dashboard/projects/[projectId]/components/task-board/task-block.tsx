@@ -13,18 +13,18 @@ interface TaskTypeWithId extends TaskType {
 
 function TaskBlock({
   title,
-  uid,
+
   projectId,
   value,
 }: {
   title: string;
-  uid: string;
+
   projectId: string;
   value: string;
 }) {
   const { data: tasks, mutate } = useSWR<TaskTypeWithId[]>(
     `/api/v1/project/tasks/get?status=${value}`,
-    () => getTasksFetcher(uid, projectId, null, value),
+    () => getTasksFetcher(projectId, null, value),
     {
       revalidateOnFocus: false,
     }
@@ -36,7 +36,6 @@ function TaskBlock({
       const lastTask = tasks[tasks.length - 1];
 
       const newTasks = await getTasksFetcher(
-        uid,
         projectId,
         lastTask._createdAt,
         value
@@ -62,12 +61,7 @@ function TaskBlock({
 
       <ul className="xl:grid-cols-none gap-5 grid mt-5 sm:grid-cols-project_fluid_card grid-cols-1 ">
         {tasks?.map((task) => (
-          <TaskDetailSheet
-            projectId={projectId}
-            uid={uid}
-            key={task.id}
-            task={task}
-          />
+          <TaskDetailSheet projectId={projectId} key={task.id} task={task} />
         ))}
       </ul>
 

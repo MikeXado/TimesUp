@@ -1,4 +1,6 @@
+import { getUser } from "@/viewmodels/firebase/auth";
 import getTasks from "@/viewmodels/firebase/db/get-tasks";
+import { parse } from "cookie";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -7,8 +9,10 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     try {
-      const { uid, id, startAfter, status } = req.body;
-      console.log(startAfter, status);
+      const { id, startAfter, status } = req.body;
+      const cookies = parse(req.headers.cookie || "");
+      const token = cookies["session-token"];
+      const { uid } = await getUser(token);
       const response = await getTasks(uid, id, startAfter, status);
       res.status(200).json(response);
     } catch (err) {

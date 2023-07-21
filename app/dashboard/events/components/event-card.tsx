@@ -11,7 +11,7 @@ const EditEventDialog = dynamic(
 interface EventsTypeWithId extends EventType {
   id: string;
 }
-function EventCard({ event, uid }: { event: EventsTypeWithId; uid: string }) {
+function EventCard({ event }: { event: EventsTypeWithId }) {
   return (
     <li className="border flex items-center justify-between md:h-[150px]  relative border-gray-300 rounded-xl  py-2 px-5 md:px-10  w-full">
       <div className="sm:flex sm:items-center md:h-full sm:space-x-5 md:space-x-6 lg:space-x-10">
@@ -48,7 +48,6 @@ function EventCard({ event, uid }: { event: EventsTypeWithId; uid: string }) {
           triggerVariant: "secondary",
         }}
         event={event}
-        uid={uid}
         trigger={<span>Edit</span>}
       />
     </li>

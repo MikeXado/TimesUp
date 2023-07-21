@@ -2,7 +2,6 @@ import { toast } from "@/components/ui/use-toast";
 import { mutate } from "swr";
 
 const deleteTask = async (
-  uid: string,
   projectId: string,
   taskId: string,
   status: string
@@ -12,7 +11,7 @@ const deleteTask = async (
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ uid, projectId, taskId }),
+    body: JSON.stringify({ projectId, taskId }),
   });
   if (res.ok) {
     mutate(`/api/v1/project/tasks/get?status=${status}`);

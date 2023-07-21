@@ -23,7 +23,6 @@ async function Projects() {
       <div className="sm:flex sm:items-center sm:justify-between sm:px-2">
         <h2 className="font-bold text-3xl">Projects</h2>
         <AddProjectDialog
-          uid={data.uid}
           trigger={
             <DialogTrigger
               className={cn(
@@ -35,7 +34,7 @@ async function Projects() {
           }
         />
       </div>
-      <ProjectsCards projects={projects} uid={data.uid} />
+      <ProjectsCards projects={projects} />
     </div>
   );
 }
