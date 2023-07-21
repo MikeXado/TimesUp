@@ -81,12 +81,47 @@ async function updateUserDisplayName(uid: string, displayName: string) {
   }
 }
 
+async function updateUser(uid: string, displayName: string, photoUrl: string) {
+  try {
+    await adminAuth.updateUser(uid, {
+      displayName: displayName,
+      photoURL: photoUrl,
+    });
+    const message = {
+      success: true,
+      description: "User was succesffuly updated",
+    };
+    return message;
+  } catch (err) {
+    console.log(err);
+    const message = {
+      success: false,
+      description: err,
+    };
+    return message;
+  }
+}
+
 async function logOutFirebase() {
   await signOut(auth);
 }
 
-async function resetPassword(email: string) {
-  await sendPasswordResetEmail(auth, email);
+async function sendPasswordReset(email: string) {
+  try {
+    await sendPasswordResetEmail(auth, email);
+    const message = {
+      success: true,
+      description:
+        "A reset password email was send to your email. Check inbox!",
+    };
+    return message;
+  } catch (err) {
+    const message = {
+      success: false,
+      description: "Something went wrong! Try again later",
+    };
+    return message;
+  }
 }
 
 async function getUser(idToken: string) {
@@ -111,7 +146,8 @@ export {
   signUp,
   getSessionToken,
   logOutFirebase,
-  resetPassword,
+  sendPasswordReset,
   updateUserDisplayName,
   getUser,
+  updateUser,
 };
