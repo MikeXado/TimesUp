@@ -10,27 +10,49 @@ import ProjectsCards from "../projects/components/projects-cards";
 import { compareAsc, parseISO } from "date-fns";
 import ProjectContext from "../projects/components/project-context-menu";
 import { useRouter } from "next/navigation";
+import useSWR from "swr";
+import getProjectsFetcher from "@/lib/functions/get-projects-fetch";
 
 interface ProjectTypeWithId extends ProjectType {
   id: string;
+  completed_tasks: number;
+  total_tasks: number;
 }
 
 function ProjectsOverview({
   projectsLength,
-  groupedProjects,
-
   projects,
 }: {
   projectsLength: number;
-  groupedProjects: { [status: string]: ProjectTypeWithId[] };
-
   projects: ProjectTypeWithId[];
 }) {
   const router = useRouter();
-
+  const { data } = useSWR<ProjectTypeWithId[]>(
+    "/api/v1/projects",
+    getProjectsFetcher,
+    {
+      fallbackData: projects,
+      revalidateOnMount: true,
+    }
+  );
   const handleViewAll = () => {
     router.push("/dashboard/projects");
   };
+
+  let groupedByStatusProjects: { [status: string]: ProjectTypeWithId[] };
+  if (data) {
+    groupedByStatusProjects = data.reduce((result, project) => {
+      const { status } = project;
+      if (!result[status]) {
+        result[status] = [];
+      }
+
+      result[status].push(project);
+
+      return result;
+    }, {} as { [status: string]: ProjectTypeWithId[] });
+  }
+
   return (
     <div className="border border-gray-300 rounded-xl p-3">
       <div className="sm:flex sm:items-center sm:justify-between">
@@ -82,15 +104,15 @@ function ProjectsOverview({
             No projets yet
           </div>
         ) : (
-          Object.keys(groupedProjects).map((type) => {
+          Object.keys(groupedByStatusProjects!).map((type) => {
             return (
               <TabsContent key={type} value={type}>
                 <ProjectsOverviewTable
-                  projects={groupedProjects[type].slice(0, 5)}
+                  projects={groupedByStatusProjects![type].slice(0, 5)}
                 />
 
                 <ul className="lg:hidden grid sm:grid-cols-project_fluid_card  grid-cols-1 sm:justify-items-center  w-full gap-y-10 sm:gap-x-5 ">
-                  {groupedProjects[type].slice(0, 5).map((project) => {
+                  {groupedByStatusProjects![type].slice(0, 5).map((project) => {
                     return (
                       <ProjectContext key={project.id} project={project} />
                     );

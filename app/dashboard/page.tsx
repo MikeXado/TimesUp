@@ -3,16 +3,9 @@ import ProjectsOverview from "./components/projects-overview";
 
 import ProjectsProgress from "./components/projects-progress";
 import QuickEvents from "./components/calendar-overview";
-import { ProjectType } from "@/types";
 import { cookies } from "next/headers";
 import { getUser } from "@/viewmodels/firebase/auth";
 import getProjects from "@/viewmodels/firebase/db/get-projects";
-
-interface ProjectTypeWithId extends ProjectType {
-  id: string;
-  completed_tasks: number;
-  total_tasks: number;
-}
 
 async function Dashboard() {
   const cookiesStore = cookies();
@@ -21,25 +14,12 @@ async function Dashboard() {
 
   const projects = await getProjects(data.uid);
 
-  const groupedByStatusProjects: { [status: string]: ProjectTypeWithId[] } =
-    projects.reduce((result, project) => {
-      const { status } = project;
-      if (!result[status]) {
-        result[status] = [];
-      }
-
-      result[status].push(project);
-
-      return result;
-    }, {} as { [status: string]: ProjectTypeWithId[] });
-
   return (
     <div className="mt-5 items-start justify-center gap-6 grid grid-cols-2">
       <div className="col-span-12 ">
         <ProjectsOverview
           projects={projects}
           projectsLength={projects.length}
-          groupedProjects={groupedByStatusProjects}
         />
       </div>
       <div
@@ -52,7 +32,7 @@ async function Dashboard() {
       </div>
       {projects.length !== 0 && (
         <div className="xl:col-span-4 col-span-12 ">
-          <ProjectsProgress groupedProjects={groupedByStatusProjects} />
+          <ProjectsProgress projects={projects} />
         </div>
       )}
     </div>

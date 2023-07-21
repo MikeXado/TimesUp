@@ -6,19 +6,45 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
 import { ProjectType } from "@/types";
-
+import useSWR from "swr";
+import getProjectsFetcher from "@/lib/functions/get-projects-fetch";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-function ProjectsProgress({
-  groupedProjects,
-}: {
-  groupedProjects: { [status: string]: ProjectType[] };
-}) {
+interface ProjectTypeWithId extends ProjectType {
+  id: string;
+  completed_tasks: number;
+  total_tasks: number;
+}
+
+function ProjectsProgress({ projects }: { projects: ProjectTypeWithId[] }) {
+  const { data: projectData } = useSWR<ProjectTypeWithId[]>(
+    "/api/v1/projects",
+    getProjectsFetcher,
+    {
+      fallbackData: projects,
+      revalidateOnMount: true,
+    }
+  );
+
+  let groupedByStatusProjects: { [status: string]: ProjectTypeWithId[] };
+  if (projectData) {
+    groupedByStatusProjects = projectData.reduce((result, project) => {
+      const { status } = project;
+      if (!result[status]) {
+        result[status] = [];
+      }
+
+      result[status].push(project);
+
+      return result;
+    }, {} as { [status: string]: ProjectTypeWithId[] });
+  }
+
   const data = {
     datasets: [
       {
-        data: Object.keys(groupedProjects).map((el) => {
-          return groupedProjects[el].length;
+        data: Object.keys(groupedByStatusProjects!).map((el) => {
+          return groupedByStatusProjects[el].length;
         }),
         backgroundColor: ["#f9c63f", "#504fef", "#3eba7e"],
       },
