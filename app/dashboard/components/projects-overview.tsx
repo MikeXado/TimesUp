@@ -6,8 +6,6 @@ import { cn } from "@/lib/utils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ProjectsOverviewTable from "./project-overview-table/table";
 import { ProjectType } from "@/types";
-import ProjectsCards from "../projects/components/projects-cards";
-import { compareAsc, parseISO } from "date-fns";
 import ProjectContext from "../projects/components/project-context-menu";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
