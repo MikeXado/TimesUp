@@ -30,7 +30,7 @@ To get started using our project localy, follow these steps:
 
 We welcome contributions to our time management project! If you'd like to contribute, feel free to check our [CONTRIBUTING](CONTRIBUTING.md)
 
-## Authors
+## Authors | OWNERS
 
 1.Gurin Mihail | [LinkedIn](https://www.linkedin.com/in/mihai-gurin-6b24a120b/)
 
