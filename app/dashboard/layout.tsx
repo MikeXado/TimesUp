@@ -5,6 +5,7 @@ import Navbar from "@/app/dashboard/components/navbar";
 import Sidebar from "@/app/dashboard/components/sidebar";
 import Header from "./components/header";
 import getProjects from "@/viewmodels/firebase/db/get-projects";
+import FastMenu from "./components/fast-menu";
 async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const cookiesStore = cookies();
   const tkn = cookiesStore.get("session-token")?.value;
@@ -25,6 +26,7 @@ async function DashboardLayout({ children }: { children: React.ReactNode }) {
           {children}
         </div>
       </div>
+      <FastMenu />
     </main>
   );
 }
