@@ -1,3 +1,5 @@
+import { NumberLiteralType } from "typescript";
+
 interface UserType {
   uid: string;
   displayName: string | undefined;
@@ -54,6 +56,18 @@ interface ContextDatePickType {
   setDate: (prev: Date[] | undefined) => void;
 }
 
+interface PomoType {
+  id: string;
+  title: string;
+  estPomo: number;
+  focus: number;
+  short: number;
+  long: number;
+  untilLong: number;
+  done: number;
+  _updatedAt: string;
+}
+
 export type {
   UserType,
   ProjectType,
@@ -61,4 +75,5 @@ export type {
   TaskType,
   SubtaskType,
   ContextDatePickType,
+  PomoType,
 };
