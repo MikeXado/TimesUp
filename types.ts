@@ -63,7 +63,6 @@ interface PomoType {
   focus: number;
   short: number;
   long: number;
-  untilLong: number;
   done: number;
   _updatedAt: string;
 }

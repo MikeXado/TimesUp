@@ -107,8 +107,6 @@ function AddTaskSheet({
     setIsLoading(false);
   };
 
-  const date = watch("_createdAt");
-
   return (
     <div className="relative">
       <Sheet>

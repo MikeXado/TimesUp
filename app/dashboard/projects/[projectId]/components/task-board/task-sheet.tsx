@@ -20,6 +20,7 @@ import { toast } from "@/components/ui/use-toast";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import TaskContextMenu from "./task-context-menu";
 import updateSubtasksFetcher from "@/lib/functions/update-subtask-fetch";
+import TaskPomodoro from "./task-pomodoro-settings";
 interface TaskTypeWithId extends TaskType {
   id: string;
   completedTasks?: number;
@@ -83,7 +84,18 @@ function TaskDetailSheet({
                 {task.priority}
               </span>
             </div>
-            <TaskDropdown projectId={projectId} taskId={task.id} task={task} />
+            <div className="flex items-center space-x-3">
+              <TaskPomodoro
+                taskId={task.id}
+                title={task.title}
+                projectId={projectId}
+              />
+              <TaskDropdown
+                projectId={projectId}
+                taskId={task.id}
+                task={task}
+              />
+            </div>
           </SheetTitle>
         </SheetHeader>
         <div className="flex space-x-2 mt-10">
