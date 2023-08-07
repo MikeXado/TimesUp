@@ -9,7 +9,7 @@ import { ProjectType } from "@/types";
 import ProjectContext from "../projects/components/project-context-menu";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
-import getProjectsFetcher from "@/lib/functions/get-projects-fetch";
+import fetcher from "@/lib/functions/fetcher";
 
 interface ProjectTypeWithId extends ProjectType {
   id: string;
@@ -25,14 +25,10 @@ function ProjectsOverview({
   projects: ProjectTypeWithId[];
 }) {
   const router = useRouter();
-  const { data } = useSWR<ProjectTypeWithId[]>(
-    "/api/v1/projects",
-    getProjectsFetcher,
-    {
-      fallbackData: projects,
-      revalidateOnMount: true,
-    }
-  );
+  const { data } = useSWR<ProjectTypeWithId[]>("/api/v1/projects", fetcher, {
+    fallbackData: projects,
+    revalidateOnMount: true,
+  });
   const handleViewAll = () => {
     router.push("/dashboard/projects");
   };

@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
 import { cn } from "@/lib/utils";
 import TaskDetailSheet from "./task-sheet";
-import { getTasksFetcher } from "@/lib/functions/get-tasks";
 import useSWR from "swr";
+import fetcher from "@/lib/functions/fetcher";
 interface TaskTypeWithId extends TaskType {
   id: string;
 }
@@ -23,8 +23,8 @@ function TaskBlock({
   value: string;
 }) {
   const { data: tasks, mutate } = useSWR<TaskTypeWithId[]>(
-    `/api/v1/project/tasks/get?status=${value}`,
-    () => getTasksFetcher(projectId, null, value),
+    `/api/v1/project/${projectId}/tasks?status=${value}`,
+    fetcher,
     {
       revalidateOnFocus: false,
     }
@@ -35,10 +35,8 @@ function TaskBlock({
       setIsLoading(true);
       const lastTask = tasks[tasks.length - 1];
 
-      const newTasks = await getTasksFetcher(
-        projectId,
-        lastTask._createdAt,
-        value
+      const newTasks = await fetcher(
+        `/api/v1/project/${projectId}/tasks?status=${value}&startAfter=${lastTask._createdAt}`
       );
 
       mutate((prevData: TaskTypeWithId[] | undefined) => {

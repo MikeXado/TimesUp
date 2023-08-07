@@ -1,17 +1,13 @@
 import { toast } from "@/components/ui/use-toast";
 
-const getProject = async (url: string, id: string) => {
+const fetcher = async (url: string) => {
   const res = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ id }),
+    method: "GET",
   });
 
   if (res.ok) {
     const data = await res.json();
-    return data;
+    return data.message;
   } else {
     const data = await res.json();
     toast({
@@ -21,4 +17,4 @@ const getProject = async (url: string, id: string) => {
   }
 };
 
-export default getProject;
+export default fetcher;

@@ -84,7 +84,7 @@ function AddEventDialog({ trigger, classNames }: AddEventSheetProps) {
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(true);
-    const res = await fetch("/api/v1/event/add", {
+    const res = await fetch("/api/v1/events", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

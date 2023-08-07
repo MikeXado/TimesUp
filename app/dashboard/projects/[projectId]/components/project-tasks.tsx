@@ -1,12 +1,12 @@
 "use client";
 
-import getProject from "@/lib/functions/get-project-by-id-fetch";
 import { ProjectType } from "@/types";
 import { Plus } from "lucide-react";
 import React from "react";
 import useSWR from "swr";
 import TaskBoard from "./TaskBoard";
 import dynamic from "next/dynamic";
+import fetcher from "@/lib/functions/fetcher";
 const AddTaskSheet = dynamic(
   () => import("@/app/dashboard/components/project/add-task-sheet")
 );
@@ -24,7 +24,7 @@ function ProjectTasks({
 
   id: string;
 }) {
-  const { data } = useSWR("/api/v1/project/get", (url) => getProject(url, id), {
+  const { data } = useSWR(`/api/v1/project/${id}`, fetcher, {
     fallbackData: project,
     revalidateOnMount: true,
   });

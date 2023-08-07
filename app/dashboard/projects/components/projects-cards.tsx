@@ -4,11 +4,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { ProjectType } from "@/types";
 import React from "react";
-import ProjectCard from "./projects-card";
-import getProjectsFetcher from "@/lib/functions/get-projects-fetch";
 import useSWR from "swr";
-import { compareAsc, parseISO } from "date-fns";
 import ProjectContext from "./project-context-menu";
+import fetcher from "@/lib/functions/fetcher";
 
 interface ProjectTypeWithId extends ProjectType {
   id: string;
@@ -17,14 +15,10 @@ interface ProjectTypeWithId extends ProjectType {
 }
 
 function ProjectsCards({ projects }: { projects: ProjectTypeWithId[] }) {
-  const { data } = useSWR<ProjectTypeWithId[]>(
-    "/api/v1/projects",
-    getProjectsFetcher,
-    {
-      fallbackData: projects,
-      revalidateOnMount: true,
-    }
-  );
+  const { data } = useSWR<ProjectTypeWithId[]>("/api/v1/projects", fetcher, {
+    fallbackData: projects,
+    revalidateOnMount: true,
+  });
 
   const groupedByStatusProjects: { [status: string]: ProjectTypeWithId[] } =
     data?.reduce((result, project) => {
