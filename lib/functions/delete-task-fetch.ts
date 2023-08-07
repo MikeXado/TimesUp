@@ -6,15 +6,11 @@ const deleteTask = async (
   taskId: string,
   status: string
 ) => {
-  const res = await fetch("/api/v1/project/tasks/delete", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ projectId, taskId }),
+  const res = await fetch(`/api/v1/project/${projectId}/tasks/${taskId}`, {
+    method: "DELETE",
   });
   if (res.ok) {
-    mutate(`/api/v1/project/tasks/get?status=${status}`);
+    mutate(`/api/v1/project/${projectId}/tasks?status=${status}`, null, true);
     const data = await res.json();
     toast({
       title: "Success",

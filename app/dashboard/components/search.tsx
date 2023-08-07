@@ -19,8 +19,8 @@ import { cn } from "@/lib/utils";
 import { Search } from "lucide-react";
 import { ProjectType } from "@/types";
 import useSWR from "swr";
-import getProjectsFetcher from "@/lib/functions/get-projects-fetch";
 import { useRouter } from "next/navigation";
+import fetcher from "@/lib/functions/fetcher";
 interface ProjectWithIdType extends ProjectType {
   id: string;
 }
@@ -28,8 +28,8 @@ interface ProjectWithIdType extends ProjectType {
 function SearchComponent({ projects }: { projects: ProjectWithIdType[] }) {
   const router = useRouter();
   const { data, isLoading } = useSWR<ProjectWithIdType[]>(
-    "/api/v1/projects/get",
-    getProjectsFetcher,
+    "/api/v1/projects",
+    fetcher,
     {
       fallbackData: projects,
       revalidateOnMount: true,

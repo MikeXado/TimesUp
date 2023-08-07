@@ -23,7 +23,6 @@ import {
 } from "@/components/ui/select";
 import AddSubtasks from "./task-sheet/add-subtasks";
 import useSWR, { mutate } from "swr";
-import getSubtasksFetcher from "@/lib/functions/get-subtasks-fetch";
 import AddLabels from "./task-sheet/add-labels";
 import { Button } from "@/components/ui/button";
 import {
@@ -34,6 +33,7 @@ import {
 } from "@/components/ui/sheet";
 import { toast } from "@/components/ui/use-toast";
 import mergeSubtasks from "@/lib/functions/merge-subtasks";
+import fetcher from "@/lib/functions/fetcher";
 interface TaskTypeWithId extends TaskType {
   id: string;
   completedTasks?: number;
@@ -67,8 +67,8 @@ function EditTaskDialog({
   setIsOpen: (prev: boolean) => void;
 }) {
   const { data } = useSWR<SubtaskTypeWithId[]>(
-    "/api/v1/project/tasks/subtasks/get",
-    (url) => getSubtasksFetcher(url, projectId, taskId)
+    `/api/v1/project/${projectId}/tasks/${taskId}/subtasks`,
+    fetcher
   );
 
   const [subtasks, setSubtasks] = useState<SubtaskTypeWithId[]>([]);
@@ -107,14 +107,12 @@ function EditTaskDialog({
       _updatedAt: new Date().toISOString(),
       status: data.status,
     };
-    const ref = await fetch("/api/v1/project/tasks/edit", {
-      method: "POST",
+    const ref = await fetch(`/api/v1/project/${projectId}/tasks/${taskId}`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        projectId,
-        taskId,
         taskData,
         subtasks,
       }),
@@ -122,8 +120,16 @@ function EditTaskDialog({
 
     if (ref.ok) {
       setIsOpen(false);
-      mutate(`/api/v1/project/tasks/get?status=${taskData.status}`, null, true);
-      mutate("/api/v1/project/tasks/subtasks/get", null, true);
+      mutate(
+        `/api/v1/project/${projectId}/tasks?status=${taskData.status}`,
+        null,
+        true
+      );
+      mutate(
+        `/api/v1/project/${projectId}/tasks/${taskId}/subtasks`,
+        null,
+        true
+      );
       const data = await ref.json();
       toast({
         title: "Success",

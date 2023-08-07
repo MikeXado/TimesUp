@@ -1,6 +1,5 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "@/components/ui/use-toast";
 import { SubtaskType } from "@/types";
 import { Trash2 } from "lucide-react";
@@ -43,16 +42,19 @@ function AddSubtasks({
 
   const handleDeleteSubtask = async (index: number, subtaskId?: string) => {
     if (subtaskId) {
-      const res = await fetch("/api/v1/project/tasks/subtasks/delete", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ projectId, taskId, subtaskId }),
-      });
+      const res = await fetch(
+        `/api/v1/project/${projectId}/tasks/${taskId}/subtasks/${subtaskId}`,
+        {
+          method: "DELETE",
+        }
+      );
       const data = await res.json();
       if (res.ok) {
-        mutate("/api/v1/project/tasks/subtasks/get", null, true);
+        mutate(
+          `/api/v1/project/${projectId}/tasks/${taskId}/subtasks`,
+          null,
+          true
+        );
         toast({
           title: "Success",
           description: data.message,

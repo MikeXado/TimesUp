@@ -1,5 +1,4 @@
 "use client";
-import getEventsFetcher from "@/lib/functions/get-events-fetch";
 import { EventType } from "@/types";
 import React, { useContext, useEffect, useState } from "react";
 import useSWR from "swr";
@@ -18,6 +17,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import fetcher from "@/lib/functions/fetcher";
 
 interface EventsTypeWithId extends EventType {
   id: string;
@@ -26,14 +26,10 @@ interface EventsTypeWithId extends EventType {
 function EventsCards({ events }: { events: EventsTypeWithId[] }) {
   const { date: selectedDates } = useContext(DateStateContext);
 
-  const { data } = useSWR<EventsTypeWithId[]>(
-    "/api/v1/events",
-    getEventsFetcher,
-    {
-      fallbackData: events,
-      revalidateOnMount: true,
-    }
-  );
+  const { data } = useSWR<EventsTypeWithId[]>("/api/v1/events", fetcher, {
+    fallbackData: events,
+    revalidateOnMount: true,
+  });
   const [selectedEvents, setSelectedEvents] = useState(data);
 
   useEffect(() => {

@@ -1,17 +1,15 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { MoreHorizontal, Plus } from "lucide-react";
+
+import { Plus } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import CalendarOverviewEvent from "./calendar-overview-event/event";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { isSameDay, parseISO } from "date-fns";
 import { EventType } from "@/types";
 import CalendarPopover from "./calendar-overview-event/calendar-popover";
 import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
-import getEventsFetcher from "@/lib/functions/get-events-fetch";
 import AddEventDialog from "./events/add-event-dialog";
+import fetcher from "@/lib/functions/fetcher";
 
 interface EventTypeWithId extends EventType {
   id: string;
@@ -21,7 +19,7 @@ function QuickEvents() {
   const searchParams = useSearchParams();
   const { data: calendarData } = useSWR<EventTypeWithId[]>(
     "/api/v1/events",
-    getEventsFetcher
+    fetcher
   );
 
   const date = searchParams?.get("date");

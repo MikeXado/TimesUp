@@ -26,12 +26,8 @@ function DeleteEventButton({
 
   const handleDelete = async () => {
     setIsDeleting(true);
-    const res = await fetch("/api/v1/event/delete", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ eventId }),
+    const res = await fetch(`/api/v1/events/${eventId}`, {
+      method: "DELETE",
     });
 
     const messageData = await res.json();

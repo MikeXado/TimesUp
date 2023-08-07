@@ -14,12 +14,10 @@ import { Progress } from "@/components/ui/progress";
 
 import { parseISO } from "date-fns";
 import { Checkbox } from "@/components/ui/checkbox";
-import getSubtasksFetcher from "@/lib/functions/get-subtasks-fetch";
-import useSWR, { mutate } from "swr";
-import { toast } from "@/components/ui/use-toast";
-import { CheckedState } from "@radix-ui/react-checkbox";
+import useSWR from "swr";
 import TaskContextMenu from "./task-context-menu";
 import updateSubtasksFetcher from "@/lib/functions/update-subtask-fetch";
+import fetcher from "@/lib/functions/fetcher";
 interface TaskTypeWithId extends TaskType {
   id: string;
   completedTasks?: number;
@@ -37,9 +35,9 @@ function TaskDetailSheet({
   projectId: string;
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const { data: subtasks, mutate } = useSWR<SubtaskTypeWithId[]>(
-    "/api/v1/project/tasks/subtasks/get",
-    (url: string) => getSubtasksFetcher(url, projectId, task.id)
+  const { data: subtasks } = useSWR<SubtaskTypeWithId[]>(
+    `/api/v1/project/${projectId}/tasks/${task.id}/subtasks`,
+    fetcher
   );
 
   const progress =

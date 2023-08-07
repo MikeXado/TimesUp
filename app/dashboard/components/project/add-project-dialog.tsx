@@ -89,7 +89,7 @@ function AddProjectSheet({ trigger }: { trigger: ReactNode }) {
       description: e.description,
     };
 
-    const res = await fetch("/api/v1/project/add", {
+    const res = await fetch("/api/v1/projects", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

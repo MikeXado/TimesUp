@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
 import { ProjectType } from "@/types";
 import useSWR from "swr";
-import getProjectsFetcher from "@/lib/functions/get-projects-fetch";
+import fetcher from "@/lib/functions/fetcher";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 interface ProjectTypeWithId extends ProjectType {
@@ -19,7 +19,7 @@ interface ProjectTypeWithId extends ProjectType {
 function ProjectsProgress({ projects }: { projects: ProjectTypeWithId[] }) {
   const { data: projectData } = useSWR<ProjectTypeWithId[]>(
     "/api/v1/projects",
-    getProjectsFetcher,
+    fetcher,
     {
       fallbackData: projects,
       revalidateOnMount: true,
