@@ -2,6 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
+import NProgressTopRefresh from "@/components/NProgressTopRefresh";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -17,9 +18,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <NextTopLoader />
-        {children}
-        <Toaster />
+        <NProgressTopRefresh>
+          <NextTopLoader color="#4db223" height={5} />
+          {children}
+          <Toaster />
+        </NProgressTopRefresh>
       </body>
     </html>
   );

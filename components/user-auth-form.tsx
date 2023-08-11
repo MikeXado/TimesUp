@@ -1,13 +1,12 @@
 "use client";
 
 import * as React from "react";
-import { cn } from "@/lib/utils";
+import { cn, usePRouter } from "@/lib/utils";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import { toast } from "./ui/use-toast";
-import { useRouter } from "next/navigation";
 import GoogleButton from "./ui/google-button";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -15,7 +14,7 @@ interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export function UserAuthForm({ type, className, ...props }: UserAuthFormProps) {
-  const router = useRouter();
+  const router = usePRouter();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const { register, handleSubmit } = useForm();
 
@@ -63,10 +62,6 @@ export function UserAuthForm({ type, className, ...props }: UserAuthFormProps) {
 
     return type === "signUp" ? "Sign Up" : "Sign In";
   };
-
-  React.useEffect(() => {
-    router.prefetch("/dashboard");
-  }, [router]);
 
   return (
     <div className={cn("grid gap-6", className)} {...props}>

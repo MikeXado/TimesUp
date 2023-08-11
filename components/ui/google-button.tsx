@@ -1,9 +1,9 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useCallback } from "react";
 import { Button } from "./button";
-import { useRouter } from "next/navigation";
 import { toast } from "./use-toast";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "@/models/firebase-client";
+import { usePRouter } from "@/lib/utils";
 
 function GoogleButton({
   isLoading,
@@ -12,8 +12,7 @@ function GoogleButton({
   isLoading: boolean;
   setIsLoading: (prev: boolean) => void;
 }) {
-  const router = useRouter();
-
+  const router = usePRouter();
   const onSubmit = useCallback(async () => {
     setIsLoading(true);
     const provider = new GoogleAuthProvider();
@@ -54,10 +53,6 @@ function GoogleButton({
       setIsLoading(false);
     }
   }, [router, setIsLoading]);
-
-  useEffect(() => {
-    router.prefetch("/dashboard");
-  }, [router]);
 
   return (
     <Button
