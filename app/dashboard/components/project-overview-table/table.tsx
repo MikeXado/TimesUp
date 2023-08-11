@@ -1,12 +1,11 @@
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { cn } from "@/lib/utils";
+import { cn, usePRouter } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { ProjectType } from "@/types";
 import { format, parseISO } from "date-fns";
 import { useRouter } from "next/navigation";
-import ProjectsCards from "../../projects/components/projects-cards";
 
 interface ProjectTypeWithId extends ProjectType {
   id: string;
@@ -19,7 +18,7 @@ function ProjectsOverviewTable({
 }: {
   projects: ProjectTypeWithId[];
 }) {
-  const router = useRouter();
+  const router = usePRouter();
 
   const handleProjectView = (id: string) => {
     router.push(`/dashboard/projects/${id}`);
