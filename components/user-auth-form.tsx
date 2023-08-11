@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-
 import { cn } from "@/lib/utils";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
@@ -10,7 +9,6 @@ import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import { toast } from "./ui/use-toast";
 import { useRouter } from "next/navigation";
 import GoogleButton from "./ui/google-button";
-import FacebookButton from "./ui/facebook-button";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
   type: string;
@@ -23,37 +21,52 @@ export function UserAuthForm({ type, className, ...props }: UserAuthFormProps) {
 
   const url = type === "signUp" ? "/api/v1/auth/signUp" : "/api/v1/auth/signIn";
 
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    setIsLoading(true);
-    const res = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+  const onSubmit: SubmitHandler<FieldValues> = React.useCallback(
+    async (data) => {
+      setIsLoading(true);
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-    const messageData = await res.json();
-    if (res.ok) {
-      if (type === "signUp") {
-        router.push("/signIn");
-      } else if (type === "signIn") {
-        router.push("/dashboard");
+      const messageData = await res.json();
+      if (res.ok) {
+        if (type === "signUp") {
+          router.push("/signIn");
+        } else if (type === "signIn") {
+          router.push("/dashboard");
+        }
+        toast({
+          title: "Success",
+          description: messageData.message,
+        });
+        setIsLoading(false);
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Failed",
+          description: messageData.message,
+        });
+        setIsLoading(false);
       }
-      toast({
-        title: "Success",
-        description: messageData.message,
-      });
-    } else {
-      toast({
-        variant: "destructive",
-        title: "Failed",
-        description: messageData.message,
-      });
+    },
+    [router, setIsLoading, type, url]
+  );
+
+  const renderSubmitButton = () => {
+    if (isLoading) {
+      return "Authorization...";
     }
 
-    setIsLoading(false);
+    return type === "signUp" ? "Sign Up" : "Sign In";
   };
+
+  React.useEffect(() => {
+    router.prefetch("/dashboard");
+  }, [router]);
 
   return (
     <div className={cn("grid gap-6", className)} {...props}>
@@ -97,9 +110,7 @@ export function UserAuthForm({ type, className, ...props }: UserAuthFormProps) {
               {...register("password", { required: true })}
             />
           </div>
-          <Button disabled={isLoading}>
-            {type === "signUp" ? "Sign Up" : "Sign In"}
-          </Button>
+          <Button disabled={isLoading}>{renderSubmitButton()}</Button>
         </div>
       </form>
       <div className="relative">
@@ -112,7 +123,7 @@ export function UserAuthForm({ type, className, ...props }: UserAuthFormProps) {
           </span>
         </div>
       </div>
-      <GoogleButton isLoading={isLoading} />
+      <GoogleButton isLoading={isLoading} setIsLoading={setIsLoading} />
     </div>
   );
 }
