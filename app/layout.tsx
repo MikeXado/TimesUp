@@ -19,7 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <NProgressTopRefresh>
-          <NextTopLoader color="#4db223" height={5} />
+          <NextTopLoader color="#4db223" height={5} showSpinner={false} />
           {children}
           <Toaster />
         </NProgressTopRefresh>

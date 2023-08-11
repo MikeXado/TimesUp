@@ -1,15 +1,10 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { cn } from "@/lib/utils";
+import { cn, usePRouter } from "@/lib/utils";
 import { ProjectType } from "@/types";
 import { format, parseISO } from "date-fns";
 import { Calendar, CheckCheck } from "lucide-react";
-
-import { useRouter } from "next/navigation";
-
 import React from "react";
-
 interface ProjectTypeWithId extends ProjectType {
   id: string;
   completed_tasks: number;
@@ -17,7 +12,7 @@ interface ProjectTypeWithId extends ProjectType {
 }
 
 function ProjectCard({ project }: { project: ProjectTypeWithId }) {
-  const router = useRouter();
+  const router = usePRouter();
 
   const handleProjectClick = () => {
     router.push(`/dashboard/projects/${project.id}`);
