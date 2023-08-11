@@ -1,9 +1,7 @@
 import Link from "next/link";
 import { Command } from "lucide-react";
-
 import { cn } from "@/lib/utils";
 import { UserAuthForm } from "@/components/user-auth-form";
-import Image from "next/image";
 
 export default function SingnIn() {
   return (
