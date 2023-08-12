@@ -3,7 +3,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { Play } from "lucide-react";
 import React from "react";
-import Pomo from "./pomodoro/pomo";
+import Pomo from "./pomodoro/pomodoros";
 import Timer from "./pomodoro/timer";
 
 function Pomodoro() {
