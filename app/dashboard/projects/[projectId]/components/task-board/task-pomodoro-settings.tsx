@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Popover,
   PopoverContent,
@@ -12,7 +12,7 @@ import { PomoType } from "@/types";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import useSWR from "swr";
-import { getPomodoroFetcher } from "@/lib/functions/get-pomodoro-settings-fetch";
+import fetcher from "@/lib/functions/fetcher";
 interface PomodoroFormType {
   estPomo: number[];
   focus: number[];
@@ -29,30 +29,35 @@ function TaskPomodoro({
   title: string;
   projectId: string;
 }) {
+  const [isOpen, setIsOpen] = useState(false);
   const { data, mutate } = useSWR<PomoType>(
-    "/api/v1/project/tasks/pomodoro/get",
-    () => getPomodoroFetcher(projectId, taskId),
-    {
-      suspense: true,
-    }
+    `/api/v1/project/${projectId}/tasks/${taskId}/pomodoros`,
+    fetcher
   );
 
-  console.log(data);
-  const { control, watch, handleSubmit } = useForm<PomodoroFormType>({
+  const { control, watch, handleSubmit, setValue } = useForm<PomodoroFormType>({
     defaultValues: {
-      estPomo: [data?.estPomo],
-      focus: [data?.focus],
-      short: [data?.short],
-      long: [data?.long],
+      estPomo: [data?.estPomo || 5],
+      focus: [data?.focus || 25],
+      short: [data?.short || 5],
+      long: [data?.long || 15],
     },
   });
+
+  useEffect(() => {
+    if (data) {
+      setValue("estPomo", [data.estPomo]);
+      setValue("focus", [data.focus]);
+      setValue("short", [data.short]);
+      setValue("long", [data.long]);
+    }
+  }, [data, setValue]);
 
   const estPomoValue = watch("estPomo");
   const focusValue = watch("focus");
   const shortValue = watch("short");
-  const longValue = watch("short");
+  const longValue = watch("long");
 
-  console.log(estPomoValue);
   const onSubmit: SubmitHandler<PomodoroFormType> = async (data) => {
     const requestData = {
       focus: data.focus[0],
@@ -64,20 +69,22 @@ function TaskPomodoro({
       title,
     };
 
-    const res = await fetch("/api/v1/project/tasks/pomodoro/add", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        data: requestData,
-        taskId: taskId,
-        projectId: projectId,
-      }),
-    });
+    const res = await fetch(
+      `/api/v1/project/${projectId}/tasks/${taskId}/pomodoros`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          data: requestData,
+        }),
+      }
+    );
 
     const messageData = await res.json();
     if (res.ok) {
+      setIsOpen(false);
       toast({
         title: messageData.message,
       });
@@ -91,7 +98,7 @@ function TaskPomodoro({
   };
 
   return (
-    <Popover>
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger className=" text-muted-foreground">
         <Clock />
       </PopoverTrigger>

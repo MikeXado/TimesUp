@@ -55,6 +55,7 @@ function TaskDetailSheet({
           <li
             onClick={(e) => {
               e.stopPropagation();
+              e.preventDefault();
               setIsOpen((prev) => !prev);
             }}
             className="p-4 bg-white cursor-pointer  shadow rounded-xl"
