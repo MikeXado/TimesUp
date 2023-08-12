@@ -7,7 +7,6 @@ import {
 } from "../../../components/ui/avatar";
 
 import useSWR from "swr";
-import getProjectsFetcher from "@/lib/functions/get-projects-fetch";
 import { ProjectType } from "@/types";
 import Link from "next/link";
 import { Plus } from "lucide-react";
@@ -15,6 +14,7 @@ import { cn } from "@/lib/utils";
 import { DialogTrigger } from "../../../components/ui/dialog";
 import { useParams } from "next/navigation";
 import dynamic from "next/dynamic";
+import fetcher from "@/lib/functions/fetcher";
 const AddProjectDialog = dynamic(() => import("./project/add-project-dialog"));
 
 interface ProjectTypeWithId extends ProjectType {
@@ -22,10 +22,7 @@ interface ProjectTypeWithId extends ProjectType {
 }
 
 function Sidebar() {
-  const { data } = useSWR<ProjectTypeWithId[]>(
-    "/api/v1/projects",
-    getProjectsFetcher
-  );
+  const { data } = useSWR<ProjectTypeWithId[]>("/api/v1/projects", fetcher);
   const params = useParams();
   const currentProject = params?.projectId;
 

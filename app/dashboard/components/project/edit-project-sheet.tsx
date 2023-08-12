@@ -108,13 +108,12 @@ function EditProjectSheet({ project }: { project: ProjectTypeWithId }) {
     }
 
     const requestBody = {
-      projectId: project.id,
       form: { ...form },
       icon: newFilename,
     };
 
-    const res = await fetch("/api/v1/project/edit", {
-      method: "POST",
+    const res = await fetch(`/api/v1/project/${project.id}`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },

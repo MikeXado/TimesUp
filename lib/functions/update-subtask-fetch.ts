@@ -1,11 +1,6 @@
 import { toast } from "@/components/ui/use-toast";
-import { SubtaskType } from "@/types";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import { mutate } from "swr";
-
-interface SubtaskTypeWithId extends SubtaskType {
-  id: string;
-}
 
 const updateSubtasksFetcher = async (
   checked: CheckedState,
@@ -14,18 +9,18 @@ const updateSubtasksFetcher = async (
   taskStatus: string,
   projectId: string
 ) => {
-  const res = await fetch("/api/v1/project/tasks/subtasks/update", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      projectId,
-      taskId: taskId,
-      subtaskId,
-      done: checked,
-    }),
-  });
+  const res = await fetch(
+    `/api/v1/project/${projectId}/tasks/${taskId}/subtasks/${subtaskId}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        done: checked,
+      }),
+    }
+  );
 
   const data = await res.json();
   if (res.ok) {
@@ -33,8 +28,8 @@ const updateSubtasksFetcher = async (
       title: "Success",
       description: data.message,
     });
-    mutate("/api/v1/project/tasks/subtasks/get");
-    mutate(`/api/v1/project/tasks/get?status=${taskStatus}`);
+    mutate(`/api/v1/project/${projectId}/tasks/${taskId}/subtasks`);
+    mutate(`/api/v1/project/${projectId}/tasks?status=${taskStatus}`);
   } else {
     toast({
       title: "Failed",

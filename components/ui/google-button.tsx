@@ -1,16 +1,20 @@
-import React, { useState } from "react";
+import React, { useCallback } from "react";
 import { Button } from "./button";
-import { useRouter } from "next/navigation";
 import { toast } from "./use-toast";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "@/models/firebase-client";
+import { usePRouter } from "@/lib/utils";
 
-function GoogleButton({ isLoading }: { isLoading: boolean }) {
-  const router = useRouter();
-  const [isGoogleSignLoading, setIsGoogleSignLoading] = useState(false);
-
-  const onSubmit = async () => {
-    setIsGoogleSignLoading(true);
+function GoogleButton({
+  isLoading,
+  setIsLoading,
+}: {
+  isLoading: boolean;
+  setIsLoading: (prev: boolean) => void;
+}) {
+  const router = usePRouter();
+  const onSubmit = useCallback(async () => {
+    setIsLoading(true);
     const provider = new GoogleAuthProvider();
 
     try {
@@ -45,16 +49,18 @@ function GoogleButton({ isLoading }: { isLoading: boolean }) {
         description:
           "Something went wrong during google login process. Try again later",
       });
+    } finally {
+      setIsLoading(false);
     }
-    setIsGoogleSignLoading(false);
-  };
+  }, [router, setIsLoading]);
+
   return (
     <Button
       onClick={onSubmit}
       variant="outline"
       className="flex items-center space-x-2"
       type="button"
-      disabled={isLoading || isGoogleSignLoading}
+      disabled={isLoading}
     >
       <svg
         width="20px"

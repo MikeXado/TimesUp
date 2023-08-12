@@ -92,12 +92,12 @@ function EditEventDialog({ event, trigger, classNames }: AddEventSheetProps) {
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(true);
-    const res = await fetch("/api/v1/event/edit", {
-      method: "POST",
+    const res = await fetch(`/api/v1/events/${event.id}`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ eventId: event.id, data }),
+      body: JSON.stringify({ data }),
     });
 
     const messageData = await res.json();

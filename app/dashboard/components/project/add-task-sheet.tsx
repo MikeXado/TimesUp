@@ -21,7 +21,6 @@ import { Textarea } from "../../../../components/ui/textarea";
 
 import AddSubtasks from "./task-sheet/add-subtasks";
 import AddLabels from "./task-sheet/add-labels";
-import AddDate from "./task-sheet/add-date";
 import { Button } from "../../../../components/ui/button";
 import {
   FieldValues,
@@ -75,20 +74,19 @@ function AddTaskSheet({
       _updatedAt: new Date().toISOString(),
       status: data.status,
     };
-    const ref = await fetch("/api/v1/project/tasks/add", {
+    const ref = await fetch(`/api/v1/project/${id}/tasks`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        id,
         taskData,
         subtasks,
       }),
     });
 
     if (ref.ok) {
-      mutate(`/api/v1/project/tasks/get?status=${taskData.status}`);
+      mutate(`/api/v1/project/${id}/tasks?status=${taskData.status}`);
       const data = await ref.json();
       toast({
         title: "Success",
