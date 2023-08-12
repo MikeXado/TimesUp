@@ -17,6 +17,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import useSWR from "swr";
 import TaskContextMenu from "./task-context-menu";
 import updateSubtasksFetcher from "@/lib/functions/update-subtask-fetch";
+import TaskPomodoro from "./task-pomodoro-settings";
 import fetcher from "@/lib/functions/fetcher";
 interface TaskTypeWithId extends TaskType {
   id: string;
@@ -54,6 +55,7 @@ function TaskDetailSheet({
           <li
             onClick={(e) => {
               e.stopPropagation();
+              e.preventDefault();
               setIsOpen((prev) => !prev);
             }}
             className="p-4 bg-white cursor-pointer  shadow rounded-xl"
@@ -81,7 +83,18 @@ function TaskDetailSheet({
                 {task.priority}
               </span>
             </div>
-            <TaskDropdown projectId={projectId} taskId={task.id} task={task} />
+            <div className="flex items-center space-x-3">
+              <TaskPomodoro
+                taskId={task.id}
+                title={task.title}
+                projectId={projectId}
+              />
+              <TaskDropdown
+                projectId={projectId}
+                taskId={task.id}
+                task={task}
+              />
+            </div>
           </SheetTitle>
         </SheetHeader>
         <div className="flex space-x-2 mt-10">
