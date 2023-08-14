@@ -58,4 +58,33 @@ export const getPomodoroSettings = async (
   }
 };
 
+export const getPomodoroByProject = async (uid: string, projectId: string) => {
+  try {
+    const tasksRef = db
+      .collection("private")
+      .doc(uid)
+      .collection("projects")
+      .doc(projectId)
+      .collection("tasks");
+    const tasksSnapshot = await tasksRef.get();
+    const pomodoros = [];
+    for (const doc of tasksSnapshot.docs) {
+      const taskId = doc.id;
+      const pomodoroRef = tasksRef
+        .doc(taskId)
+        .collection("pomodoro")
+        .doc("pomodoro_settings");
+      const pomodoroSnapshot = await pomodoroRef.get();
+      const pomodoroData = pomodoroSnapshot.data();
+      if (pomodoroData) {
+        pomodoros.push({ ...pomodoroData, id: taskId });
+      }
+    }
+
+    return pomodoros;
+  } catch (err: any) {
+    throw new Error(err);
+  }
+};
+
 export default addPomodoroSettings;
