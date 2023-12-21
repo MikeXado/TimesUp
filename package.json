@@ -1,7 +1,7 @@
 {
-  "name": "@nx-starter-template/source",
+  "name": "typeorm-template",
   "version": "0.0.0",
-  "license": "GPL-2.0-ONLY",
+  "license": "MIT",
   "scripts": {
     "dev": "npx concurrently --kill-others \"npm:dev:client\" \"npm:dev:server\"",
     "dev:client": "npx nx run nx-starter-template-client:serve",
