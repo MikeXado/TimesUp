@@ -1,1 +1,1 @@
-export * from './lib/test-ts-rest.route';
+export * from './lib/users.route';

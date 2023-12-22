@@ -7,7 +7,9 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
     "importHelpers": true,
+    "strict": true,
     "target": "es2015",
     "module": "esnext",
     "lib": ["es2020", "dom"],
@@ -17,9 +19,6 @@
     "paths": {
       "@nx-starter-template/nx-starter-template-data-access-db": [
         "libs/nx-starter-template/data-access-db/src/index.ts"
-      ],
-      "@nx-starter-template/nx-starter-template-test-ts-rest": [
-        "libs/nx-starter-template/test-ts-rest/src/index.ts"
       ],
       "@nx-starter-template/nx-starter-template-utils-env": [
         "libs/nx-starter-template/utils-env/src/index.ts"
