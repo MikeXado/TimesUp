@@ -1,0 +1,45 @@
+name: CI
+on:
+  pull_request:
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 18.x
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: true
+      - uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: modules-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: npm-
+
+  test:
+    needs: prepare
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-job
+      - run: pnpm exec nx affected:test --base $NX_BASE --parallel=3
+
+  lint:
+    needs: prepare
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-job
+      - run: pnpm exec nx affected -t lint --parallel=3
+
+  build:
+    needs: prepare
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-job
+      - run: pnpm exec nx affected -t build --parallel=3
