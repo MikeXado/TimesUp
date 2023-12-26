@@ -1,0 +1,22 @@
+name: 'Setup Job'
+description: 'Common setup for CI jobs'
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - uses: actions/setup-node@v2
+      with:
+        node-version: 18
+    - uses: nrwl/nx-set-shas@v3
+    - uses: pnpm/action-setup@v2
+      name: Install pnpm
+      with:
+        version: 8
+    - name: Restore cache dependencies
+      uses: actions/cache@v2
+      with:
+        path: node_modules
+        key: modules-${{ hashFiles('pnpm-lock.yaml') }}
+        restore-keys: npm-
