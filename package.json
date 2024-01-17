@@ -4,8 +4,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "npx concurrently --kill-others \"npm:dev:client\" \"npm:dev:server\"",
-    "dev:client": "npx nx run nx-starter-template-client:serve",
-    "dev:server": "npx env-cmd -f apps/nx-starter-template/.env.local nx run nx-starter-template:serve"
+    "dev:client": "npx nx run frontend:serve",
+    "dev:server": "npx env-cmd -f apps/backend/.env.local nx run backend:serve"
   },
   "private": true,
   "dependencies": {

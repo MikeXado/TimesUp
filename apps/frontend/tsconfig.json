@@ -16,18 +16,15 @@
         "name": "next"
       }
     ],
-    "types": [
-      "jest",
-      "node"
-    ]
+    "types": ["jest", "node"]
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
     "**/*.js",
     "**/*.jsx",
-    "../../apps/nx-starter-template-client/.next/types/**/*.ts",
-    "../../dist/apps/nx-starter-template-client/.next/types/**/*.ts",
+    ".next/types/**/*.ts",
+    "../../dist/apps/frontend/.next/types/**/*.ts",
     "next-env.d.ts",
     ".next/types/**/*.ts"
   ],

@@ -3,8 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import {
   DataAccessDbModule,
   User,
-} from '@nx-starter-template/nx-starter-template-data-access-db';
-import { env } from '@nx-starter-template/nx-starter-template-utils-env';
+} from '@nx-starter-template/backend-data-access-db';
+import { env } from '@nx-starter-template/backend-utils-env';
 
 @Module({
   imports: [
