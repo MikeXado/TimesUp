@@ -17,11 +17,11 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@nx-starter-template/nx-starter-template-data-access-db": [
-        "libs/nx-starter-template/data-access-db/src/index.ts"
+      "@nx-starter-template/backend-data-access-db": [
+        "libs/backend/data-access-db/src/index.ts"
       ],
-      "@nx-starter-template/nx-starter-template-utils-env": [
-        "libs/nx-starter-template/utils-env/src/index.ts"
+      "@nx-starter-template/backend-utils-env": [
+        "libs/backend/utils-env/src/index.ts"
       ],
       "@nx-starter-template/shared-dto-routers": [
         "libs/shared/dto-routers/src/index.ts"

@@ -1,7 +1,7 @@
 {
-  "name": "nx-starter-template-data-access-db",
+  "name": "backend-data-access-db",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/nx-starter-template/data-access-db/src",
+  "sourceRoot": "libs/backend/data-access-db/src",
   "projectType": "library",
   "targets": {
     "lint": {
@@ -12,7 +12,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/nx-starter-template/data-access-db/jest.config.ts"
+        "jestConfig": "libs/backend/data-access-db/jest.config.ts"
       }
     }
   },
