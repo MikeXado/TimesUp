@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "npx concurrently --kill-others \"npm:dev:client\" \"npm:dev:server\"",
-    "dev:client": "npx nx run frontend:serve",
-    "dev:server": "npx env-cmd -f apps/backend/.env.local nx run backend:serve"
+    "dev": "pnpm dlx concurrently --kill-others \"npm:dev:client\" \"npm:dev:server\"",
+    "dev:client": "nx run frontend:serve",
+    "dev:server": "pnpm dlx env-cmd -f apps/backend/.env.local nx run backend:serve"
   },
   "private": true,
   "dependencies": {

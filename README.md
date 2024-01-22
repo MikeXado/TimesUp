@@ -6,13 +6,17 @@ This project was created to speed-up development proccess and give a set of pre-
 
 ## Start the app
 
-1. Generate a nx project template this will install all necessary dependencies and promts your preferences.
+1. Install necessary dependecies
+
+   - `pnpm` package manager
+
+2. Generate a nx project template this will install all necessary dependencies and promts your preferences.
 
 ```bash
 npx nx-quickstart@latest
 ```
 
-2. Provide necessary database env variable
+3. Provide necessary database env variable
 
    - TypeORM
 
@@ -23,13 +27,13 @@ npx nx-quickstart@latest
    DB_NAME=
    ```
 
-3. Run development server
+4. Run development server
 
 ```bash
 npm run dev
 ```
 
-4. Open your browser and navigate to http://localhost:4200/. Happy coding!
+5. Open your browser and navigate to http://localhost:4200/. Happy coding!
 
 ## Other Templates
 
