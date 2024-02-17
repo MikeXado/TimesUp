@@ -1,0 +1,14 @@
+version: '3.9'
+services:
+  times-up:
+    image: postgres:15
+    ports:
+      - '5432:5432'
+    volumes:
+      - times-up-db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: pass
+      PGDATA: /var/lib/postgresql/data/pgdata
+
+volumes:
+  times-up-db-data:

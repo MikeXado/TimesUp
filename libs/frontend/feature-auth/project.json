@@ -1,0 +1,13 @@
+{
+  "name": "frontend-feature-auth",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/frontend/feature-auth/src",
+  "projectType": "library",
+  "tags": ["scope:client"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  }
+}

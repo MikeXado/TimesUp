@@ -1,11 +1,43 @@
 {
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": ["./tsconfig.base.json"]
+  },
   "root": true,
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nx"],
+  "plugins": [
+    "@typescript-eslint",
+    "@nx",
+    "unicorn",
+    "prettier",
+    "unused-imports"
+  ],
   "overrides": [
     {
+      "extends": [
+        "plugin:@nrwl/nx/typescript",
+        "eslint:recommended",
+        "plugin:unicorn/recommended",
+        "plugin:prettier/recommended"
+      ],
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {
+        "prettier/prettier": ["error"],
+        "unicorn/prevent-abbreviations": "off",
+        "unicorn/no-null": "off",
+        "unicorn/prefer-module": ["warn"],
+        "unicorn/no-abusive-eslint-disable": ["warn"],
+        "no-unused-vars": "off",
+        "unused-imports/no-unused-imports": "error",
+        "@typescript-eslint/no-explicit-any": ["error"],
+        "@typescript-eslint/no-shadow": ["error"],
+        "@typescript-eslint/no-unnecessary-type-assertion": ["error"],
+        "@typescript-eslint/consistent-type-imports": [
+          "error",
+          {
+            "prefer": "type-imports"
+          }
+        ],
         "@nx/enforce-module-boundaries": [
           "error",
           {

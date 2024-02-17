@@ -17,15 +17,20 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@nx-starter-template/backend-data-access-db": [
+      "@timesup/backend-data-access-db": [
         "libs/backend/data-access-db/src/index.ts"
       ],
-      "@nx-starter-template/backend-utils-env": [
-        "libs/backend/utils-env/src/index.ts"
+      "@timesup/backend-utils-env": ["libs/backend/utils-env/src/index.ts"],
+      "@timesup/frontend/feature-auth": [
+        "libs/frontend/feature-auth/src/index.ts"
       ],
-      "@nx-starter-template/shared-dto-routers": [
-        "libs/shared/dto-routers/src/index.ts"
-      ]
+      "@timesup/frontend/feature-auth/server": [
+        "libs/frontend/feature-auth/src/server.ts"
+      ],
+      "@timesup/frontend/ui": ["libs/frontend/ui/src/index.ts"],
+      "@timesup/frontend/ui/server": ["libs/frontend/ui/src/server.ts"],
+      "@timesup/frontend/utils-env": ["libs/frontend/utils-env/src/index.ts"],
+      "@timesup/shared-dto-routers": ["libs/shared/dto-routers/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
