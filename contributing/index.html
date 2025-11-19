@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CONTRIBUTING</title>
+  <meta name="description" content="Documentation">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      color: #24292e;
+      background: #ffffff;
+      padding: 0;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      background: #24292e;
+      color: white;
+      padding: 20px 0;
+      margin-bottom: 40px;
+    }
+
+    header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    header a {
+      color: white;
+      text-decoration: none;
+    }
+
+    header a:hover {
+      text-decoration: underline;
+    }
+
+    nav {
+      background: #f6f8fa;
+      padding: 20px;
+      border-radius: 6px;
+      margin-bottom: 30px;
+    }
+
+    nav ul {
+      list-style: none;
+    }
+
+    nav li {
+      margin-bottom: 8px;
+    }
+
+    nav a {
+      color: #0366d6;
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      padding-bottom: 60px;
+    }
+
+    main h1, main h2, main h3, main h4, main h5, main h6 {
+      margin-top: 24px;
+      margin-bottom: 16px;
+      font-weight: 600;
+      line-height: 1.25;
+    }
+
+    main h1 { font-size: 2em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
+    main h2 { font-size: 1.5em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
+    main h3 { font-size: 1.25em; }
+    main h4 { font-size: 1em; }
+
+    main p {
+      margin-bottom: 16px;
+    }
+
+    main a {
+      color: #0366d6;
+      text-decoration: none;
+    }
+
+    main a:hover {
+      text-decoration: underline;
+    }
+
+    main code {
+      background: #f6f8fa;
+      padding: 0.2em 0.4em;
+      border-radius: 3px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 85%;
+    }
+
+    main pre {
+      background: #f6f8fa;
+      padding: 16px;
+      border-radius: 6px;
+      overflow-x: auto;
+      margin-bottom: 16px;
+    }
+
+    main pre code {
+      background: none;
+      padding: 0;
+      font-size: 100%;
+    }
+
+    main ul, main ol {
+      margin-bottom: 16px;
+      padding-left: 2em;
+    }
+
+    main li {
+      margin-bottom: 4px;
+    }
+
+    main blockquote {
+      padding: 0 1em;
+      color: #6a737d;
+      border-left: 0.25em solid #dfe2e5;
+      margin-bottom: 16px;
+    }
+
+    main table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 16px;
+    }
+
+    main th, main td {
+      padding: 6px 13px;
+      border: 1px solid #dfe2e5;
+    }
+
+    main th {
+      background: #f6f8fa;
+      font-weight: 600;
+    }
+
+    main img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    footer {
+      border-top: 1px solid #e1e4e8;
+      padding: 40px 0 20px;
+      margin-top: 60px;
+      text-align: center;
+      color: #586069;
+      font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 10px;
+      }
+
+      header .container {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1><a href="/">TimesUp</a></h1>
+      
+      <nav>
+        <a href="https://github.com/MikeXado/TimesUp" target="_blank">View on GitHub</a>
+      </nav>
+      
+    </div>
+  </header>
+
+  <div class="container">
+    <main>
+      <h1>Contributing to the Time Management Project</h1>
+<p>We welcome contributions to our open-source time management project! Whether you're a seasoned developer or just starting out, there are many ways you can contribute. This document outlines some guidelines for contributing to the project.</p>
+<h2>Code of Conduct</h2>
+<p>We expect all contributors to abide by our <a href="CODE_OF_CONDUCT.md">Code of Conduct</a>. Please read it carefully before contributing.</p>
+<h2>Getting Started</h2>
+<p>To contribute to the project, you'll need to:</p>
+<ol>
+<li>Clone the repository to your local machine.</li>
+<li>Install the necessary dependencies by running <code>npm install</code>.</li>
+<li>Make changes and test them locally.</li>
+<li>Push the changes to your forked repository.</li>
+<li>Create a pull request to merge your changes into the main repository.</li>
+</ol>
+<h2>Guidelines for Contributing</h2>
+<ul>
+<li>Before making a contribution, please ensure that it is aligned with the project's goals and objectives.</li>
+<li>If you plan to make a significant change, please open an issue first to discuss the proposed changes with the maintainers and get feedback.</li>
+<li>Make sure to write clear commit messages and include a summary of the changes you've made.</li>
+<li>Follow best practices and coding conventions when writing code. Be consistent with the existing codebase as much as possible.</li>
+<li>Write clear and concise documentation for any new features or changes you make.</li>
+<li>Be respectful and professional in all your interactions with other contributors and maintainers.</li>
+</ul>
+<h2>Updating Code</h2>
+<p>To update the code, follow these steps:</p>
+<ol>
+<li>Clone the repository to your local machine.</li>
+<li>Create a new branch for your changes using the naming convention <code>feature/&lt;feature-name&gt;</code> or <code>bugfix/&lt;bug-description&gt;</code>.</li>
+<li>Make changes to the codebase using your preferred editor or IDE.</li>
+<li>Run tests locally to ensure that your changes are functional and do not break any existing features.</li>
+<li>Commit your changes with a clear and concise commit message that describes the changes you made.</li>
+<li>Push your changes to your forked repository.</li>
+<li>Create a pull request to merge your changes into the main repository.</li>
+<li>Wait for the maintainers to review your changes and provide feedback.</li>
+</ol>
+<h2>Conclusion</h2>
+<p>We appreciate your contributions to our time management project. By following these guidelines and best practices, we can create a better and more efficient product together.</p>
+
+    </main>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>Documentation</p>
+      <p>Generated with AI Docs Generator</p>
+    </div>
+  </footer>
+</body>
+</html>
